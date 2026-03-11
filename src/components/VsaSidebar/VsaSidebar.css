@@ -1,0 +1,141 @@
+.vsa-sidebar {
+  position: sticky;
+  top: 78px;
+  width: 80px;
+  min-width: 80px;
+  height: calc(100vh - 78px);
+  background: white;
+  border-right: 1px solid #d4d4d4;
+  padding: 24px 8px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+}
+
+.vsa-sidebar__icons {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: 64px;
+}
+
+.vsa-sidebar__btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  border: 1px solid #d4d4d4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out);
+  background: white;
+  padding: 0;
+  overflow: hidden;
+}
+
+.vsa-sidebar__btn--active {
+  background: #3c83f6;
+  border-color: #d4d4d4;
+}
+
+.vsa-sidebar__btn:not(.vsa-sidebar__btn--active):hover {
+  background: #f5f3ff;
+}
+
+.vsa-sidebar__icon {
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.vsa-sidebar__icon-svg {
+  flex-shrink: 0;
+  color: #9333ea;
+}
+
+.vsa-sidebar__btn--active .vsa-sidebar__icon {
+  filter: brightness(0) invert(1);
+}
+
+.vsa-sidebar__btn--active .vsa-sidebar__icon-svg {
+  color: white;
+}
+
+.vsa-sidebar__btn:nth-child(4) .vsa-sidebar__icon {
+  opacity: 0.2;
+}
+
+@media (max-width: 768px) {
+  .vsa-sidebar {
+    position: fixed;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    top: auto;
+    width: auto;
+    min-width: 0;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-right: none;
+    border-top: none;
+    border-radius: 16px;
+    z-index: 50;
+    box-shadow:
+      0 8px 17px rgba(0, 0, 0, 0.1),
+      0 30px 30px rgba(0, 0, 0, 0.09),
+      0 68px 41px rgba(0, 0, 0, 0.05);
+    background: white;
+  }
+
+  .vsa-sidebar__icons {
+    flex-direction: row;
+    gap: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .vsa-sidebar__btn {
+    width: 48px;
+    height: 48px;
+    border: 0.625px solid #d4d4d4;
+    border-radius: 25px;
+    background: white;
+  }
+
+  .vsa-sidebar__btn--active {
+    background: #3c83f6;
+    border-color: #d4d4d4;
+    border-width: 0.75px;
+    border-radius: 749px;
+  }
+
+  .vsa-sidebar__btn:not(.vsa-sidebar__btn--active) {
+    background: white;
+    border-color: #d4d4d4;
+  }
+
+  .vsa-sidebar__btn:not(.vsa-sidebar__btn--active) .vsa-sidebar__icon-svg {
+    color: #c4b5d6;
+  }
+
+  .vsa-sidebar__btn:not(.vsa-sidebar__btn--active) .vsa-sidebar__icon {
+    opacity: 0.35;
+  }
+
+  .vsa-sidebar__btn:nth-child(4) .vsa-sidebar__icon {
+    opacity: 0.35;
+  }
+
+  .vsa-sidebar__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .vsa-sidebar__icon-svg {
+    width: 18px;
+    height: 18px;
+  }
+}

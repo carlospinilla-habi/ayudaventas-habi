@@ -1,0 +1,485 @@
+.vsa-hero {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: visible;
+  background: white;
+}
+
+/* ── Background gradient ── */
+
+.vsa-hero__bg-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 700px;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 100% 100% at 50% 0%,
+      rgba(255, 255, 255, 0) 48%,
+      rgba(248, 204, 219, 1) 77%,
+      rgba(209, 175, 225, 1) 89%,
+      rgba(169, 146, 231, 1) 100%
+    ),
+    white;
+  pointer-events: none;
+}
+
+/* ── Main container ───────────────────── */
+
+.vsa-hero__container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 120px 80px 0;
+}
+
+/* ── Inner content wrapper ────────────── */
+
+.vsa-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 0;
+}
+
+/* ── Layout ────────────────────────────── */
+
+.vsa-hero__layout {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 48px 0;
+  position: relative;
+  width: 100%;
+}
+
+/* ── Left column ──────────────────────── */
+
+.vsa-hero__left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 400px;
+  min-width: 320px;
+  flex: 1 0 0;
+  z-index: 2;
+}
+
+.vsa-hero__text-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vsa-hero__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 16px;
+  height: 32px;
+  background: white;
+  border: 1px solid #d5d7da;
+  border-radius: 32px;
+  font-family: var(--font-tight);
+  font-size: 16px;
+  font-weight: 500;
+  color: #535862;
+  width: fit-content;
+  opacity: 0.8;
+  line-height: 24px;
+}
+
+.vsa-hero__pill-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.vsa-hero__title {
+  font-family: var(--font-tight);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 40px;
+  color: #070707;
+}
+
+.vsa-hero__title-accent {
+  color: #9333ea;
+}
+
+.vsa-hero__subtitle {
+  font-family: var(--font-tight);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  color: #0a0a0a;
+}
+
+.vsa-hero__subtitle strong {
+  font-weight: 700;
+}
+
+.vsa-hero__desc-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vsa-hero__desc {
+  font-family: var(--font-tight);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 32px;
+  color: #505e71;
+}
+
+/* ── CTA button ───────────────────────── */
+
+.vsa-hero__cta-wrap {
+  display: flex;
+}
+
+.vsa-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  background: #7955f9;
+  border: none;
+  border-radius: 96px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out);
+  overflow: hidden;
+}
+
+.vsa-hero__cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(121, 85, 249, 0.35);
+}
+
+.vsa-hero__cta-label {
+  padding: 0 16px;
+  font-family: var(--font-tight);
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.vsa-hero__cta-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 72px;
+  flex-shrink: 0;
+}
+
+/* ── Center column (couple image) ─────── */
+
+.vsa-hero__center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -120px;
+  width: 1200px;
+  height: 706px;
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.vsa-hero__couple-frame {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 10px);
+  transform: translateX(-50%);
+  width: 587px;
+  height: 626px;
+  overflow: hidden;
+}
+
+.vsa-hero__couple-img {
+  position: absolute;
+  top: -8.63%;
+  left: -60.26%;
+  width: 207.54%;
+  height: 108.63%;
+  max-width: none;
+}
+
+/* ── Right column (benefits) ──────────── */
+
+.vsa-hero__right {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  flex: 1 0 0;
+  z-index: 2;
+}
+
+.vsa-hero__benefits {
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.vsa-hero__benefit {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 0;
+}
+
+.vsa-hero__benefit-icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vsa-hero__benefit-text {
+  font-family: var(--font-tight);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  color: #0a0a0a;
+}
+
+.vsa-hero__benefit-divider {
+  height: 1px;
+  background: #e5e5e5;
+  margin: 24px 0;
+}
+
+/* ── Tip de expertos ──────────────────── */
+
+.vsa-hero__tip {
+  position: relative;
+  z-index: 2;
+  background: white;
+  border: 1px solid #d4d4d4;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.vsa-hero__tip-title {
+  font-family: var(--font-tight);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  color: #0a0a0a;
+}
+
+.vsa-hero__tip-text {
+  font-family: var(--font-tight);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #737373;
+}
+
+.vsa-hero__tip-text strong {
+  font-weight: 700;
+  color: #070707;
+}
+
+.vsa-hero__tip-link {
+  color: #3c83f6;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.vsa-hero__tip-link:hover {
+  color: var(--color-primary);
+}
+
+/* ── Mobile ──────────────────────────── */
+
+@media (max-width: 768px) {
+  .vsa-hero__bg-gradient {
+    height: 308px;
+  }
+
+  .vsa-hero__container {
+    padding: 0;
+  }
+
+  .vsa-hero__content {
+    gap: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .vsa-hero__layout {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .vsa-hero__left {
+    max-width: 100%;
+    min-width: 0;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .vsa-hero__pill {
+    font-size: 14px;
+    height: 28px;
+    padding: 4px 14px;
+  }
+
+  .vsa-hero__title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .vsa-hero__subtitle {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  .vsa-hero__desc-block {
+    gap: 4px;
+  }
+
+  .vsa-hero__desc {
+    font-size: 16px;
+    line-height: 25px;
+    color: #505e71;
+  }
+
+  .vsa-hero__cta-label {
+    font-size: 14px;
+    padding: 0 14px;
+  }
+
+  .vsa-hero__cta-icon-wrap {
+    width: 35px;
+    height: 35px;
+  }
+
+  .vsa-hero__center {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    height: 308px;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    order: -1;
+    margin-bottom: 0;
+    padding: 16px 24px 0;
+  }
+
+  .vsa-hero__couple-frame {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 100%;
+    height: 292px;
+    overflow: hidden;
+  }
+
+  .vsa-hero__couple-img {
+    position: absolute;
+    width: 100%;
+    height: 135%;
+    left: 50%;
+    top: -4%;
+    transform: translateX(-50%) scaleX(-1);
+    max-width: none;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .vsa-hero__right {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .vsa-hero__benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 20px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.86);
+  }
+
+  .vsa-hero__benefit {
+    gap: 12px;
+    align-items: flex-start;
+    padding: 20px 0;
+  }
+
+  .vsa-hero__benefit:first-child {
+    padding-top: 0;
+  }
+
+  .vsa-hero__benefit:last-child {
+    padding-bottom: 0;
+  }
+
+  .vsa-hero__benefit-icon {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+
+  .vsa-hero__benefit-text {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .vsa-hero__benefit-divider {
+    display: block;
+  }
+
+  .vsa-hero__tip {
+    padding: 35px;
+    gap: 14px;
+    border-radius: 18px;
+  }
+
+  .vsa-hero__tip-title {
+    font-size: 16px;
+    line-height: 23px;
+    font-weight: 400;
+  }
+
+  .vsa-hero__tip-text {
+    font-size: 14px;
+    line-height: 21px;
+  }
+}

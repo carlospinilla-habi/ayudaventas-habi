@@ -1,0 +1,1 @@
+export { VsaHero } from './VsaHero'

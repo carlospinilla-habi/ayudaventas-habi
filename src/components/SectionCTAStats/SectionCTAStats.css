@@ -1,0 +1,243 @@
+.cta-stats {
+  padding: 60px 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-stats__bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* --- Inner card container (gradient border via wrapper technique) --- */
+.cta-stats__inner {
+  width: 100%;
+  max-width: 1200px;
+  background: linear-gradient(90deg, #9333ea, #040404 50%, #9333ea);
+  border: none;
+  border-radius: 16px;
+  padding: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-stats__inner-content {
+  background: rgba(0, 0, 0, 0.92);
+  border-radius: 15px;
+  padding: 60px;
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+/* --- Left content --- */
+.cta-stats__content {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.cta-stats__text {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cta-stats__title {
+  font-family: 'Archivo', var(--font-display);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 40px;
+  color: white;
+}
+
+.cta-stats__desc {
+  font-family: 'Archivo', var(--font-body);
+  font-size: 20px;
+  line-height: 28px;
+  color: white;
+}
+
+/* --- Buttons --- */
+.cta-stats__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cta-stats__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  font-family: 'Archivo', var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.cta-stats__btn--primary {
+  background: var(--color-primary-600, #9333ea);
+  color: white;
+  border: none;
+}
+
+.cta-stats__btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(147, 51, 234, 0.4);
+}
+
+.cta-stats__btn--secondary {
+  background: white;
+  color: #171717;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.cta-stats__btn--secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+}
+
+/* --- Right stats --- */
+.cta-stats__numbers {
+  display: flex;
+  gap: 32px;
+  width: 570px;
+  flex-shrink: 0;
+}
+
+.cta-stats__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+/* --- Stat icons --- */
+.cta-stats__stat-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(147, 51, 234, 0.4);
+  box-shadow: 0 0 20px rgba(147, 51, 234, 0.25);
+}
+
+.cta-stats__stat-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* --- Stat text --- */
+.cta-stats__stat-value {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 40px;
+  letter-spacing: -0.64px;
+  color: white;
+  text-align: center;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+/* --- Number Ticker (odometer) --- */
+.ticker {
+  display: inline-flex;
+  overflow: hidden;
+  line-height: 1;
+}
+
+.ticker__col {
+  display: inline-block;
+  overflow: hidden;
+  height: 1em;
+  position: relative;
+}
+
+.ticker__reel {
+  display: flex;
+  flex-direction: column;
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.ticker__digit {
+  height: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ticker__char {
+  opacity: 0;
+  transition: opacity 0.4s ease-out;
+}
+
+.ticker__char--visible {
+  opacity: 1;
+}
+
+.ticker__static {
+  display: inline;
+  white-space: pre;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker__reel {
+    transition: none !important;
+  }
+  .ticker__char {
+    opacity: 1;
+    transition: none;
+  }
+}
+
+.cta-stats__stat-label {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 24px;
+  color: white;
+  text-align: center;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1100px) {
+  .cta-stats {
+    padding: 40px 24px;
+  }
+  .cta-stats__inner-content {
+    flex-direction: column;
+    padding: 40px 24px;
+    text-align: center;
+  }
+  .cta-stats__content {
+    align-items: center;
+  }
+  .cta-stats__buttons {
+    justify-content: center;
+  }
+  .cta-stats__numbers {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

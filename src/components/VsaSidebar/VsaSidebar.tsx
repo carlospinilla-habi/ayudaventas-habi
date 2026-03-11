@@ -1,0 +1,78 @@
+import { useNavigate } from 'react-router-dom'
+import './VsaSidebar.css'
+
+const ICON_LIGHTNING = '/assets/6bcd3609af0841b23174cb50a20ff3abe9122f8a.svg'
+const ICON_HOUSE = '/assets/9181246ffbe1ae1c81907fb9b93a7cbfad54a590.svg'
+const ICON_GAVEL = '/assets/1310b413939ce95781b95c6a3f32181573aecf25.svg'
+
+const SnailIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    width="24"
+    height="18"
+    viewBox="0 0 14.5365 11.0509"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M3.02669 1.28396C4.77346 -0.462645 7.61832 -0.422078 9.31446 1.37381L9.60219 1.6785C9.94479 2.04123 10.2193 2.44402 10.4271 2.87055C10.4621 2.82952 10.4987 2.78992 10.5365 2.75141V0.384222H11.8698V2.07433C11.9786 2.05878 12.0901 2.05089 12.2031 2.05089C12.3163 2.0509 12.4276 2.05874 12.5365 2.07433V0.384222H13.8698V2.75206C14.2819 3.17285 14.5365 3.74876 14.5365 4.38422V6.38422C14.5365 8.96142 12.447 11.0508 9.86979 11.0509H0L0.638019 10.0307C1.28607 8.99396 2.20689 8.18449 3.27539 7.67262C3.13514 7.57116 3.00069 7.45782 2.87435 7.33149C1.24669 5.70356 1.24652 3.06414 2.87435 1.4363L3.02669 1.28396ZM8.34506 2.28917C7.16486 1.03965 5.18558 1.01162 3.97005 2.22667L3.81771 2.37966C2.7105 3.48688 2.7105 5.28156 3.81771 6.38876C4.58302 7.15382 5.82329 7.15396 6.58852 6.38876L6.89846 6.07956C7.28219 5.69562 7.28219 5.07289 6.89846 4.68889L6.56513 4.35556C6.36526 4.15576 6.04105 4.15582 5.84115 4.35556L5.67448 4.52222C5.56668 4.63009 5.56665 4.80502 5.67448 4.91289L4.73177 5.85556C4.10325 5.22702 4.10327 4.20809 4.73177 3.57953L4.89844 3.41287C5.61904 2.69243 6.78726 2.69233 7.50779 3.41287L7.84113 3.74622C8.74559 4.65082 8.74559 6.11762 7.84113 7.02222L7.81252 7.05089H8.03646C8.43919 7.05082 8.81019 6.91889 9.11266 6.69869C9.86046 5.40616 9.70486 3.72989 8.63279 2.59451L8.34506 2.28917Z" fill="currentColor"/>
+  </svg>
+)
+
+export type SidebarPage = 'sin-afan' | 'urgente' | 'cambiar' | 'legal'
+
+interface SidebarItem {
+  id: SidebarPage
+  label: string
+  icon?: string
+  iconSize?: number
+  route?: string
+}
+
+const NAV_ITEMS: SidebarItem[] = [
+  { id: 'sin-afan', label: 'Vender sin afán', route: '/vender-sin-afan' },
+  { id: 'urgente', icon: ICON_LIGHTNING, label: 'Urgente', iconSize: 32, route: '/vender-urgente' },
+  { id: 'cambiar', icon: ICON_HOUSE, label: 'Cambiar de casa', iconSize: 24 },
+  { id: 'legal', icon: ICON_GAVEL, label: 'Tema legal', iconSize: 24 },
+]
+
+interface VsaSidebarProps {
+  activePage?: SidebarPage
+}
+
+export function VsaSidebar({ activePage = 'sin-afan' }: VsaSidebarProps) {
+  const navigate = useNavigate()
+
+  return (
+    <aside className="vsa-sidebar" data-node-id="309:51585">
+      <nav className="vsa-sidebar__icons" aria-label="Secciones de venta" data-node-id="309:51586">
+        {NAV_ITEMS.map((item) => {
+          const isActive = item.id === activePage
+
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={`vsa-sidebar__btn${isActive ? ' vsa-sidebar__btn--active' : ''}`}
+              aria-label={item.label}
+              title={item.label}
+              onClick={() => {
+                if (item.route && !isActive) navigate(item.route)
+              }}
+            >
+              {item.id === 'sin-afan' ? (
+                <SnailIcon className="vsa-sidebar__icon-svg" />
+              ) : (
+                <img
+                  src={item.icon}
+                  alt=""
+                  className="vsa-sidebar__icon"
+                  style={{ width: item.iconSize, height: item.iconSize }}
+                />
+              )}
+            </button>
+          )
+        })}
+      </nav>
+    </aside>
+  )
+}

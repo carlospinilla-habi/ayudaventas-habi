@@ -1,0 +1,1 @@
+export { SectionFicha } from './SectionFicha'
