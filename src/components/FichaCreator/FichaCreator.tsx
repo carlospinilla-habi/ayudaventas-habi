@@ -528,7 +528,7 @@ function Step2Photos({ photos, dragOver, setDragOver, handleDrop, addPhotos, rem
           </div>
         )}
         <input
-          ref={fileInputRef}
+          ref={fileInputRef as React.RefObject<HTMLInputElement>}
           type="file"
           accept="image/jpeg,image/png,image/webp"
           multiple

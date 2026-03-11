@@ -71,7 +71,7 @@ const RIGHT_CARDS: RightCard[] = [
 export function SectionFeatures1() {
   const navigate = useNavigate()
   const headerRef = useReveal<HTMLDivElement>()
-  const boxRef = useReveal<HTMLElement>('center')
+  const boxRef = useReveal<HTMLDivElement>('center')
   const { containerRef, progress } = useScrollRevealText()
 
   const headerParallaxRef = useParallax<HTMLDivElement>(-40)
