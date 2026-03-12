@@ -201,3 +201,24 @@
     max-width: 600px;
   }
 }
+
+@media (max-width: 768px) {
+  .habimetro__inner {
+    padding: 40px 24px;
+  }
+
+  .habimetro__title {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.96px;
+  }
+
+  .habimetro__content {
+    gap: 24px;
+  }
+
+  .habimetro__btn-text {
+    white-space: normal;
+    font-size: 14px;
+  }
+}

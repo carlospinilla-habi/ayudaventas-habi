@@ -34,10 +34,11 @@
 }
 
 .ficha__title {
-  font-family: var(--font-tight);
+  font-family: var(--font-display);
   font-weight: 600;
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 40px;
+  line-height: 1.2;
+  letter-spacing: -1.2px;
   color: white;
 }
 
@@ -180,5 +181,13 @@
     width: 100%;
     max-width: 400px;
     height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .ficha__title {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.96px;
   }
 }

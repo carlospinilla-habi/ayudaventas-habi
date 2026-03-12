@@ -40,6 +40,27 @@ git push -u origin main
 
 Si te pide usuario/contraseña: usa tu usuario de GitHub y un **Personal Access Token** (no la contraseña de la cuenta).
 
+### Opción más cómoda: usar SSH (sin token cada vez)
+
+Para no tener que meter el token en cada `git push`:
+
+1. **Añadir tu clave SSH a GitHub** (solo una vez):
+   - Entra en: https://github.com/settings/keys
+   - Clic en **"New SSH key"**.
+   - Título: por ejemplo "Mac Ayudaventas".
+   - En "Key" pega tu clave pública. Para verla en Terminal:
+     ```bash
+     cat ~/.ssh/id_ed25519.pub
+     ```
+   - Guardar.
+
+2. **Usar la URL por SSH** en este proyecto (ya está configurado):
+   ```bash
+   git remote set-url origin git@github.com:carlospinilla-habi/ayudaventas-habi.git
+   ```
+
+3. A partir de ahí, `git push origin main` usará tu clave SSH y no te pedirá token.
+
 ---
 
 ## Paso 3: Desplegar en Vercel

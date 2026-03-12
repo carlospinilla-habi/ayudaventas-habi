@@ -28,3 +28,12 @@ Thumbs.db
 
 # TypeScript
 *.tsbuildinfo
+.vercel
+
+# Temp files
+github_push_args.json
+
+# Secrets (never commit these)
+.env.production
+*.pem
+*.key

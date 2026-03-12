@@ -168,3 +168,33 @@
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+@media (max-width: 768px) {
+  .hero {
+    padding: var(--container-px);
+    min-height: auto;
+  }
+
+  .hero__main {
+    padding: 40px 24px;
+    height: auto;
+    min-height: 420px;
+  }
+
+  .hero__content {
+    gap: 12px;
+  }
+
+  .hero__header {
+    gap: 16px;
+  }
+
+  .hero__title {
+    font-size: 32px;
+    letter-spacing: -1.5px;
+  }
+
+  .hero__subtitle {
+    line-height: 26px;
+  }
+}
