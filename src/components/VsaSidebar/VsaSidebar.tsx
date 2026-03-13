@@ -31,7 +31,7 @@ interface SidebarItem {
 const NAV_ITEMS: SidebarItem[] = [
   { id: 'sin-afan', label: 'Vender sin afán', route: '/vender-sin-afan' },
   { id: 'urgente', icon: ICON_LIGHTNING, label: 'Urgente', iconSize: 32, route: '/vender-urgente' },
-  { id: 'cambiar', icon: ICON_HOUSE, label: 'Cambiar de casa', iconSize: 24 },
+  { id: 'cambiar', icon: ICON_HOUSE, label: 'Cambiar de casa', iconSize: 24, route: '/cambiar-de-casa' },
   { id: 'legal', icon: ICON_GAVEL, label: 'Tema legal', iconSize: 24 },
 ]
 
