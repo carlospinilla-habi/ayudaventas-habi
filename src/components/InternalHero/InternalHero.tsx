@@ -11,7 +11,7 @@ const SealCheckIcon = () => (
 )
 
 export interface HeroBenefit {
-  text: string
+  text: string | ReactNode
 }
 
 export interface HeroCTA {

@@ -50,7 +50,7 @@ const RIGHT_CARDS: RightCard[] = [
     title: 'Necesito vender para comprar.',
     feature: 'Puedes tomar',
     featureBold: '- 3 meses',
-    route: '',
+    route: '/cambiar-de-casa',
   },
   {
     id: 'legal',

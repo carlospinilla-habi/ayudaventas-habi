@@ -12,14 +12,25 @@
 /* ── Cambiar de casa hero: image with gradient fade ── */
 
 .cambiar-de-casa .int-hero__center {
-  width: 100%;
-  height: 700px;
+  width: 840px;
+  height: 655px;
   top: 0;
-  left: 0;
-  transform: none;
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to bottom left, white 30%, transparent 70%);
-  mask-image: linear-gradient(to bottom left, white 30%, transparent 70%);
+  -webkit-mask-image: linear-gradient(to bottom left, white 40%, transparent 75%);
+  mask-image: linear-gradient(to bottom left, white 40%, transparent 75%);
+}
+
+/* ── Cambiar de casa hero image sizing ── */
+
+.cambiar-de-casa .hero-image {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transform: none;
 }
 
 /* ── Cambiar de casa CTA buttons ── */

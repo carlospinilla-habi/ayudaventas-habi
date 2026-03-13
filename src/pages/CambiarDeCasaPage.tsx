@@ -36,19 +36,19 @@ export function CambiarDeCasaPage() {
             description="La solución: No compramos directamente, pero con nuestro servicio de broker inmobiliario, hacemos el trabajo pesado por ti."
             ctas={[
               { label: 'Quiero el servicio inmobiliario', variant: 'primary' },
-              { label: '¿Cómo funciona?', variant: 'outline' },
+              { label: '¿Como funciona?', variant: 'outline' },
             ]}
             benefits={[
-              { text: 'Asesoría profesional de principio a fin' },
-              { text: 'Publicación en el portal de Habi' },
-              { text: 'Negociación experta con compradores' },
-              { text: 'Tiempo estimado: 3 meses' },
+              { text: 'Asesoría profesional en precios y estrategias' },
+              { text: 'Publicación en el portal de Habi con miles de compradores' },
+              { text: 'Negociación experta a tu favor' },
+              { text: <>Tiempo estimado: <strong>3 meses aprox</strong> con buenos resultados</> },
             ]}
             tip={{
               title: 'Esto es para ti si:',
               description: (
                 <p>
-                  No tienes afán extremo, pero sí quieres vender bien. Quieres un equipo profesional que se encargue de todo: fotos, publicación, visitas, negociación y trámites.
+                  No quieres perder tiempo aprendiendo todo el proceso, tienes un presupuesto para tu próxima casa y necesitas vender antes de comprar.
                 </p>
               ),
             }}
