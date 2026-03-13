@@ -55,12 +55,12 @@ export function InternalHero({
     <section className="int-hero" aria-label={typeof title === 'string' ? title : undefined}>
       <div className="int-hero__bg-gradient" />
 
+      <div className="int-hero__center">
+        <HeroImage src={heroImage} section={heroSection} />
+      </div>
+
       <div className="int-hero__container">
         <div className="int-hero__content">
-          <div className="int-hero__center">
-            <HeroImage src={heroImage} section={heroSection} />
-          </div>
-
           <div className="int-hero__layout">
             <div className="int-hero__left">
               <div className="int-hero__text-section">
