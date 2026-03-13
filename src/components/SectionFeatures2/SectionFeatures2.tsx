@@ -1,11 +1,10 @@
 import { useReveal } from '../../hooks/useReveal'
 import { useParallax } from '../../hooks/useParallax'
 import { useScrollRevealText } from '../../hooks/useScrollRevealText'
+import { Pill } from '../Pill/Pill'
+import type { PillEstado } from '../Pill/Pill'
 import './SectionFeatures2.css'
 
-const ICON_LIGHTNING = '/assets/6bcd3609af0841b23174cb50a20ff3abe9122f8a.svg'
-const ICON_HOUSE = '/assets/9181246ffbe1ae1c81907fb9b93a7cbfad54a590.svg'
-const ICON_GAVEL = '/assets/1310b413939ce95781b95c6a3f32181573aecf25.svg'
 const ICON_CHECKMARK = '/assets/6a6f1798ac463a687c468a0daefac090874afbf3.svg'
 
 const ACCENT_WORD = 'necesidades.'
@@ -13,8 +12,8 @@ const ALL_WORDS = 'Si lo necesitas existen servicios de venta para estas necesid
 
 const cards = [
   {
-    pill: 'Urgente',
-    pillIcon: ICON_LIGHTNING,
+    id: 'urgente',
+    pillEstado: 'urgente' as PillEstado,
     title: 'Necesito vender lo antes posible',
     desc: 'No pedo espera, necesito vender lo antes posible.',
     featurePrefix: 'Puedes vender en',
@@ -23,8 +22,8 @@ const cards = [
     variant: 'highlight' as const,
   },
   {
-    pill: 'Cambiar de casa',
-    pillIcon: ICON_HOUSE,
+    id: 'cambio',
+    pillEstado: 'cambio' as PillEstado,
     title: 'Necesito vender para comprar otra casa',
     desc: 'Necesito vender rápido y a buen precio para comprar mi nueva casa',
     featurePrefix: 'Puedes vender en',
@@ -32,8 +31,8 @@ const cards = [
     variant: 'default' as const,
   },
   {
-    pill: 'Tema legal',
-    pillIcon: ICON_GAVEL,
+    id: 'legal',
+    pillEstado: 'legal' as PillEstado,
     title: 'Necesito solucionar asuntos legales',
     desc: 'Divorcio, sucesión, litigio u otro... hay un tema legal de por medio y necesito ayuda',
     featurePrefix: 'Asesoría dependiendo del caso',
@@ -89,17 +88,14 @@ export function SectionFeatures2() {
       >
         {cards.map((card) => (
           <article
-            key={card.pill}
+            key={card.id}
             className={`f2__card f2__card--${card.variant}`}
           >
             <div className="f2__card-wrapper">
               {card.tag && <span className="f2__card-tag">{card.tag}</span>}
               <div className="f2__card-inner">
                 <div className="f2__card-body">
-                  <span className="f2__card-pill">
-                    <img src={card.pillIcon} alt="" className="f2__card-pill-icon" />
-                    {card.pill}
-                  </span>
+                  <Pill estado={card.pillEstado} mode="light" />
                   <h3 className="f2__card-title">{card.title}</h3>
                   <p className="f2__card-desc">{card.desc}</p>
                 </div>

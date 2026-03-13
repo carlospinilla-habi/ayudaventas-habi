@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react'
+import { HeroImage } from '../HeroImage/HeroImage'
+import type { HeroImageSection } from '../HeroImage/HeroImage'
 import './InternalHero.css'
 
 const SealCheckIcon = () => (
@@ -25,7 +27,7 @@ export interface HeroTip {
 }
 
 export interface InternalHeroProps {
-  pill: { icon?: string | ReactNode; text: string }
+  pill: ReactNode
   title: ReactNode
   subtitle: string
   description: string
@@ -33,7 +35,7 @@ export interface InternalHeroProps {
   benefits: HeroBenefit[]
   tip?: HeroTip
   heroImage: string
-  imageClassName?: string
+  heroSection?: HeroImageSection
 }
 
 const ARROW_ICON = '/assets/cd835b98a354fa50c5f884471dfaf5e5ee7b6920.svg'
@@ -47,7 +49,7 @@ export function InternalHero({
   benefits,
   tip,
   heroImage,
-  imageClassName,
+  heroSection,
 }: InternalHeroProps) {
   return (
     <section className="int-hero" aria-label={typeof title === 'string' ? title : undefined}>
@@ -56,28 +58,13 @@ export function InternalHero({
       <div className="int-hero__container">
         <div className="int-hero__content">
           <div className="int-hero__center">
-            <div className={`int-hero__couple-frame ${imageClassName || ''}`}>
-              <img
-                src={heroImage}
-                alt=""
-                className="int-hero__couple-img"
-                loading="eager"
-                decoding="async"
-              />
-            </div>
+            <HeroImage src={heroImage} section={heroSection} />
           </div>
 
           <div className="int-hero__layout">
             <div className="int-hero__left">
               <div className="int-hero__text-section">
-                <span className="int-hero__pill">
-                  {typeof pill.icon === 'string' ? (
-                    <img src={pill.icon} alt="" className="int-hero__pill-icon" />
-                  ) : (
-                    pill.icon
-                  )}
-                  {pill.text}
-                </span>
+                {pill}
 
                 <h1 className="int-hero__title">{title}</h1>
                 <p className="int-hero__subtitle">{subtitle}</p>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react'
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { useReveal } from '../../hooks/useReveal'
 import './VsaGuide.css'
 
@@ -12,6 +12,12 @@ const TABS = [
 ]
 
 const STAGE_TO_TAB: Record<number, string> = { 1: 'precio', 2: 'visitas', 3: 'documentos', 4: 'entrega' }
+
+const ArrowRightIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="vsa-guide__btn-arrow-icon">
+    <path d="M15.2929 7.70711C14.9024 7.31658 14.9024 6.68342 15.2929 6.29289C15.6834 5.90237 16.3166 5.90237 16.7071 6.29289L21.7071 11.2929C22.0976 11.6834 22.0976 12.3166 21.7071 12.7071L16.7071 17.7071C16.3166 18.0976 15.6834 18.0976 15.2929 17.7071C14.9024 17.3166 14.9024 16.6834 15.2929 16.2929L18.5858 13H3C2.44772 13 2 12.5523 2 12C2 11.4477 2.44772 11 3 11H18.5858L15.2929 7.70711Z" fill="white"/>
+  </svg>
+)
 
 interface ChecklistItem {
   label: string
@@ -417,7 +423,6 @@ const ICON_STAR_SHINE = '/assets/e506fa95ddb44cd33b2339b080c22cbc221088a1.svg'
 const ICON_HEARTS = '/assets/63fc24ab4184667864c93c400a0524577057cb01.svg'
 
 /* Icons exported from Figma (nav buttons) */
-const ICON_ARROW_RIGHT_SMALL = '/assets/bba0e42f857fe4a2bd1b2b89a3b8e8c439de5ccc.svg'
 
 /* Icons exported from Figma (section 2.4) */
 const ICON_DOC_EDIT = '/assets/icon-doc-edit.svg'
@@ -735,7 +740,7 @@ function ExpandedPanel({
             onClick={() => onNavigateTab?.(content.nextStageCta!.stageId)}
           >
             <span>{content.nextStageCta.label}</span>
-            <img src={ICON_ARROW_RIGHT_SMALL} alt="" width={24} height={24} className="vsa-guide__btn-arrow-icon" />
+            <ArrowRightIcon />
           </button>
         </div>
       )}
@@ -758,7 +763,7 @@ function ExpandedPanel({
               onClick={() => onNavigateStep?.('next')}
             >
               <span>Siguiente</span>
-              <img src={ICON_ARROW_RIGHT_SMALL} alt="" width={24} height={24} className="vsa-guide__btn-arrow-icon" />
+              <ArrowRightIcon />
             </button>
           )}
         </div>
@@ -778,6 +783,17 @@ export function VsaGuide() {
   const [fichaOpen, setFichaOpen] = useState(false)
   const introRef = useReveal<HTMLDivElement>()
   const contentRef = useReveal<HTMLDivElement>()
+  const tabsWrapRef = useRef<HTMLDivElement>(null)
+
+  const scrollToContent = useCallback(() => {
+    requestAnimationFrame(() => {
+      const tabsEl = tabsWrapRef.current
+      if (!tabsEl) return
+      const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 78
+      const targetY = tabsEl.getBoundingClientRect().top + window.scrollY - navHeight
+      window.scrollTo({ top: targetY, behavior: 'smooth' })
+    })
+  }, [])
 
   const handleStageChange = useCallback((e: Event) => {
     const stage = (e as CustomEvent).detail?.stage as number
@@ -832,14 +848,14 @@ export function VsaGuide() {
           </p>
         </div>
 
-        <div className="vsa-guide__tabs-wrap">
+        <div ref={tabsWrapRef} className="vsa-guide__tabs-wrap">
           <nav className="vsa-guide__tabs" aria-label="Etapas de venta">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 className={`vsa-guide__tab${activeTab === tab.id ? ' vsa-guide__tab--active' : ''}`}
-                onClick={() => { setActiveTab(tab.id); setExpandedStep(null) }}
+                onClick={() => { setActiveTab(tab.id); setExpandedStep(null); scrollToContent() }}
               >
                 {tab.label}
               </button>
@@ -916,7 +932,7 @@ export function VsaGuide() {
                         stepNumber={step.number}
                         onClose={() => setExpandedStep(null)}
                         onCheckChange={() => setCheckVersion(v => v + 1)}
-                        onNavigateTab={(tabId) => { setActiveTab(tabId); setExpandedStep(null) }}
+                        onNavigateTab={(tabId) => { setActiveTab(tabId); setExpandedStep(null); scrollToContent() }}
                         onOpenFicha={() => setFichaOpen(true)}
                         hasPrev={hasPrev}
                         hasNext={hasNext}

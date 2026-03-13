@@ -123,11 +123,11 @@ export function UrgSteps() {
                 en ~15 días
               </h4>
               <p className="urg-steps__summary-desc">
-                La manera mas rápida de vender la propiedad sin tener que esperar
+                La manera más rápida de vender la propiedad sin tener que esperar
               </p>
             </div>
             <div className="urg-steps__summary-footer">
-              <span className="urg-steps__summary-label">BENEFICIOS</span>
+              <span className="urg-steps__summary-label">TRANQUILIDAD</span>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="#505e71" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>

@@ -191,10 +191,10 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  height: 32px;
-  padding: 4px 16px;
+  height: 28px;
+  padding: 4px 16px 4px 12px;
   background: white;
-  border: 1px solid #d4d4d4;
+  border: 1px solid #d5d7da;
   border-radius: 32px;
   font-family: var(--font-tight);
   font-size: 12px;
@@ -332,8 +332,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 2px 12px;
-  border: 1px solid #a855f7;
+  height: 28px;
+  padding: 4px 16px 4px 12px;
+  border: 1px solid #d5d7da;
   border-radius: 32px;
   font-family: var(--font-tight);
   font-size: 12px;

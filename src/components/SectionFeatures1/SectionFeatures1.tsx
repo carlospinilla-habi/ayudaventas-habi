@@ -2,14 +2,12 @@ import { useNavigate } from 'react-router-dom'
 import { useReveal } from '../../hooks/useReveal'
 import { useParallax } from '../../hooks/useParallax'
 import { useScrollRevealText } from '../../hooks/useScrollRevealText'
+import { Pill } from '../Pill/Pill'
+import type { PillEstado } from '../Pill/Pill'
 import './SectionFeatures1.css'
 
 const CARD_BG_IMAGE = '/assets/3365f92b8af59d5372822ffb7e43537fa555db38.png'
-const COFFEE_ICON = '/assets/31d9f6482640068f17d30c7ad16c747c2fd706fb.svg'
 const ARROW_ICON = '/assets/cd835b98a354fa50c5f884471dfaf5e5ee7b6920.svg'
-const ICON_LIGHTNING = '/assets/6bcd3609af0841b23174cb50a20ff3abe9122f8a.svg'
-const ICON_HOUSE = '/assets/9181246ffbe1ae1c81907fb9b93a7cbfad54a590.svg'
-const ICON_GAVEL = '/assets/1310b413939ce95781b95c6a3f32181573aecf25.svg'
 
 const CheckGreen = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,8 +28,7 @@ const ALL_WORDS = 'Primero lo primero, ¿Con cual de estos momentos te identific
 
 interface RightCard {
   id: string
-  pill: string
-  pillIcon: string
+  pillEstado: PillEstado
   title: string
   feature: string
   featureBold: string
@@ -41,8 +38,7 @@ interface RightCard {
 const RIGHT_CARDS: RightCard[] = [
   {
     id: 'urgente',
-    pill: 'Vender Urgente',
-    pillIcon: ICON_LIGHTNING,
+    pillEstado: 'urgente',
     title: 'Necesito vender lo antes posible.',
     feature: 'Puedes tomar',
     featureBold: '- 15 días',
@@ -50,8 +46,7 @@ const RIGHT_CARDS: RightCard[] = [
   },
   {
     id: 'cambiar',
-    pill: 'Cambiar de casa',
-    pillIcon: ICON_HOUSE,
+    pillEstado: 'cambio',
     title: 'Necesito vender para comprar.',
     feature: 'Puedes tomar',
     featureBold: '- 3 meses',
@@ -59,8 +54,7 @@ const RIGHT_CARDS: RightCard[] = [
   },
   {
     id: 'legal',
-    pill: 'Asunto legal',
-    pillIcon: ICON_GAVEL,
+    pillEstado: 'legal',
     title: 'Necesito solucionar asuntos legales.',
     feature: 'Depende el caso',
     featureBold: '(Divorcio, sucesión, litigio u otro)',
@@ -126,10 +120,7 @@ export function SectionFeatures1() {
                 />
                 <div className="features1__left-card-gradient" />
                 <div className="features1__left-card-content">
-                  <span className="features1__left-pill">
-                    <img src={COFFEE_ICON} alt="" className="features1__left-pill-icon" />
-                    Vender sin afán
-                  </span>
+                  <Pill estado="sin-afan" mode="light" />
                   <div className="features1__left-text">
                     <h3 className="features1__left-title">
                       Quiero vender bien, por mi cuenta y sin afán.
@@ -165,10 +156,7 @@ export function SectionFeatures1() {
                     onClick={() => card.route && navigate(card.route)}
                   >
                     <div className="features1__right-card-text">
-                      <span className="features1__right-pill">
-                        <img src={card.pillIcon} alt="" className="features1__right-pill-icon" />
-                        {card.pill}
-                      </span>
+                      <Pill estado={card.pillEstado} mode="dark" />
                       <h4 className="features1__right-title">{card.title}</h4>
                       <p className="features1__right-feature">
                         <CheckWhite />

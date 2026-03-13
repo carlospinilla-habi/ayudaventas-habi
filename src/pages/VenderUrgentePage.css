@@ -1,22 +1,30 @@
-/* ── Urgente hero image positioning ── */
+/* ── Urgente hero: match Figma's 700px hero height ── */
 
-.int-hero__couple-frame--urgente {
-  width: 884px;
-  height: 812px;
-  left: calc(50% + 100px);
-  transform: translateX(-50%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, black 40%, transparent 100%);
-  mask-image: radial-gradient(ellipse 70% 65% at 50% 45%, black 40%, transparent 100%);
+.vender-urgente .int-hero__container {
+  height: 700px;
+  overflow: visible;
 }
 
-.int-hero__couple-frame--urgente .int-hero__couple-img {
-  top: -9%;
-  left: -55%;
-  width: 172%;
-  height: 140%;
-  object-fit: cover;
-  max-width: none;
-  transform: none;
+/* Allow the image to overflow above .int-hero__content */
+.vender-urgente .int-hero__content {
+  overflow: visible;
+}
+
+/* ── Urgente hero: outer wrapper sized to Figma (1354x775) with gradient mask ── */
+
+.vender-urgente .int-hero__center {
+  width: 1354px;
+  height: 775px;
+  top: -196px;
+  left: calc(50% + 1px);
+  transform: translateX(-50%);
+  overflow: clip;
+  -webkit-mask-image: url('/figma-assets-new/e782d9f3ffee25523130b44acb8ada5ea2a19481.svg');
+  mask-image: url('/figma-assets-new/e782d9f3ffee25523130b44acb8ada5ea2a19481.svg');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
 }
 
 /* ── Urgente CTA buttons ── */
@@ -42,23 +50,21 @@
 }
 
 @media (max-width: 768px) {
-  .int-hero__couple-frame--urgente {
-    width: 100%;
-    height: 300px;
-    left: auto;
-    transform: none;
-    -webkit-mask-image: none;
-    mask-image: none;
+  .vender-urgente .int-hero__container {
+    height: auto;
   }
 
-  .int-hero__couple-frame--urgente .int-hero__couple-img {
-    top: 0;
-    left: 50%;
+  .vender-urgente .int-hero__center {
     width: 100%;
-    height: 100%;
-    transform: translateX(-50%);
-    object-fit: cover;
-    object-position: 60% top;
+    height: 308px;
+    top: auto;
+    left: auto;
+    transform: none;
+    overflow: hidden;
+    -webkit-mask-image: none;
+    mask-image: none;
+    -webkit-mask-size: unset;
+    mask-size: unset;
   }
 
   .vender-urgente .int-hero__cta-wrap {
