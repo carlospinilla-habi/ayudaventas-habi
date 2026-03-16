@@ -4,21 +4,20 @@ import { Footer } from '../components/Footer'
 import { VsaSidebar } from '../components/VsaSidebar'
 import { InternalHero } from '../components/InternalHero/InternalHero'
 import { Pill } from '../components/Pill/Pill'
+import { LegalCaseCards } from '../components/LegalCaseCards/LegalCaseCards'
 import { VsaProgress } from '../components/VsaProgress'
-import { CambioSteps } from '../components/CambioSteps/CambioSteps'
+import { VsaGuide } from '../components/VsaGuide'
 import { SectionHabimetro } from '../components/SectionHabimetro'
 import { SectionFicha } from '../components/SectionFicha'
 import { SectionCTAStats } from '../components/SectionCTAStats'
-import './CambiarDeCasaPage.css'
+import './TemaLegalPage.css'
 
-const FichaCreator = lazy(() => import('../components/FichaCreator/FichaCreator'))
 const HabiOfertaModal = lazy(() => import('../components/HabiOfertaModal/HabiOfertaModal'))
 const MiCasaModal = lazy(() => import('../components/MiCasaModal/MiCasaModal'))
-const HERO_IMAGE = '/assets/img-categoria-cambio.png'
+const HERO_IMAGE = '/assets/img-categoria-legal.png'
 const HABIMETRO_URL = 'https://habi.co/habimetro/valor-comercial-en-linea'
 
-export function CambiarDeCasaPage() {
-  const [fichaOpen, setFichaOpen] = useState(false)
+export function TemaLegalPage() {
   const [ofertaOpen, setOfertaOpen] = useState(false)
   const [habimetroOpen, setHabimetroOpen] = useState(false)
   const [miCasaOpen, setMiCasaOpen] = useState(false)
@@ -30,12 +29,6 @@ export function CambiarDeCasaPage() {
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      const fichaAnchor = target.closest('a[href="#crear-ficha"]')
-      if (fichaAnchor) {
-        e.preventDefault()
-        setFichaOpen(true)
-        return
-      }
       const ofertaAnchor = target.closest('a[href="#habi-oferta"]')
       if (ofertaAnchor) {
         e.preventDefault()
@@ -61,46 +54,39 @@ export function CambiarDeCasaPage() {
   return (
     <>
       <Navbar />
-      <div className="vsa-body cambiar-de-casa">
-        <VsaSidebar activePage="cambiar" />
+      <div className="vsa-body tema-legal">
+        <VsaSidebar activePage="legal" />
         <main className="vsa-content">
           <InternalHero
-            pill={<Pill estado="cambio" />}
+            pill={<Pill estado="legal" />}
             title={
               <>
-                Servicio Inmobiliario Habi:{' '}
-                <span className="int-hero__title-accent">lo mejor de ambos mundos</span>
+                Asesoría especializada en ventas{' '}
+                <span className="int-hero__title-accent">con temas legales</span>
               </>
             }
-            subtitle="Si deseas vender de manera efectiva y rápida."
-            description="La solución: No compramos directamente, pero con nuestro servicio de broker inmobiliario, hacemos el trabajo pesado por ti."
+            subtitle="Los temas legales añaden capas de complejidad"
+            description="Sabemos que esto puede ser difícil pero con el acompañamiento correcto se resuelven."
             ctas={[
-              { label: 'Quiero el servicio inmobiliario', variant: 'primary' },
-              { label: '¿Como funciona?', variant: 'outline' },
+              { label: 'Hablar con un asesor legal', variant: 'primary' },
+              { label: 'Ver el proceso general', variant: 'outline' },
             ]}
             benefits={[
-              { text: 'Asesoría profesional en precios y estrategias' },
-              { text: 'Publicación en el portal de Habi con miles de compradores' },
-              { text: 'Negociación experta a tu favor' },
-              { text: <>Tiempo estimado: <strong>3 meses aprox</strong> con buenos resultados</> },
+              { text: 'Revisión del estado legal del inmueble' },
+              { text: 'Orientación en procesos de sucesión y divorcio' },
+              { text: 'Coordinación con abogados especializados' },
+              { text: 'Acompañamiento hasta el cierre definitivo' },
             ]}
-            tip={{
-              title: 'Esto es para ti si:',
-              description: (
-                <p>
-                  No quieres perder tiempo aprendiendo todo el proceso, tienes un presupuesto para tu próxima casa y necesitas vender antes de comprar.
-                </p>
-              ),
-            }}
             heroImage={HERO_IMAGE}
-            heroSection="03"
+            heroSection="04"
           />
+          <LegalCaseCards />
           <VsaProgress
-            storageKey="cambio-user-stage"
+            storageKey="legal-user-stage"
             scrollTarget=""
             dispatchEvent={false}
           />
-          <CambioSteps />
+          <VsaGuide />
           <SectionHabimetro />
           <SectionFicha />
           <SectionCTAStats />
@@ -108,7 +94,6 @@ export function CambiarDeCasaPage() {
       </div>
       <Footer />
       <Suspense fallback={null}>
-        {fichaOpen && <FichaCreator open={fichaOpen} onClose={() => setFichaOpen(false)} />}
         {ofertaOpen && <HabiOfertaModal open={ofertaOpen} onClose={() => setOfertaOpen(false)} />}
         {habimetroOpen && <HabiOfertaModal open={habimetroOpen} onClose={() => setHabimetroOpen(false)} url={HABIMETRO_URL} />}
         {miCasaOpen && <MiCasaModal open={miCasaOpen} onClose={() => setMiCasaOpen(false)} />}
