@@ -8,8 +8,8 @@ const ICON_GAVEL = '/assets/1310b413939ce95781b95c6a3f32181573aecf25.svg'
 const CoffeeMugIcon = ({ className }: { className?: string }) => (
   <svg
     className={className}
-    width="28"
-    height="30"
+    width="24"
+    height="24"
     viewBox="0 0 14 15.1667"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -24,15 +24,14 @@ interface SidebarItem {
   id: SidebarPage
   label: string
   icon?: string
-  iconSize?: number
   route?: string
 }
 
 const NAV_ITEMS: SidebarItem[] = [
   { id: 'sin-afan', label: 'Vender sin afán', route: '/vender-sin-afan' },
-  { id: 'urgente', icon: ICON_LIGHTNING, label: 'Urgente', iconSize: 32, route: '/vender-urgente' },
-  { id: 'cambiar', icon: ICON_HOUSE, label: 'Cambiar de casa', iconSize: 24, route: '/cambiar-de-casa' },
-  { id: 'legal', icon: ICON_GAVEL, label: 'Tema legal', iconSize: 24 },
+  { id: 'urgente', icon: ICON_LIGHTNING, label: 'Urgente', route: '/vender-urgente' },
+  { id: 'cambiar', icon: ICON_HOUSE, label: 'Cambiar de casa', route: '/cambiar-de-casa' },
+  { id: 'legal', icon: ICON_GAVEL, label: 'Tema legal', route: '/tema-legal' },
 ]
 
 interface VsaSidebarProps {
@@ -66,12 +65,22 @@ export function VsaSidebar({ activePage = 'sin-afan' }: VsaSidebarProps) {
                   src={item.icon}
                   alt=""
                   className="vsa-sidebar__icon"
-                  style={{ width: item.iconSize, height: item.iconSize }}
                 />
               )}
             </button>
           )
         })}
+        <button
+          type="button"
+          className="vsa-sidebar__btn vsa-sidebar__btn--close"
+          aria-label="Volver al inicio"
+          title="Volver al inicio"
+          onClick={() => navigate('/')}
+        >
+          <svg className="vsa-sidebar__close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 7L17 17M17 7L7 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </button>
       </nav>
     </aside>
   )

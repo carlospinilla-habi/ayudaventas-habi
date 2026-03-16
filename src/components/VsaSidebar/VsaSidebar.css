@@ -44,11 +44,15 @@
 }
 
 .vsa-sidebar__icon {
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   flex-shrink: 0;
 }
 
 .vsa-sidebar__icon-svg {
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
   color: #9333ea;
 }
@@ -69,6 +73,23 @@
   opacity: 0.2;
 }
 
+.vsa-sidebar__btn--close {
+  background: white;
+}
+
+.vsa-sidebar__close-icon {
+  width: 24px;
+  height: 24px;
+  color: #171717;
+  opacity: 0.2;
+  flex-shrink: 0;
+  transition: opacity 0.2s;
+}
+
+.vsa-sidebar__btn--close:hover .vsa-sidebar__close-icon {
+  opacity: 0.5;
+}
+
 @media (max-width: 768px) {
   .vsa-sidebar {
     position: fixed;
@@ -82,7 +103,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 12px 24px;
+    padding: 10px 16px;
     border-right: none;
     border-top: none;
     border-radius: 16px;
@@ -96,24 +117,25 @@
 
   .vsa-sidebar__icons {
     flex-direction: row;
-    gap: 12px;
+    gap: 8px;
     width: 100%;
     justify-content: center;
   }
 
   .vsa-sidebar__btn {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
     border: 0.625px solid #d4d4d4;
-    border-radius: 25px;
+    border-radius: 999px;
     background: white;
+    flex-shrink: 0;
   }
 
   .vsa-sidebar__btn--active {
     background: #9333ea;
     border-color: #d4d4d4;
     border-width: 0.75px;
-    border-radius: 749px;
   }
 
   .vsa-sidebar__btn:not(.vsa-sidebar__btn--active) {
@@ -131,12 +153,40 @@
   }
 
   .vsa-sidebar__icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 
   .vsa-sidebar__icon-svg {
     width: 18px;
     height: 18px;
+  }
+
+  .vsa-sidebar__close-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 374px) {
+  .vsa-sidebar__icons {
+    gap: 6px;
+  }
+
+  .vsa-sidebar__btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .vsa-sidebar {
+    padding: 8px 12px;
+  }
+
+  .vsa-sidebar__icon,
+  .vsa-sidebar__icon-svg,
+  .vsa-sidebar__close-icon {
+    width: 16px;
+    height: 16px;
   }
 }

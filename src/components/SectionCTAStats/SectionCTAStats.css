@@ -234,10 +234,16 @@
   }
   .cta-stats__buttons {
     justify-content: center;
+    flex-wrap: wrap;
   }
   .cta-stats__numbers {
     width: 100%;
     flex-wrap: wrap;
     justify-content: center;
+  }
+  .cta-stats__btn {
+    font-size: 14px;
+    padding: 10px 16px;
+    white-space: normal;
   }
 }

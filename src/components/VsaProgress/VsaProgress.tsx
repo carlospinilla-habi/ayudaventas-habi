@@ -14,16 +14,13 @@ const DEFAULT_STEPS: ProgressStep[] = [
 ]
 
 function getStatusText(stepId: number, activeStep: number) {
+  if (activeStep === 0) {
+    return stepId === 1 ? 'En progreso' : 'Bloqueado'
+  }
   if (stepId < activeStep) return 'Completado'
   if (stepId === activeStep) return 'En progreso'
   return 'Bloqueado'
 }
-
-const LockIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4.5 7V4.5C4.5 2.567 6.067 1 8 1C9.933 1 11.5 2.567 11.5 4.5V7M4 7H12C13.105 7 14 7.895 14 9V13C14 14.105 13.105 15 12 15H4C2.895 15 2 14.105 2 13V9C2 7.895 2.895 7 4 7Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
 
 const CheckIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,7 +47,7 @@ export function VsaProgress({
 }: VsaProgressProps) {
   const [activeStep, setActiveStep] = useState(() => {
     const saved = localStorage.getItem(storageKey)
-    return saved ? parseInt(saved, 10) : 1
+    return saved !== null ? parseInt(saved, 10) : 0
   })
 
   useEffect(() => {
@@ -84,9 +81,10 @@ export function VsaProgress({
         <div className="vsa-progress__track">
           <div className="vsa-progress__steps">
             {steps.map((step, i) => {
-              const isActive = step.id === activeStep
-              const isCompleted = step.id < activeStep
-              const isLocked = step.id > activeStep
+              const isIdle = activeStep === 0
+              const isActive = !isIdle && step.id === activeStep
+              const isCompleted = !isIdle && step.id < activeStep
+              const isLocked = !isIdle && step.id > activeStep
               const isLast = step.id === steps[steps.length - 1].id
               const status = getStatusText(step.id, activeStep)
 
@@ -100,25 +98,35 @@ export function VsaProgress({
                   >
                     <div
                       className={`vsa-progress__circle ${
+                        isIdle ? 'vsa-progress__circle--idle' :
                         isActive ? 'vsa-progress__circle--active' :
                         isCompleted ? 'vsa-progress__circle--completed' :
                         'vsa-progress__circle--locked'
                       }`}
                     >
+                      {isIdle && !isLast && (
+                        <span className="vsa-progress__circle-num vsa-progress__circle-num--idle">{step.id}</span>
+                      )}
+                      {isIdle && isLast && (
+                        <span className="vsa-progress__circle-check-dim"><CheckIcon /></span>
+                      )}
                       {isCompleted && <CheckIcon />}
                       {isActive && !isLast && (
                         <span className="vsa-progress__circle-num">{step.id}</span>
                       )}
                       {isActive && isLast && <CheckIcon />}
-                      {isLocked && !isLast && <LockIcon />}
+                      {isLocked && !isLast && (
+                        <span className="vsa-progress__circle-num vsa-progress__circle-num--idle">{step.id}</span>
+                      )}
                       {isLocked && isLast && (
                         <span className="vsa-progress__circle-check-dim"><CheckIcon /></span>
                       )}
                     </div>
 
-                    <div className="vsa-progress__label-wrap">
+                    <div className={`vsa-progress__label-wrap ${isIdle || isLocked ? 'vsa-progress__label-wrap--idle' : ''}`}>
                       <span className="vsa-progress__label">{step.label}</span>
                       <span className={`vsa-progress__status ${
+                        isIdle ? '' :
                         isActive ? 'vsa-progress__status--active' :
                         isCompleted ? 'vsa-progress__status--completed' : ''
                       }`}>
@@ -129,7 +137,7 @@ export function VsaProgress({
 
                   {i < steps.length - 1 && (
                     <div className={`vsa-progress__separator ${
-                      step.id < activeStep ? 'vsa-progress__separator--done' : ''
+                      !isIdle && step.id < activeStep ? 'vsa-progress__separator--done' : ''
                     }`}>
                       <svg className="vsa-progress__separator-line" viewBox="0 0 104 2" fill="none" preserveAspectRatio="none">
                         <line x1="0" y1="1" x2="104" y2="1" stroke="currentColor" strokeWidth="2" strokeDasharray="6 6"/>

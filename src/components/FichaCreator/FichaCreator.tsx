@@ -12,6 +12,7 @@ export interface FichaData {
   ciudad: string
   barrio: string
   direccion: string
+  numeroApto: string
   areaM2: string
   antiguedad: string
   parqueaderos: string
@@ -30,9 +31,9 @@ export interface FichaData {
 
 const EMPTY_DATA: FichaData = {
   titulo: '', tipoInmueble: '', ciudad: '', barrio: '', direccion: '',
-  areaM2: '', antiguedad: '', parqueaderos: '', banos: '', habitaciones: '',
-  piso: '', estrato: '', adminMes: '', precioVenta: '', descripcion: '',
-  features: [], nombre: '', email: '', whatsapp: '',
+  numeroApto: '', areaM2: '', antiguedad: '', parqueaderos: '', banos: '',
+  habitaciones: '', piso: '', estrato: '', adminMes: '', precioVenta: '',
+  descripcion: '', features: [], nombre: '', email: '', whatsapp: '',
 }
 
 const STORAGE_KEY = 'ficha-creator-data'
@@ -48,7 +49,7 @@ const ALL_FEATURES = [
   'Vigilancia privada', 'Piscina', 'Vestier', 'Ascensor',
   'Cuarto de servicio', 'Parqueadero', 'Estudio', 'Gimnasio',
   'Depósito', 'Piso de madera', 'Terraza', 'Salón social',
-  'Parques infantil', 'BBQ', 'Vista exterior',
+  'Parque infantil', 'BBQ', 'Vista exterior', 'Chimenea',
 ]
 
 /* ── Helpers ────────────────────────────── */
@@ -360,6 +361,10 @@ function Step1Form({ data, set, toggleFeature }: {
           <input className="ficha-input" placeholder="Ejm: calle 24B # 16-14" value={data.direccion} onChange={e => set('direccion', e.target.value)} />
         </div>
 
+        <div className="ficha-field">
+          <label className="ficha-label">Numero de apto</label>
+          <input className="ficha-input" placeholder="Ejm: 203" value={data.numeroApto} onChange={e => set('numeroApto', e.target.value)} />
+        </div>
         <div className="ficha-field">
           <label className="ficha-label">Área (m²)</label>
           <input className="ficha-input" placeholder="Ejm: 57" value={data.areaM2} onChange={e => set('areaM2', e.target.value.replace(/\D/g, ''))} />

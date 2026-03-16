@@ -309,6 +309,10 @@
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
+  .f2__header {
+    padding: 0 24px;
+  }
+
   .f2__cards-container {
     grid-template-columns: 1fr;
     max-width: 400px;

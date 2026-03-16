@@ -26,7 +26,7 @@ export function Navbar() {
           </div>
         </a>
         <div className="navbar__actions" data-node-id="232:30578">
-          <a href="#mi-habi" className="navbar__btn" data-node-id="232:30579">
+          <a href="#mi-casa" className="navbar__btn" data-node-id="232:30579">
             Mi casa
           </a>
         </div>

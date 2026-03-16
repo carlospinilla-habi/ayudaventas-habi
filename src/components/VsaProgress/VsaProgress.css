@@ -92,6 +92,10 @@
   transition: all 0.3s var(--ease-out);
 }
 
+.vsa-progress__circle--idle {
+  background: #e5e5e5;
+}
+
 .vsa-progress__circle--active {
   background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
   box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
@@ -102,7 +106,7 @@
 }
 
 .vsa-progress__circle--locked {
-  background: #d8b4fe;
+  background: #e5e5e5;
 }
 
 .vsa-progress__circle-num {
@@ -113,6 +117,10 @@
   letter-spacing: -0.48px;
   color: white;
   text-align: center;
+}
+
+.vsa-progress__circle-num--idle {
+  color: #a3a3a3;
 }
 
 .vsa-progress__circle-check-dim {
@@ -129,6 +137,11 @@
   flex-direction: column;
   align-items: center;
   line-height: 30px;
+}
+
+.vsa-progress__label-wrap--idle .vsa-progress__label,
+.vsa-progress__label-wrap--idle .vsa-progress__status {
+  color: #a3a3a3;
 }
 
 .vsa-progress__label {
@@ -166,7 +179,7 @@
   height: 64px;
   flex: 1;
   padding: 0 12px;
-  color: #d8b4fe;
+  color: #d4d4d4;
 }
 
 .vsa-progress__separator--done {
@@ -203,51 +216,62 @@
 
   .vsa-progress__track {
     width: 100%;
-    overflow-x: visible;
     padding: 16px 0;
   }
 
   .vsa-progress__steps {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    grid-auto-flow: column;
-    gap: 24px;
-    min-width: 0;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
   }
 
   .vsa-progress__step-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     flex: none;
-    justify-content: center;
   }
 
   .vsa-progress__step-group:last-child {
     flex: none;
   }
 
-  .vsa-progress__separator {
-    display: none;
+  .vsa-progress__step {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
   }
 
-  .vsa-progress__circle {
-    width: 64px;
-    height: 64px;
-  }
-
-  .vsa-progress__circle-num {
-    font-size: 24px;
-  }
-
-  .vsa-progress__label {
-    font-size: 16px;
-  }
-
-  .vsa-progress__status {
-    font-size: 14px;
+  .vsa-progress__step:hover {
+    transform: none;
   }
 
   .vsa-progress__label-wrap {
-    line-height: 30px;
+    align-items: flex-start;
+    line-height: 24px;
+  }
+
+  .vsa-progress__label {
+    text-align: left;
+  }
+
+  .vsa-progress__status {
+    text-align: left;
+  }
+
+  .vsa-progress__separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 24px;
+    flex: none;
+    padding: 0;
+  }
+
+  .vsa-progress__separator-line {
+    width: 2px;
+    height: 100%;
   }
 }

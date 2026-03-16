@@ -1,6 +1,6 @@
 import './HeroImage.css'
 
-export type HeroImageSection = '01' | '02' | '03'
+export type HeroImageSection = '01' | '02' | '03' | '04'
 
 interface HeroImageProps {
   src: string

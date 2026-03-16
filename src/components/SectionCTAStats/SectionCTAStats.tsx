@@ -155,7 +155,7 @@ export function SectionCTAStats() {
               </p>
             </div>
             <div className="cta-stats__buttons">
-              <a href="#oferta" className="cta-stats__btn cta-stats__btn--primary">
+              <a href="#habi-oferta" className="cta-stats__btn cta-stats__btn--primary">
                 Solicitar una oferta
               </a>
               <a href="#asesor" className="cta-stats__btn cta-stats__btn--secondary">

@@ -1554,6 +1554,7 @@
   .vsa-guide__dark-cta-btn-label {
     font-size: 14px;
     padding: 0 14px;
+    white-space: normal;
   }
 
   .vsa-guide__dark-cta-btn-icon {

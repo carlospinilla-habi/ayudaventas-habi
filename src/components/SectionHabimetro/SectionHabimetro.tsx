@@ -8,8 +8,8 @@ const ARROW_ICON = '/assets/cd835b98a354fa50c5f884471dfaf5e5ee7b6920.svg'
 
 export function SectionHabimetro() {
   const innerRef = useReveal<HTMLDivElement>()
-  const contentRef = useParallax<HTMLDivElement>(-25)
-  const deviceRef = useParallax<HTMLDivElement>(30)
+  const contentRef = useParallax<HTMLDivElement>(-8)
+  const deviceRef = useParallax<HTMLDivElement>(8)
 
   return (
     <section className="habimetro" data-node-id="243:34252">
@@ -26,7 +26,7 @@ export function SectionHabimetro() {
               Con un valor de venta estimado más claro, puedes negociar mejor.
             </p>
           </div>
-          <a href="#consultar" className="habimetro__btn">
+          <a href="#habi-habimetro" className="habimetro__btn">
             <span className="habimetro__btn-text">Consultar el valor de mi casa.</span>
             <span className="habimetro__btn-circle">
               <img src={ARROW_ICON} alt="" className="habimetro__btn-arrow" />
@@ -34,8 +34,8 @@ export function SectionHabimetro() {
           </a>
         </div>
 
-        <div ref={deviceRef} className="habimetro__device" data-node-id="250:14679">
-          <div className="habimetro__laptop">
+        <div className="habimetro__device" data-node-id="250:14679">
+          <div ref={deviceRef} className="habimetro__laptop">
             <div className="habimetro__screen">
               <img src={SCREEN_IMG} alt="Habímetro" className="habimetro__screen-img" loading="lazy" decoding="async" />
             </div>

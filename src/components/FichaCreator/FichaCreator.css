@@ -650,7 +650,11 @@
   }
 
   .ficha-step-label {
-    font-size: 13px;
+    font-size: 11px;
+  }
+
+  .ficha-step-badge {
+    gap: 4px;
   }
 
   .ficha-body {

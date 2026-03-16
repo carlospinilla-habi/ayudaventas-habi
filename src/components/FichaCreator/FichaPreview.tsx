@@ -12,28 +12,23 @@ function formatPrice(raw: string): string {
   return '$' + Number(raw).toLocaleString('es-CO')
 }
 
-function generateHeroTitle(data: FichaData): string {
-  if (data.barrio) return `Tu hogar cerca de ${data.barrio}.`
-  if (data.ciudad) return `Tu hogar en ${data.ciudad}.`
-  return 'Tu próximo hogar.'
-}
-
-const FEATURE_ICON_MAP: Record<string, JSX.Element> = {
-  'Vigilancia privada': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1.667l6.667 2.5v5c0 4.166-2.834 7.5-6.667 8.833-3.833-1.333-6.667-4.667-6.667-8.833v-5L10 1.667z" stroke="#404040" strokeWidth="1.2" strokeLinejoin="round"/></svg>,
-  'Piscina': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2.5 13.333c1.667 1.667 3.333 1.667 5 0 1.667-1.666 3.333-1.666 5 0 1.667 1.667 3.333 1.667 5 0M2.5 16.667c1.667 1.666 3.333 1.666 5 0 1.667-1.667 3.333-1.667 5 0 1.667 1.666 3.333 1.666 5 0M5.833 10V5M14.167 10V5M5.833 7.5h8.334" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  'Vestier': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6.667 2.5h6.666M10 2.5V5M5 5h10l-1.25 12.5H6.25L5 5z" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  'Ascensor': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3.333" y="2.5" width="13.333" height="15" rx="1.5" stroke="#404040" strokeWidth="1.2"/><path d="M10 2.5v15M7 8l-1.5-2L4 8M13 12l1.5 2L16 12" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  'Cuarto de servicio': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3.333" y="5.833" width="13.333" height="10" rx="1.5" stroke="#404040" strokeWidth="1.2"/><path d="M7.5 5.833V4.167a2.5 2.5 0 015 0v1.666" stroke="#404040" strokeWidth="1.2" strokeLinecap="round"/><circle cx="10" cy="10.833" r="1.667" stroke="#404040" strokeWidth="1.2"/></svg>,
-  'Parqueadero': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="2.5" width="15" height="15" rx="2.5" stroke="#404040" strokeWidth="1.2"/><path d="M7.5 14.167V5.833h3.75a2.917 2.917 0 010 5.834H7.5" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  'Estudio': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3.333 5l6.667-2.5L16.667 5l-6.667 2.5L3.333 5z" stroke="#404040" strokeWidth="1.2" strokeLinejoin="round"/><path d="M3.333 5v5M16.667 5v5M6.667 6.25v5c0 1.38 1.49 2.5 3.333 2.5s3.333-1.12 3.333-2.5v-5" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  'Gimnasio': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6.667 7.5v5M13.333 7.5v5M6.667 10h6.666M4.167 8.333v3.334M15.833 8.333v3.334M2.5 9.167v1.666M17.5 9.167v1.666" stroke="#404040" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-  'Depósito': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3.333 8.333L10 4.167l6.667 4.166V15.833a.833.833 0 01-.834.834H4.167a.833.833 0 01-.834-.834V8.333z" stroke="#404040" strokeWidth="1.2" strokeLinejoin="round"/><path d="M7.5 16.667v-5h5v5" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  'Piso de madera': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2.5" y="3.333" width="15" height="13.333" rx="1" stroke="#404040" strokeWidth="1.2"/><path d="M2.5 10h15M10 3.333V10M7.5 10v6.667M12.5 10v6.667" stroke="#404040" strokeWidth="1.2"/></svg>,
-  'Terraza': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2.5 17.5h15M10 5v12.5M5 10l5-5 5 5M3.333 17.5V12.5M16.667 17.5V12.5" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>,
-  'Salón social': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17.5 12.5c0 2.761-3.358 5-7.5 5s-7.5-2.239-7.5-5 3.358-5 7.5-5 7.5 2.239 7.5 5z" stroke="#404040" strokeWidth="1.2"/><path d="M10 2.5a2.5 2.5 0 00-2.5 2.5v2.5h5V5A2.5 2.5 0 0010 2.5z" stroke="#404040" strokeWidth="1.2"/></svg>,
-  'Parques infantil': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 17.5V5M15 17.5V5M5 5h10M5 10h10" stroke="#404040" strokeWidth="1.2" strokeLinecap="round"/><path d="M7.5 10l-2.5 5M12.5 10l2.5 5" stroke="#404040" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-  'BBQ': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="5.833" stroke="#404040" strokeWidth="1.2"/><path d="M7.5 15.833l-1.667 2.5M12.5 15.833l1.667 2.5M10 15.833V18.333M8.333 4.167c0 .92.746 1.666 1.667 1.666s1.667-.746 1.667-1.666" stroke="#404040" strokeWidth="1.2" strokeLinecap="round"/><path d="M7.5 10h5" stroke="#404040" strokeWidth="1.2" strokeLinecap="round"/></svg>,
-  'Vista exterior': <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2.5 15.833l4.167-5.833 3.333 4.167L13.333 10l4.167 5.833" stroke="#404040" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/><circle cx="14.167" cy="6.667" r="1.667" stroke="#404040" strokeWidth="1.2"/></svg>,
+const FEATURE_ICON_MAP: Record<string, string> = {
+  'Vigilancia privada': '/assets/icon-feat-vigilancia.svg',
+  'Piscina': '/assets/icon-feat-piscina.svg',
+  'Vestier': '/assets/icon-feat-vestier.svg',
+  'Ascensor': '/assets/icon-feat-ascensor.svg',
+  'Cuarto de servicio': '/assets/icon-feat-cuarto-servicio.svg',
+  'Parqueadero': '/assets/icon-feat-parqueadero.svg',
+  'Estudio': '/assets/icon-feat-estudio.svg',
+  'Gimnasio': '/assets/icon-feat-gimnasio.svg',
+  'Depósito': '/assets/icon-feat-deposito.svg',
+  'Piso de madera': '/assets/icon-feat-piso-madera.svg',
+  'Terraza': '/assets/icon-feat-terraza.svg',
+  'Salón social': '/assets/icon-feat-salon-social.svg',
+  'Parque infantil': '/assets/icon-feat-parque-infantil.svg',
+  'BBQ': '/assets/icon-feat-bbq.svg',
+  'Vista exterior': '/assets/icon-feat-vista-exterior.svg',
+  'Chimenea': '/assets/icon-feat-chimenea.svg',
 }
 
 const GEOCODE_URL = 'https://nominatim.openstreetmap.org/search'
@@ -110,7 +105,6 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
   const mainPhoto = photos[0] || ''
   const gridPhotos = photos.slice(1, 9)
   const displayTitle = data.titulo || 'Tu propiedad'
-  const heroTitle = generateHeroTitle(data)
 
   const resumenItems: string[] = []
   if (data.tipoInmueble) resumenItems.push(data.tipoInmueble)
@@ -130,7 +124,7 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
           <h1 className="ficha-preview-title">{displayTitle.toUpperCase()}.</h1>
           <div className="ficha-preview-address">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.167A4.083 4.083 0 002.917 5.25C2.917 8.167 7 12.833 7 12.833s4.083-4.667 4.083-7.583A4.083 4.083 0 007 1.167zm0 5.541a1.458 1.458 0 110-2.916 1.458 1.458 0 010 2.917z" fill="#737373"/></svg>
-            <span>{[data.direccion, data.barrio, data.ciudad, 'Colombia'].filter(Boolean).join(', ')}</span>
+            <span>{[data.direccion, data.numeroApto ? `Apto ${data.numeroApto}` : '', data.barrio, data.ciudad, 'Colombia'].filter(Boolean).join(', ')}</span>
           </div>
         </div>
         <div className="ficha-preview-header-right">
@@ -165,8 +159,7 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
         <div className="ficha-preview-hero">
           <img src={mainPhoto} alt="Foto principal" />
           <div className="ficha-preview-hero-overlay">
-            <h2>{heroTitle}</h2>
-            <p>Facilita la venta de tu casa y avanza.</p>
+            <h2>Propiedad en venta</h2>
           </div>
         </div>
       )}
@@ -244,10 +237,10 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
             {data.features.map(f => (
               <div key={f} className="ficha-preview-feature-item">
                 <span className="ficha-preview-feature-icon">
-                  {FEATURE_ICON_MAP[f] || <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10l4 4 8-8" stroke="#404040" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                  <img src={FEATURE_ICON_MAP[f]} alt="" className="ficha-preview-feature-icon-img" />
                 </span>
                 <div className="ficha-preview-feature-text">
-                  <span className="ficha-preview-feature-name">{f}.</span>
+                  <span className="ficha-preview-feature-name">{f}</span>
                 </div>
               </div>
             ))}

@@ -28,7 +28,7 @@ export function SectionFicha() {
               Los interesados compradores revisan varias propiedades. Esta ficha te ayuda a que siempre tengan a la mano tu información.
             </p>
           </div>
-          <a href="#crear" className="ficha__btn">
+          <a href="#crear-ficha" className="ficha__btn">
             <span className="ficha__btn-text">Crear el ayudaventas</span>
             <span className="ficha__btn-circle">
               <img src={ARROW_ICON} alt="" className="ficha__btn-arrow" />
