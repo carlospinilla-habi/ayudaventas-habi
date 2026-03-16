@@ -1,0 +1,588 @@
+/* ── Overlay ─────────────────────────── */
+
+.micasa-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(10, 0, 30, 0.5);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: micasa-overlay-in 0.25s ease-out;
+}
+
+/* ── Panel ────────────────────────────── */
+
+.micasa-panel {
+  position: relative;
+  width: 90%;
+  max-width: 480px;
+  max-height: 88vh;
+  background: #fafafa;
+  border-radius: 24px;
+  box-shadow:
+    0 0 0 1px rgba(121, 85, 249, 0.06),
+    0 24px 80px rgba(10, 0, 40, 0.3),
+    0 8px 24px rgba(10, 0, 40, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: micasa-panel-in 0.35s var(--ease-out) both;
+}
+
+/* ── Hero header ─────────────────────── */
+
+.micasa-hero {
+  flex-shrink: 0;
+  padding: 28px 32px 22px;
+  background: linear-gradient(135deg, #7955f9 0%, #9333ea 60%, #a855f7 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.micasa-hero::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.micasa-hero-icon {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6px;
+}
+
+.micasa-title {
+  font-family: var(--font-brand);
+  font-weight: 700;
+  font-size: 22px;
+  color: #fff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.micasa-subtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 4px 0 0;
+}
+
+/* ── Close button ────────────────────── */
+
+.micasa-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.micasa-close:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Scroll area ─────────────────────── */
+
+.micasa-scroll {
+  overflow-y: auto;
+  padding: 16px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Card sections ───────────────────── */
+
+.micasa-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.micasa-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.micasa-card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.micasa-card-dot--green { background: #22c55e; }
+.micasa-card-dot--amber { background: #f59e0b; }
+.micasa-card-dot--pink { background: #ec4899; }
+
+.micasa-card-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #444;
+  margin: 0;
+}
+
+/* ── Price bar ────────────────────────── */
+
+.micasa-price-bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #f3eeff 0%, #faf5ff 100%);
+  border-radius: 10px;
+  margin-bottom: 14px;
+}
+
+.micasa-price-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.micasa-price-value {
+  font-family: var(--font-brand);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.3px;
+}
+
+/* ── Property grid ────────────────────── */
+
+.micasa-props {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.micasa-prop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: #f9f9fb;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.micasa-prop-icon {
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.micasa-prop-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.micasa-prop-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+}
+
+.micasa-prop-value {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Feature chips ────────────────────── */
+
+.micasa-features {
+  margin-top: 12px;
+}
+
+.micasa-features-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.micasa-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 6px;
+}
+
+.micasa-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #f3eeff;
+  color: var(--color-primary-600);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/* ── Stepper ──────────────────────────── */
+
+.micasa-stepper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.micasa-step-group {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.micasa-step-group:last-child {
+  flex: 0 0 auto;
+}
+
+.micasa-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.3;
+  min-width: 0;
+}
+
+.micasa-step--active,
+.micasa-step--done {
+  opacity: 1;
+}
+
+.micasa-step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #e8e8ed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: #999;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.micasa-step--active .micasa-step-circle {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(121, 85, 249, 0.35);
+}
+
+.micasa-step--done .micasa-step-circle {
+  background: #22c55e;
+  color: #fff;
+}
+
+.micasa-step-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 500;
+  color: #777;
+  text-align: center;
+  line-height: 1.25;
+  max-width: 72px;
+}
+
+.micasa-step--active .micasa-step-label {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.micasa-step-line {
+  flex: 1;
+  height: 2px;
+  background: #e0e0e0;
+  margin-top: 14px;
+  margin-left: -2px;
+  margin-right: -2px;
+  border-radius: 1px;
+}
+
+.micasa-step-line--done {
+  background: #22c55e;
+}
+
+/* ── Ficha link ───────────────────────── */
+
+.micasa-ficha-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f3eeff 0%, #faf5ff 100%);
+  border: 1px solid rgba(121, 85, 249, 0.1);
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.micasa-ficha-link:hover {
+  background: linear-gradient(135deg, #ebe3ff 0%, #f3eaff 100%);
+  border-color: rgba(121, 85, 249, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(121, 85, 249, 0.12);
+}
+
+.micasa-ficha-link-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(121, 85, 249, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.micasa-ficha-link-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.micasa-ficha-link-title {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-electric-purple-1000);
+}
+
+.micasa-ficha-link-desc {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: #888;
+  margin-top: 1px;
+}
+
+/* ── Interest cards ───────────────────── */
+
+.micasa-interests {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.micasa-interest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  border-radius: 12px;
+  border: 1.5px solid #eee;
+  background: #fafafa;
+  opacity: 0.35;
+  transition: all 0.25s;
+}
+
+.micasa-interest--active {
+  opacity: 1;
+  border-color: var(--color-primary);
+  background: #f9f5ff;
+  box-shadow: 0 2px 8px rgba(121, 85, 249, 0.12);
+}
+
+/* ── Empty state ──────────────────────── */
+
+.micasa-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  text-align: center;
+}
+
+.micasa-empty-text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.micasa-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.micasa-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(121, 85, 249, 0.35);
+}
+
+.micasa-cta svg {
+  opacity: 0.8;
+}
+
+/* ── Animations ───────────────────────── */
+
+@keyframes micasa-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes micasa-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ── Responsive ───────────────────────── */
+
+@media (max-width: 768px) {
+  .micasa-panel {
+    width: 95%;
+    max-height: 92vh;
+    border-radius: 20px;
+  }
+
+  .micasa-hero {
+    padding: 24px 20px 18px;
+  }
+
+  .micasa-title {
+    font-size: 20px;
+  }
+
+  .micasa-scroll {
+    padding: 12px 14px 20px;
+    gap: 10px;
+  }
+
+  .micasa-card {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+
+  .micasa-props {
+    gap: 5px;
+  }
+
+  .micasa-prop {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .micasa-prop-value {
+    font-size: 12px;
+  }
+
+  .micasa-step-circle {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  .micasa-step-label {
+    font-size: 9px;
+    max-width: 60px;
+  }
+
+  .micasa-step-line {
+    margin-top: 12px;
+  }
+
+  .micasa-interests {
+    gap: 6px;
+  }
+
+  .micasa-interest {
+    padding: 8px 6px;
+    border-radius: 10px;
+  }
+
+  .micasa-price-value {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 400px) {
+  .micasa-props {
+    grid-template-columns: 1fr;
+  }
+
+  .micasa-stepper {
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .micasa-step-group {
+    flex: none;
+    width: calc(50% - 6px);
+  }
+
+  .micasa-step-line {
+    display: none;
+  }
+}

@@ -58,7 +58,7 @@ const RIGHT_CARDS: RightCard[] = [
     title: 'Necesito solucionar asuntos legales.',
     feature: 'Depende el caso',
     featureBold: '(Divorcio, sucesión, litigio u otro)',
-    route: '',
+    route: '/tema-legal',
   },
 ]
 
@@ -136,7 +136,7 @@ export function SectionFeatures1() {
                   <button
                     type="button"
                     className="features1__left-cta"
-                    onClick={() => navigate('/vender-sin-afan')}
+                    onClick={() => { localStorage.setItem('user-interest', 'sin-afan'); navigate('/vender-sin-afan') }}
                   >
                     <span className="features1__left-cta-label">ESTE SOY YO</span>
                     <span className="features1__left-cta-arrow">
@@ -153,7 +153,7 @@ export function SectionFeatures1() {
                     key={card.id}
                     type="button"
                     className="features1__right-card"
-                    onClick={() => card.route && navigate(card.route)}
+                    onClick={() => { if (card.route) { localStorage.setItem('user-interest', card.id); navigate(card.route) } }}
                   >
                     <div className="features1__right-card-text">
                       <Pill estado={card.pillEstado} mode="dark" />
