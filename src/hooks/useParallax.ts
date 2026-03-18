@@ -12,10 +12,12 @@ const entries: ParallaxEntry[] = []
 let rafId = 0
 let listening = false
 let prefersReduced = false
+let isMobile = false
 let lastScrollY = -1
 
 if (typeof window !== 'undefined') {
   prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  isMobile = window.innerWidth <= 768
 }
 
 const io =
@@ -62,7 +64,7 @@ function onScroll() {
 }
 
 function startListening() {
-  if (listening || prefersReduced) return
+  if (listening || prefersReduced || isMobile) return
   window.addEventListener('scroll', onScroll, { passive: true })
   listening = true
 }
@@ -80,7 +82,7 @@ export function useParallax<T extends HTMLElement = HTMLDivElement>(speed: numbe
 
   useEffect(() => {
     const el = ref.current
-    if (!el || prefersReduced) return
+    if (!el || prefersReduced || isMobile) return
 
     const rect = el.getBoundingClientRect()
     const entry: ParallaxEntry = {
