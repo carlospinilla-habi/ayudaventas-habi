@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.99.2",
     "html-to-image": "^1.11.13",
     "jspdf": "^4.2.0",
     "leaflet": "^1.9.4",
