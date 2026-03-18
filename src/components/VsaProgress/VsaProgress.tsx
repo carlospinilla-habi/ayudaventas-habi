@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { saveSaleStage } from '../../lib/storage-sync'
 import './VsaProgress.css'
 
 export interface ProgressStep {
@@ -51,7 +52,7 @@ export function VsaProgress({
   })
 
   useEffect(() => {
-    localStorage.setItem(storageKey, String(activeStep))
+    saveSaleStage(storageKey, activeStep)
     if (dispatchEvent) {
       window.dispatchEvent(new CustomEvent('vsa-stage-change', { detail: { stage: activeStep } }))
     }

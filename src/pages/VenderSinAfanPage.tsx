@@ -8,6 +8,7 @@ import { VsaGuide } from '../components/VsaGuide'
 import { SectionHabimetro } from '../components/SectionHabimetro'
 import { SectionFicha } from '../components/SectionFicha'
 import { SectionCTAStats } from '../components/SectionCTAStats'
+import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
 import './VenderSinAfanPage.css'
 
 const HabiOfertaModal = lazy(() => import('../components/HabiOfertaModal/HabiOfertaModal'))
@@ -30,12 +31,14 @@ export function VenderSinAfanPage() {
       if (ofertaAnchor) {
         e.preventDefault()
         setOfertaOpen(true)
+        trackOfertaRequested()
         return
       }
       const habimetroAnchor = target.closest('a[href="#habi-habimetro"]')
       if (habimetroAnchor) {
         e.preventDefault()
         setHabimetroOpen(true)
+        trackHabimetroRequested()
         return
       }
       const miCasaAnchor = target.closest('a[href="#mi-casa"]')

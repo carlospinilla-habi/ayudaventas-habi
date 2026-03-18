@@ -9,6 +9,7 @@ import { UrgSteps } from '../components/UrgSteps/UrgSteps'
 import { SectionHabimetro } from '../components/SectionHabimetro'
 import { SectionFicha } from '../components/SectionFicha'
 import { SectionCTAStats } from '../components/SectionCTAStats'
+import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
 import './VenderSinAfanPage.css'
 import './VenderUrgentePage.css'
 
@@ -41,12 +42,14 @@ export function VenderUrgentePage() {
       if (ofertaAnchor) {
         e.preventDefault()
         setOfertaOpen(true)
+        trackOfertaRequested()
         return
       }
       const habimetroAnchor = target.closest('a[href="#habi-habimetro"]')
       if (habimetroAnchor) {
         e.preventDefault()
         setHabimetroOpen(true)
+        trackHabimetroRequested()
         return
       }
       const miCasaAnchor = target.closest('a[href="#mi-casa"]')
@@ -76,7 +79,7 @@ export function VenderUrgentePage() {
             subtitle="Habi te compra la casa en 10 días"
             description="Siendo honestos contigo: si necesitas el dinero ya, la forma más rápida y segura es que Habi te compre directamente"
             ctas={[
-              { label: 'Quiero una oferta de Habi', variant: 'primary' as const, onClick: () => setOfertaOpen(true) },
+              { label: 'Quiero una oferta de Habi', variant: 'primary' as const, onClick: () => { setOfertaOpen(true); trackOfertaRequested() } },
               { label: '¿Cómo funciona?', variant: 'outline' },
             ]}
             benefits={[

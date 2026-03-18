@@ -4,6 +4,7 @@ import { useParallax } from '../../hooks/useParallax'
 import { useScrollRevealText } from '../../hooks/useScrollRevealText'
 import { Pill } from '../Pill/Pill'
 import type { PillEstado } from '../Pill/Pill'
+import { saveUserInterest } from '../../lib/storage-sync'
 import './SectionFeatures1.css'
 
 const CARD_BG_IMAGE = '/assets/3365f92b8af59d5372822ffb7e43537fa555db38.png'
@@ -24,15 +25,17 @@ const CheckWhite = () => (
 )
 
 const ACCENT_WORDS = ['Primero', 'lo', 'primero,']
-const ALL_WORDS = 'Primero lo primero, ¿Con cual de estos momentos te identificas mejor?'.split(' ')
+const ALL_WORDS = 'Primero lo primero, ¿cómo quieres vender tu casa?'.split(' ')
+
+const WHATSAPP_ASESOR = '#whatsapp-asesor'
 
 interface RightCard {
   id: string
   pillEstado: PillEstado
   title: string
-  feature: string
-  featureBold: string
-  route: string
+  featureText: string
+  route?: string
+  isLegal?: boolean
 }
 
 const RIGHT_CARDS: RightCard[] = [
@@ -40,25 +43,22 @@ const RIGHT_CARDS: RightCard[] = [
     id: 'urgente',
     pillEstado: 'urgente',
     title: 'Necesito vender lo antes posible.',
-    feature: 'Puedes tomar',
-    featureBold: '- 15 días',
+    featureText: 'Tiempo estimado: 10 días.',
     route: '/vender-urgente',
   },
   {
     id: 'cambiar',
     pillEstado: 'cambio',
     title: 'Necesito vender para comprar.',
-    feature: 'Puedes tomar',
-    featureBold: '- 3 meses',
+    featureText: 'Tiempo estimado: 3 meses.',
     route: '/cambiar-de-casa',
   },
   {
     id: 'legal',
     pillEstado: 'legal',
     title: 'Necesito solucionar asuntos legales.',
-    feature: 'Depende el caso',
-    featureBold: '(Divorcio, sucesión, litigio u otro)',
-    route: '/tema-legal',
+    featureText: 'El tiempo depende del caso (divorcio, sucesión, litigio u otro).',
+    isLegal: true,
   },
 ]
 
@@ -68,8 +68,8 @@ export function SectionFeatures1() {
   const boxRef = useReveal<HTMLDivElement>('center')
   const { containerRef, progress } = useScrollRevealText()
 
-  const headerParallaxRef = useParallax<HTMLDivElement>(-40)
-  const boxParallaxRef = useParallax<HTMLDivElement>(60)
+  const headerParallaxRef = useParallax<HTMLDivElement>(-60)
+  const boxParallaxRef = useParallax<HTMLDivElement>(80)
 
   const revealedCount = Math.floor(progress * ALL_WORDS.length)
 
@@ -97,7 +97,7 @@ export function SectionFeatures1() {
             })}
           </h2>
           <p className="features1__subtitle">
-            Dependiendo de lo que necesites, te podemos guiar mejor. 👇
+            Selecciona el motivo de venta que mejor te identifique 👇
           </p>
         </div>
 
@@ -123,22 +123,22 @@ export function SectionFeatures1() {
                   <Pill estado="sin-afan" mode="light" />
                   <div className="features1__left-text">
                     <h3 className="features1__left-title">
-                      Quiero vender bien, por mi cuenta y sin afán.
+                      Quiero vender por mi cuenta y a buen precio.
                     </h3>
                     <p className="features1__left-desc">
-                      No tengo afán, puedo darme el lujo de esperar y vender al mejor precio, pero quisiera herramientas que me ayuden a hacerlo bien.
+                      No tengo prisa, puedo darme el lujo de esperar y vender al mejor precio, pero quisiera herramientas que me ayuden a hacerlo bien.
                     </p>
                     <p className="features1__left-feature">
                       <CheckGreen />
-                      <span>Puedes tomar <strong>9 meses aprox</strong></span>
+                      <span>Tiempo estimado: 9 meses.</span>
                     </p>
                   </div>
                   <button
                     type="button"
                     className="features1__left-cta"
-                    onClick={() => { localStorage.setItem('user-interest', 'sin-afan'); navigate('/vender-sin-afan') }}
+                    onClick={() => { saveUserInterest('sin-afan'); navigate('/vender-sin-afan') }}
                   >
-                    <span className="features1__left-cta-label">ESTE SOY YO</span>
+                    <span className="features1__left-cta-label">ESTE SOY YO.</span>
                     <span className="features1__left-cta-arrow">
                       <img src={ARROW_ICON} alt="" width={24} height={24} />
                     </span>
@@ -152,23 +152,34 @@ export function SectionFeatures1() {
                   <button
                     key={card.id}
                     type="button"
-                    className="features1__right-card"
-                    onClick={() => { if (card.route) { localStorage.setItem('user-interest', card.id); navigate(card.route) } }}
+                    className={`features1__right-card${card.isLegal ? ' features1__right-card--legal' : ''}`}
+                    onClick={() => { if (card.route) { saveUserInterest(card.id); navigate(card.route) } }}
                   >
                     <div className="features1__right-card-text">
                       <Pill estado={card.pillEstado} mode="dark" />
                       <h4 className="features1__right-title">{card.title}</h4>
                       <p className="features1__right-feature">
                         <CheckWhite />
-                        <span>
-                          {card.feature}{' '}
-                          <strong>{card.featureBold}</strong>
-                        </span>
+                        <span>{card.featureText}</span>
                       </p>
+                      {card.isLegal && (
+                        <a
+                          href={WHATSAPP_ASESOR}
+                          className="features1__right-asesor-link"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          Hablar con un asesor
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.0312 3.40625C15.1562 1.51562 12.6562 0.46875 10 0.46875C4.53125 0.46875 0.078125 4.92188 0.078125 10.3906C0.078125 12.1406 0.53125 13.8438 1.39062 15.3438L0 20.4688L5.25 19.1094C6.69531 19.8906 8.32812 20.3125 10 20.3125C15.4688 20.3125 19.9219 15.8594 19.9219 10.3906C19.9219 7.75 18.9062 5.29688 17.0312 3.40625Z" fill="white"/>
+                          </svg>
+                        </a>
+                      )}
                     </div>
-                    <span className="features1__right-arrow">
-                      <img src={ARROW_ICON} alt="" width={24} height={24} />
-                    </span>
+                    {!card.isLegal && (
+                      <span className="features1__right-arrow">
+                        <img src={ARROW_ICON} alt="" width={24} height={24} />
+                      </span>
+                    )}
                   </button>
                 ))}
               </div>

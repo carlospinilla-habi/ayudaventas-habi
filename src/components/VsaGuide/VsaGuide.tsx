@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import { useReveal } from '../../hooks/useReveal'
+import { saveChecklistProgress } from '../../lib/storage-sync'
 import './VsaGuide.css'
 
 const FichaCreator = lazy(() => import('../FichaCreator/FichaCreator'))
@@ -90,7 +91,7 @@ function getChecklist(stepNumber: string, length: number): boolean[] {
 }
 
 function saveChecklist(stepNumber: string, checks: boolean[]) {
-  localStorage.setItem(`vsa-checklist-${stepNumber}`, JSON.stringify(checks))
+  saveChecklistProgress(stepNumber, checks)
 }
 
 const STEPS_BY_TAB: Record<string, { etapa: string; title: string; quote: string; quoteDesc: string; steps: StepItem[] }> = {
@@ -116,7 +117,7 @@ const STEPS_BY_TAB: Record<string, { etapa: string; title: string; quote: string
             { label: 'Consulta el avalúo catastral', hint: '(Pero no te guíes solo por él)' },
             { label: 'Define un precio "de venta" lo que vas a pedir y un precio mínimo aceptable que negociarías.' },
           ],
-          cta: { label: 'Consultar habimetro', href: '#habimetro' },
+          cta: { label: 'Consultar habimetro', href: '#habi-habimetro' },
           externalLinks: [
             { label: 'Metrocuadrado', href: 'https://www.metrocuadrado.com' },
             { label: 'Fincaraiz', href: 'https://www.fincaraiz.com.co' },

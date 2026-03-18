@@ -15,14 +15,14 @@ export function Footer() {
             />
           </div>
           <div className="footer__text">
-            <span className="footer__label">Ayudaventa</span>
-            <span className="footer__by">by habi.co</span>
+            <span className="footer__label">Ayuda a la venta.</span>
+            <span className="footer__by">por habi.co.</span>
           </div>
         </a>
         <div className="footer__links">
-          <span className="footer__copyright">© ayudaventas 2025. All rights reserved</span>
-          <a href="#terminos" className="footer__link">Terms &amp; Conditions</a>
-          <a href="#privacidad" className="footer__link">Privacy Policy</a>
+          <span className="footer__copyright">© Lovendo 2025. Todos los derechos reservados.</span>
+          <a href="#terminos" className="footer__link">Términos y condiciones.</a>
+          <a href="#privacidad" className="footer__link">Política de privacidad.</a>
         </div>
       </div>
     </footer>

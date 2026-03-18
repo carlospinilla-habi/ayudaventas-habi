@@ -9,6 +9,7 @@ import { CambioSteps } from '../components/CambioSteps/CambioSteps'
 import { SectionHabimetro } from '../components/SectionHabimetro'
 import { SectionFicha } from '../components/SectionFicha'
 import { SectionCTAStats } from '../components/SectionCTAStats'
+import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
 import './CambiarDeCasaPage.css'
 
 const FichaCreator = lazy(() => import('../components/FichaCreator/FichaCreator'))
@@ -40,12 +41,14 @@ export function CambiarDeCasaPage() {
       if (ofertaAnchor) {
         e.preventDefault()
         setOfertaOpen(true)
+        trackOfertaRequested()
         return
       }
       const habimetroAnchor = target.closest('a[href="#habi-habimetro"]')
       if (habimetroAnchor) {
         e.preventDefault()
         setHabimetroOpen(true)
+        trackHabimetroRequested()
         return
       }
       const miCasaAnchor = target.closest('a[href="#mi-casa"]')

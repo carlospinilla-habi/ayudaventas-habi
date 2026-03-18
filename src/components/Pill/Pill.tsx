@@ -23,7 +23,7 @@ const ICONS: Record<PillEstado, Record<PillMode, string>> = {
 }
 
 const LABELS: Record<PillEstado, string> = {
-  'sin-afan': 'Vender sin afán',
+  'sin-afan': 'Vender por mi cuenta',
   urgente: 'Vender Urgente',
   cambio: 'Cambiar de casa',
   legal: 'Asunto legal',

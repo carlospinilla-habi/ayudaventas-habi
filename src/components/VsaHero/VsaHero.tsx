@@ -28,7 +28,7 @@ export function VsaHero() {
         title: 'Consejo de expertos:',
         description: (
           <p>
-            <strong>El precio correcto al inicio es clave.</strong> Las casas sobrevaloradas terminan vendiéndose más baratas porque pierden relevancia en el mercado. Usa gratis nuestra calculadora <a href="#habimetro">Habímetro</a> para comenzar bien.
+            <strong>El precio correcto al inicio es clave.</strong> Las casas sobrevaloradas terminan vendiéndose más baratas porque pierden relevancia en el mercado. Usa gratis nuestra calculadora <a href="#habi-habimetro">Habímetro</a> para comenzar bien.
           </p>
         ),
       }}

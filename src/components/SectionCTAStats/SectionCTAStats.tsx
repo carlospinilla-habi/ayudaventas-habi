@@ -130,14 +130,15 @@ function UserHeartIcon() {
 }
 
 const stats = [
-  { value: '50', suffix: 'K+', label: 'Casas vendidas', icon: <CityIcon />, delay: 0 },
-  { value: '15', prefix: '-', suffix: ' Días', label: 'Para venta urgente', icon: <CalendarIcon />, delay: 200 },
-  { value: '98', suffix: '%', label: 'Clientes satisfechos', icon: <UserHeartIcon />, delay: 400 },
+  { value: '50', suffix: 'K+.', label: 'Casas vendidas.', icon: <CityIcon />, delay: 0 },
+  { value: '10', prefix: '-', suffix: ' días*.', label: 'Para venta urgente.', icon: <CalendarIcon />, delay: 200 },
+  { value: '98', suffix: '%.', label: 'Clientes satisfechos.', icon: <UserHeartIcon />, delay: 400 },
 ]
 
 export function SectionCTAStats() {
   const innerRef = useReveal<HTMLDivElement>()
-  const contentRef = useParallax<HTMLDivElement>(-15)
+  const contentRef = useParallax<HTMLDivElement>(-35)
+  const numbersRef = useParallax<HTMLDivElement>(45)
 
   return (
     <section className="cta-stats" data-node-id="232:30777">
@@ -147,23 +148,20 @@ export function SectionCTAStats() {
           <div ref={contentRef} className="cta-stats__content">
             <div className="cta-stats__text">
               <h2 className="cta-stats__title">
-                A veces vender solo es más difícil de lo que parece
+                A veces, vender solo es más difícil de lo que parece.
               </h2>
               <p className="cta-stats__desc">
                 Nuestro equipo está listo para acompañarte. Cuéntanos tu situación y
-                te decimos cómo podemos ayudarte.
+                te diremos cómo podemos ayudarte.
               </p>
             </div>
             <div className="cta-stats__buttons">
-              <a href="#habi-oferta" className="cta-stats__btn cta-stats__btn--primary">
-                Solicitar una oferta
-              </a>
               <a href="#asesor" className="cta-stats__btn cta-stats__btn--secondary">
-                Hablar con un asesor
+                Hablar con un asesor.
               </a>
             </div>
           </div>
-          <div className="cta-stats__numbers">
+          <div ref={numbersRef} className="cta-stats__numbers">
             {stats.map((stat) => (
               <div key={stat.label} className="cta-stats__stat">
                 <div className="cta-stats__stat-icon">

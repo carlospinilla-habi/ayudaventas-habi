@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useRef } from 'react'
 import FichaPreview from './FichaPreview'
 import { toJpeg } from 'html-to-image'
 import { jsPDF } from 'jspdf'
+import { saveFichaData, trackFichaCreated } from '../../lib/storage-sync'
 import './FichaCreator.css'
 
 /* ── Types ─────────────────────────────── */
@@ -73,7 +74,7 @@ function loadData(): FichaData {
 }
 
 function saveData(d: FichaData) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(d))
+  saveFichaData(STORAGE_KEY, d as unknown as Record<string, unknown>)
 }
 
 function loadPhotos(): string[] {
@@ -276,7 +277,7 @@ export default function FichaCreator({ open, onClose }: Props) {
               type="button"
               className="ficha-btn-next"
               disabled={!canGoStep3}
-              onClick={() => setStep(3)}
+              onClick={() => { setStep(3); trackFichaCreated() }}
             >
               <span>Vista previa</span>
               <span className="ficha-btn-next-icon-wrap">

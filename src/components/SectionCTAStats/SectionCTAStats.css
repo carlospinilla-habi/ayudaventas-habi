@@ -118,6 +118,7 @@
   gap: 32px;
   width: 570px;
   flex-shrink: 0;
+  will-change: transform;
 }
 
 .cta-stats__stat {

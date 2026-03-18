@@ -1,0 +1,20 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 691314651" filter="url(#filter0_d_499_20205)">
+<circle id="Ellipse 8" cx="24" cy="22" r="19.5" fill="var(--fill-0, white)" stroke="var(--stroke-0, #EAEAEF)"/>
+<g id="ri:fullscreen-line">
+<path id="Vector" d="M32 13H34V19H32V15H28V13H32ZM16 13H20V15H16V19H14V13H16ZM32 29V25H34V31H28V29H32ZM16 29H20V31H14V25H16V29Z" fill="var(--fill-0, #0A2252)"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_499_20205" x="0" y="0" width="48" height="48" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.12 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_499_20205"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_499_20205" result="shape"/>
+</filter>
+</defs>
+</svg>

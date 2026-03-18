@@ -28,6 +28,7 @@
 .pill--dark {
   background: transparent;
   color: white;
+  border-color: #9333ea;
 }
 
 .pill--dark .pill__text {

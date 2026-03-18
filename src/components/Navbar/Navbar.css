@@ -6,7 +6,7 @@
   z-index: 100;
   height: var(--nav-height);
   background: var(--color-base-white);
-  border-bottom: 1px solid var(--color-grey-300);
+  border-bottom: 1px solid #61a6fa;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,8 +14,7 @@
 
 .navbar__inner {
   width: 100%;
-  max-width: 1440px;
-  padding: 14px var(--container-px);
+  padding: 14px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -24,7 +23,6 @@
 .navbar__menu {
   display: flex;
   align-items: center;
-  gap: 12px;
   text-decoration: none;
   color: inherit;
 }
@@ -32,8 +30,6 @@
 .navbar__menu-icon {
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: 170px;
 }
 
 .navbar__logo {
@@ -64,21 +60,27 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  line-height: 1.4;
+  padding: 0 16px;
 }
 
 .navbar__brand-label {
   font-family: var(--font-brand);
   font-weight: 600;
   font-size: 18px;
+  line-height: 1.4;
   letter-spacing: -0.36px;
   color: var(--color-electric-purple-1000);
+}
+
+.navbar__brand-accent {
+  color: #9333ea;
 }
 
 .navbar__brand-by {
   font-family: var(--font-body);
   font-weight: 500;
   font-size: 14px;
+  line-height: 1.4;
   letter-spacing: -0.28px;
   color: var(--color-text-tertiary);
 }

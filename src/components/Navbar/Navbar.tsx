@@ -20,14 +20,14 @@ export function Navbar() {
               />
             </div>
             <div className="navbar__brand" data-node-id="232:30575">
-              <span className="navbar__brand-label">Ayudaventa</span>
-              <span className="navbar__brand-by">by habi.co</span>
+              <span className="navbar__brand-label">Ayuda<span className="navbar__brand-accent">ventas</span></span>
+              <span className="navbar__brand-by">habi.co.</span>
             </div>
           </div>
         </a>
         <div className="navbar__actions" data-node-id="232:30578">
           <a href="#mi-casa" className="navbar__btn" data-node-id="232:30579">
-            Mi casa
+            Mi proceso
           </a>
         </div>
       </div>

@@ -1,11 +1,10 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import { Footer } from '../components/Footer'
-import { HeroSection } from '../components/HeroSection'
 import { Navbar } from '../components/Navbar'
 import { SectionCTAStats } from '../components/SectionCTAStats'
-import { SectionFicha } from '../components/SectionFicha'
 import { SectionFeatures1 } from '../components/SectionFeatures1'
-import { SectionHabimetro } from '../components/SectionHabimetro'
+import { SectionTools } from '../components/SectionTools'
+import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
 
 const FichaCreator = lazy(() => import('../components/FichaCreator/FichaCreator'))
 const HabiOfertaModal = lazy(() => import('../components/HabiOfertaModal/HabiOfertaModal'))
@@ -32,12 +31,14 @@ export function HomePage() {
       if (ofertaAnchor) {
         e.preventDefault()
         setOfertaOpen(true)
+        trackOfertaRequested()
         return
       }
       const habimetroAnchor = target.closest('a[href="#habi-habimetro"]')
       if (habimetroAnchor) {
         e.preventDefault()
         setHabimetroOpen(true)
+        trackHabimetroRequested()
         return
       }
       const miCasaAnchor = target.closest('a[href="#mi-casa"]')
@@ -54,10 +55,8 @@ export function HomePage() {
     <>
       <Navbar />
       <main>
-        <HeroSection />
         <SectionFeatures1 />
-        <SectionHabimetro />
-        <SectionFicha />
+        <SectionTools />
         <SectionCTAStats />
         <Footer />
       </main>

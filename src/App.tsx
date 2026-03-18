@@ -4,6 +4,9 @@ import { VenderSinAfanPage } from './pages/VenderSinAfanPage'
 import { VenderUrgentePage } from './pages/VenderUrgentePage'
 import { CambiarDeCasaPage } from './pages/CambiarDeCasaPage'
 import { TemaLegalPage } from './pages/TemaLegalPage'
+import { getOrCreateUserId } from './lib/supabase'
+
+getOrCreateUserId()
 
 function App() {
   return (
