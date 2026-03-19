@@ -15,23 +15,57 @@ function formatPrice(raw: string): string {
 const FEATURE_ICON_MAP: Record<string, string> = {
   'Vigilancia privada': '/assets/icon-feat-vigilancia.svg',
   'Piscina': '/assets/icon-feat-piscina.svg',
-  'Vestier': '/assets/icon-feat-vestier.svg',
+  'Walking closet': '/assets/icon-feat-vestier.svg',
   'Ascensor': '/assets/icon-feat-ascensor.svg',
   'Cuarto de servicio': '/assets/icon-feat-cuarto-servicio.svg',
   'Parqueadero': '/assets/icon-feat-parqueadero.svg',
   'Estudio': '/assets/icon-feat-estudio.svg',
   'Gimnasio': '/assets/icon-feat-gimnasio.svg',
   'Depósito': '/assets/icon-feat-deposito.svg',
-  'Piso de madera': '/assets/icon-feat-piso-madera.svg',
+  'Pisos de madera': '/assets/icon-feat-piso-madera.svg',
   'Terraza': '/assets/icon-feat-terraza.svg',
   'Salón social': '/assets/icon-feat-salon-social.svg',
   'Parque infantil': '/assets/icon-feat-parque-infantil.svg',
   'BBQ': '/assets/icon-feat-bbq.svg',
   'Vista exterior': '/assets/icon-feat-vista-exterior.svg',
   'Chimenea': '/assets/icon-feat-chimenea.svg',
+  'Vestier': '/assets/icon-feat-vestier.svg',
+  'Piso de madera': '/assets/icon-feat-piso-madera.svg',
 }
 
 const GEOCODE_URL = 'https://nominatim.openstreetmap.org/search'
+
+const VIA_ABBREVS: Record<string, string> = {
+  cll: 'Calle', cl: 'Calle', calle: 'Calle',
+  cra: 'Carrera', cr: 'Carrera', kr: 'Carrera', kra: 'Carrera', carrera: 'Carrera',
+  dg: 'Diagonal', diagonal: 'Diagonal',
+  tv: 'Transversal', trans: 'Transversal', transversal: 'Transversal',
+  av: 'Avenida', avenida: 'Avenida',
+}
+
+function parseColombianAddress(direccion: string): { via1: string; via2: string } | null {
+  const parts = direccion.split('#')
+  if (parts.length < 2) return null
+
+  const beforeHash = parts[0].trim()
+  const afterHash = parts[1].trim()
+
+  const viaMatch = beforeHash.match(/^(\w+)\.?\s+(.+)$/i)
+  if (!viaMatch) return null
+
+  const viaType = VIA_ABBREVS[viaMatch[1].toLowerCase()]
+  if (!viaType) return null
+  const viaNum = viaMatch[2].trim()
+
+  const crossNum = afterHash.match(/^(\d+)/)?.[1]
+  if (!crossNum) return null
+
+  const crossType = (viaType === 'Calle') ? 'Carrera'
+    : (viaType === 'Carrera') ? 'Calle'
+    : 'Carrera'
+
+  return { via1: `${viaType} ${viaNum}`, via2: `${crossType} ${crossNum}` }
+}
 
 const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) => {
   const mapRef = useRef<HTMLDivElement>(null)
@@ -49,17 +83,64 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
 
       if (cancelled || !mapRef.current) return
 
-      const address = [data.direccion, data.barrio, data.ciudad, 'Colombia'].filter(Boolean).join(', ')
+      const DEFAULT_LAT = 4.711, DEFAULT_LNG = -74.0721
+      let lat = DEFAULT_LAT, lng = DEFAULT_LNG
+      const isDefault = () => lat === DEFAULT_LAT && lng === DEFAULT_LNG
 
-      let lat = 4.711, lng = -74.0721
-      try {
-        const res = await fetch(`${GEOCODE_URL}?q=${encodeURIComponent(address)}&format=json&limit=1`, {
-          headers: { 'Accept-Language': 'es' }
-        })
+      const headers = { 'Accept-Language': 'es' }
+      const base = `${GEOCODE_URL}?format=json&limit=1&countrycodes=co`
+
+      const geocodeQuery = async (q: string) => {
+        const res = await fetch(`${base}&q=${encodeURIComponent(q)}`, { headers })
         const results = await res.json()
-        if (results.length > 0) {
-          lat = parseFloat(results[0].lat)
-          lng = parseFloat(results[0].lon)
+        if (results.length > 0) return { lat: parseFloat(results[0].lat), lng: parseFloat(results[0].lon) }
+        return null
+      }
+
+      try {
+        // Strategy 1: intersection — parse address into two streets, geocode each within barrio
+        if (data.direccion && data.ciudad) {
+          const parsed = parseColombianAddress(data.direccion)
+          if (parsed) {
+            const scope = [data.barrio, data.ciudad, 'Colombia'].filter(Boolean).join(', ')
+            const [r1, r2] = await Promise.all([
+              geocodeQuery(`${parsed.via1}, ${scope}`),
+              geocodeQuery(`${parsed.via2}, ${scope}`),
+            ])
+            if (r1 && r2) {
+              lat = (r1.lat + r2.lat) / 2
+              lng = (r1.lng + r2.lng) / 2
+            } else if (r1) {
+              lat = r1.lat; lng = r1.lng
+            } else if (r2) {
+              lat = r2.lat; lng = r2.lng
+            }
+          }
+        }
+
+        // Strategy 2: free-text full address + barrio + city
+        if (isDefault() && data.direccion && data.ciudad) {
+          const parts = [data.direccion, data.barrio, data.ciudad, 'Colombia'].filter(Boolean)
+          const r = await geocodeQuery(parts.join(', '))
+          if (r) { lat = r.lat; lng = r.lng }
+        }
+
+        // Strategy 3: free-text address + city (no barrio)
+        if (isDefault() && data.direccion && data.ciudad) {
+          const r = await geocodeQuery([data.direccion, data.ciudad, 'Colombia'].join(', '))
+          if (r) { lat = r.lat; lng = r.lng }
+        }
+
+        // Strategy 4: barrio + city
+        if (isDefault() && data.barrio && data.ciudad) {
+          const r = await geocodeQuery([data.barrio, data.ciudad, 'Colombia'].join(', '))
+          if (r) { lat = r.lat; lng = r.lng }
+        }
+
+        // Strategy 5: just city
+        if (isDefault() && data.ciudad) {
+          const r = await geocodeQuery(data.ciudad + ', Colombia')
+          if (r) { lat = r.lat; lng = r.lng }
         }
       } catch { /* fallback to Bogotá coords */ }
 
@@ -67,10 +148,10 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
 
       const map = L.map(mapRef.current, {
         center: [lat, lng],
-        zoom: 15,
+        zoom: 16,
         zoomControl: false,
         attributionControl: false,
-        dragging: false,
+        dragging: true,
         scrollWheelZoom: false,
       })
 
@@ -85,7 +166,12 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
         iconAnchor: [16, 40],
       })
 
-      L.marker([lat, lng], { icon }).addTo(map)
+      const marker = L.marker([lat, lng], { icon, draggable: true }).addTo(map)
+
+      marker.on('dragend', () => {
+        const pos = marker.getLatLng()
+        map.panTo(pos)
+      })
 
       mapInstanceRef.current = map
       setMapReady(true)
@@ -213,6 +299,7 @@ const FichaPreview = forwardRef<HTMLDivElement, Props>(({ data, photos }, ref) =
       <div className="ficha-preview-map-resumen">
         <div className="ficha-preview-map-wrap">
           <div className="ficha-preview-map" ref={mapRef} />
+          <p className="ficha-preview-map-hint">Arrastra el pin para ajustar la ubicación</p>
         </div>
         {resumenItems.length > 0 && (
           <div className="ficha-preview-resumen">
