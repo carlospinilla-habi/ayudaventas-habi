@@ -29,7 +29,7 @@ export interface HeroTip {
 export interface InternalHeroProps {
   pill: ReactNode
   title: ReactNode
-  subtitle: string
+  subtitle: ReactNode
   description: string
   ctas: HeroCTA[]
   benefits: HeroBenefit[]

@@ -5,8 +5,7 @@ import { VsaSidebar } from '../components/VsaSidebar'
 import { VsaHero } from '../components/VsaHero'
 import { VsaProgress } from '../components/VsaProgress'
 import { VsaGuide } from '../components/VsaGuide'
-import { SectionHabimetro } from '../components/SectionHabimetro'
-import { SectionFicha } from '../components/SectionFicha'
+import { SectionTools } from '../components/SectionTools'
 import { SectionCTAStats } from '../components/SectionCTAStats'
 import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
 import './VenderSinAfanPage.css'
@@ -60,8 +59,7 @@ export function VenderSinAfanPage() {
           <VsaHero />
           <VsaProgress />
           <VsaGuide />
-          <SectionHabimetro />
-          <SectionFicha />
+          <SectionTools />
           <SectionCTAStats />
         </main>
       </div>

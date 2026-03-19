@@ -437,6 +437,44 @@
   color: #737373;
 }
 
+.vsa-guide__inline-cta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: 4px;
+  background: #7955f9;
+  border-radius: 96px;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-out);
+  margin-top: 8px;
+}
+
+.vsa-guide__inline-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(121, 85, 249, 0.35);
+}
+
+.vsa-guide__inline-cta-label {
+  padding: 0 16px;
+  font-family: var(--font-tight);
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.vsa-guide__inline-cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 72px;
+  flex-shrink: 0;
+}
+
 .vsa-guide__expanded-tip-rule {
   font-family: 'Archivo', var(--font-tight);
   font-size: 14px;
@@ -1418,6 +1456,16 @@
     font-size: 14px;
     line-height: 20px;
     margin-top: 12px;
+  }
+
+  .vsa-guide__inline-cta-label {
+    font-size: 14px;
+    padding: 0 14px;
+  }
+
+  .vsa-guide__inline-cta-icon {
+    width: 35px;
+    height: 35px;
   }
 
   .vsa-guide__expanded-checklist {

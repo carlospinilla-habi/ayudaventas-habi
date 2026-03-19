@@ -3,7 +3,6 @@ import './VsaSidebar.css'
 
 const ICON_LIGHTNING = '/assets/6bcd3609af0841b23174cb50a20ff3abe9122f8a.svg'
 const ICON_HOUSE = '/assets/9181246ffbe1ae1c81907fb9b93a7cbfad54a590.svg'
-const ICON_GAVEL = '/assets/1310b413939ce95781b95c6a3f32181573aecf25.svg'
 
 const CoffeeMugIcon = ({ className }: { className?: string }) => (
   <svg
@@ -31,7 +30,6 @@ const NAV_ITEMS: SidebarItem[] = [
   { id: 'sin-afan', label: 'Vender sin afán', route: '/vender-sin-afan' },
   { id: 'urgente', icon: ICON_LIGHTNING, label: 'Urgente', route: '/vender-urgente' },
   { id: 'cambiar', icon: ICON_HOUSE, label: 'Cambiar de casa', route: '/cambiar-de-casa' },
-  { id: 'legal', icon: ICON_GAVEL, label: 'Tema legal', route: '/tema-legal' },
 ]
 
 interface VsaSidebarProps {

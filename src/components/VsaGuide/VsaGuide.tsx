@@ -107,7 +107,7 @@ const STEPS_BY_TAB: Record<string, { etapa: string; title: string; quote: string
         description: 'El precio correcto, ni más ni menos.',
         expanded: {
           tipTitle: 'Poner el precio correcto es un arte y una ciencia.',
-          tipBody: 'Muchos vendedores piden demasiado y su casa se queda meses sin mover. Otros piden muy poco y dejan plata sobre la mesa.',
+          tipBody: 'Muchos vendedores piden demasiado y su casa se queda meses sin mover. Otros piden muy poco y dejan plata sobre la mesa. Puedes usar Habimetro gratis para saber cuanto vale tu casa.',
           goldenRule: '<strong>La regla de oro:</strong> El mercado siempre tiene la razón. Investiga casas similares que se hayan vendido (no las que están en venta) en tu zona.',
           checklist: [
             { label: 'Busca 5 casas similares vendidas en tu zona', hint: '(En los últimos 3 meses)' },
@@ -117,7 +117,7 @@ const STEPS_BY_TAB: Record<string, { etapa: string; title: string; quote: string
             { label: 'Consulta el avalúo catastral', hint: '(Pero no te guíes solo por él)' },
             { label: 'Define un precio "de venta" lo que vas a pedir y un precio mínimo aceptable que negociarías.' },
           ],
-          cta: { label: 'Consultar habimetro', href: '#habi-habimetro' },
+          cta: { label: 'Consultar el precio de mi casa', href: '#habi-habimetro' },
           externalLinks: [
             { label: 'Metrocuadrado', href: 'https://www.metrocuadrado.com' },
             { label: 'Fincaraiz', href: 'https://www.fincaraiz.com.co' },
@@ -132,7 +132,7 @@ const STEPS_BY_TAB: Record<string, { etapa: string; title: string; quote: string
         expanded: {
           tipIcon: 'memo',
           tipTitle: 'Tu ficha es tu vendedor las 24 horas.',
-          tipBody: 'Tiene que enamorar a quien la vea y responder todas las preguntas antes de que las hagan.',
+          tipBody: 'Tiene que enamorar a quien la vea y responder todas las preguntas antes de que las hagan. Llena los datos, sube tus fotos y descarga una ficha lista para compartir donde quieras.',
           goldenRule: '<strong>Dato importante:</strong> Las fichas con fotos profesionales se venden hasta <strong>3x más rápido</strong>. Vale la pena invertir en esto.',
           checklist: [
             { label: 'Fotos de alta calidad', hint: '(mínimo 15, incluyendo fachada, sala, cocina, cuartos, baños y zonas comunes)' },
@@ -142,6 +142,7 @@ const STEPS_BY_TAB: Record<string, { etapa: string; title: string; quote: string
             { label: 'Menciona remodelaciones recientes o características especiales' },
             { label: 'Precio y condiciones de negociación' },
           ],
+          cta: { label: 'Crear la ficha de mi casa', href: '#crear-ficha' },
           photoTips: {
             title: 'Tips de foto que marcan la diferencia',
             items: [
@@ -152,12 +153,6 @@ const STEPS_BY_TAB: Record<string, { etapa: string; title: string; quote: string
               { text: 'Nunca fotos de noche sin iluminación especial', type: 'dont' },
               { text: 'No dejes ropa, platos o desorden visible', type: 'dont' },
             ],
-          },
-          darkCta: {
-            title: '¿Listo para crear tu ficha?',
-            desc: 'Llena los datos, sube tus fotos y descarga una ficha lista para compartir por WhatsApp, Instagram o donde quieras.',
-            label: 'Crear la ficha de mi casa',
-            href: '#crear-ficha',
           },
         },
       },
@@ -491,11 +486,6 @@ const ArrowUpRightIcon = () => (
   </svg>
 )
 
-const STAR_SVG = (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M16 2L18.5 12.5L28 8L20 16L28 24L18.5 19.5L16 30L13.5 19.5L4 24L12 16L4 8L13.5 12.5L16 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-  </svg>
-)
 
 function ExpandedPanel({
   content,
@@ -560,6 +550,14 @@ function ExpandedPanel({
             <p className="vsa-guide__expanded-tip-body">{content.tipBody}</p>
           </div>
           {content.goldenRule && <p className="vsa-guide__expanded-tip-rule" dangerouslySetInnerHTML={{ __html: content.goldenRule }} />}
+          {content.cta && (
+            <a href={content.cta.href} className="vsa-guide__inline-cta">
+              <span className="vsa-guide__inline-cta-label">{content.cta.label}</span>
+              <span className="vsa-guide__inline-cta-icon">
+                <img src={ICON_EXPAND_ARROW} alt="" width={24} height={24} />
+              </span>
+            </a>
+          )}
         </div>
 
         {content.scenarioCards ? (
@@ -697,35 +695,19 @@ function ExpandedPanel({
         </div>
       )}
 
-      {(content.cta || content.externalLinks) && (
+      {content.externalLinks && (
         <div className="vsa-guide__expanded-tool">
-          {content.cta && (
-            <div className="vsa-guide__expanded-tool-left">
-              <h5 className="vsa-guide__expanded-tool-title">Calculadora de valor comercial</h5>
-              <p className="vsa-guide__expanded-tool-desc">
-                Ingresa los datos de tu casa y obtén una estimación del valor de mercado en segundos.
-              </p>
-              <a href={content.cta.href} className="vsa-guide__expanded-cta">
-                <span className="vsa-guide__expanded-cta-label">{content.cta.label}</span>
-                <span className="vsa-guide__expanded-cta-icon">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M5.25 12.75L12.75 5.25M12.75 5.25H6.75M12.75 5.25V11.25" stroke="#7955f9" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                </span>
-              </a>
+          <div className="vsa-guide__expanded-tool-right">
+            <p className="vsa-guide__expanded-tool-also">También puedes consultar:</p>
+            <div className="vsa-guide__expanded-links">
+              {content.externalLinks.map((link) => (
+                <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="vsa-guide__expanded-link">
+                  {link.label}
+                  <ArrowUpRightIcon />
+                </a>
+              ))}
             </div>
-          )}
-          {content.externalLinks && (
-            <div className="vsa-guide__expanded-tool-right">
-              <p className="vsa-guide__expanded-tool-also">También puedes consultar:</p>
-              <div className="vsa-guide__expanded-links">
-                {content.externalLinks.map((link) => (
-                  <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="vsa-guide__expanded-link">
-                    {link.label}
-                    <ArrowUpRightIcon />
-                  </a>
-                ))}
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       )}
 
@@ -779,7 +761,12 @@ export function VsaGuide() {
     const stage = saved ? parseInt(saved, 10) : 1
     return STAGE_TO_TAB[stage] || 'precio'
   })
-  const [expandedStep, setExpandedStep] = useState<string | null>(null)
+  const [expandedStep, setExpandedStep] = useState<string | null>(() => {
+    const saved = localStorage.getItem('vsa-user-stage')
+    const stage = saved ? parseInt(saved, 10) : 1
+    const tabId = STAGE_TO_TAB[stage] || 'precio'
+    return STEPS_BY_TAB[tabId]?.steps[0]?.number ?? null
+  })
   const [checkVersion, setCheckVersion] = useState(0)
   const [fichaOpen, setFichaOpen] = useState(false)
   const introRef = useReveal<HTMLDivElement>()
@@ -801,7 +788,7 @@ export function VsaGuide() {
     const tabId = STAGE_TO_TAB[stage]
     if (tabId) {
       setActiveTab(tabId)
-      setExpandedStep(null)
+      setExpandedStep(STEPS_BY_TAB[tabId]?.steps[0]?.number ?? null)
     }
   }, [])
 
@@ -835,17 +822,16 @@ export function VsaGuide() {
       <div className="vsa-guide__container">
         <div ref={introRef} className="vsa-guide__intro reveal">
           <div className="vsa-guide__intro-icon">
-            {STAR_SVG}
+            <img src="/figma-assets-new/b672a8b086e223d883ae2a26c4c6566ed8684610.svg" alt="" width={34} height={38} />
           </div>
           <p className="vsa-guide__intro-pill">
-            Vender por tu cuenta no significa vender solo.
+            Vender por tu cuenta no significa que estés solo.
           </p>
           <h2 className="vsa-guide__intro-title">
-            Guía para <em>vender mejor</em><br />en cada etapa.
+            Guía para <em>mejorar tus ventas</em><br />en cada etapa.
           </h2>
           <p className="vsa-guide__intro-desc">
-            Cada etapa tiene sus tips, tareas, documentos y sus trucos. Selecciona la
-            etapa que quieres conocer y te lo explicamos todo
+            Esta guía te ayuda a completar las tareas más importantes que debes realizar en cada etapa si quieres vender por tu cuenta.
           </p>
         </div>
 
@@ -856,7 +842,7 @@ export function VsaGuide() {
                 key={tab.id}
                 type="button"
                 className={`vsa-guide__tab${activeTab === tab.id ? ' vsa-guide__tab--active' : ''}`}
-                onClick={() => { setActiveTab(tab.id); setExpandedStep(null); scrollToContent() }}
+                onClick={() => { setActiveTab(tab.id); setExpandedStep(STEPS_BY_TAB[tab.id]?.steps[0]?.number ?? null); scrollToContent() }}
               >
                 {tab.label}
               </button>

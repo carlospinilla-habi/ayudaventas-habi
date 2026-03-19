@@ -13,10 +13,20 @@ export function VsaHero() {
           y al precio que necesites.
         </>
       }
-      subtitle="Tienes el mejor activo para vender bien: el tiempo."
-      description="Con calma y la estrategia correcta, puedes obtener el máximo precio sin apuros. Te ofrecemos herramientas gratuitas que te ayudarán a hacerlo bien."
+      subtitle={<>Tienes el mejor activo para vender bien: <strong>el tiempo.</strong></>}
+      description="Con calma y la estrategia correcta, puedes obtener el máximo precio sin apuros. Con la guía y estas herramientas gratis puedes hacerlo."
       ctas={[
-        { label: '¿Cómo puedo hacerlo?', variant: 'primary' },
+        {
+          label: '¿Cómo puedo hacerlo?',
+          variant: 'primary',
+          onClick: () => {
+            const el = document.getElementById('como-vas-venta')
+            if (el) {
+              const top = el.getBoundingClientRect().top + window.scrollY - 78
+              window.scrollTo({ top, behavior: 'smooth' })
+            }
+          },
+        },
       ]}
       benefits={[
         { text: 'Tú controlas cuándo y a qué precio.' },

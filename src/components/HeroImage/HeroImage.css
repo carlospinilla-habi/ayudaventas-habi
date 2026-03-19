@@ -28,6 +28,8 @@
 
 .hero-image--s01 .hero-image__frame {
   inset: 0;
+  mask-image: linear-gradient(to right, transparent 0%, black 40%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
 }
 
 .hero-image--s01 .hero-image__img {

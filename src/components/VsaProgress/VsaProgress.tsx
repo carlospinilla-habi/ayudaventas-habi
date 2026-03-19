@@ -8,10 +8,10 @@ export interface ProgressStep {
 }
 
 const DEFAULT_STEPS: ProgressStep[] = [
-  { id: 1, label: 'Precio y Difusión' },
-  { id: 2, label: 'Visitas y Negociación' },
-  { id: 3, label: 'Documentos y Pago' },
-  { id: 4, label: 'Entrega' },
+  { id: 1, label: 'Estoy definiendo un precio y promocionando la casa' },
+  { id: 2, label: 'Estoy recibiendo visitas y negociando' },
+  { id: 3, label: 'Estoy alistando documentos para el pago' },
+  { id: 4, label: 'Estoy alistando el inmueble para entrega' },
 ]
 
 function getStatusText(stepId: number, activeStep: number) {
@@ -42,7 +42,7 @@ export function VsaProgress({
   steps = DEFAULT_STEPS,
   storageKey = 'vsa-user-stage',
   title = '¿Cómo vas con tu venta?',
-  subtitle = 'Marca cada etapa a medida que avanzas y nosotros te mostramos qué sigue.',
+  subtitle = 'Cuéntanos en cuál de estos momentos de venta te encuentras.',
   scrollTarget = 'guia-etapas',
   dispatchEvent = true,
 }: VsaProgressProps) {
@@ -74,7 +74,7 @@ export function VsaProgress({
   }
 
   return (
-    <section className="vsa-progress">
+    <section className="vsa-progress" id="como-vas-venta">
       <div className="vsa-progress__inner">
         <h2 className="vsa-progress__title">{title}</h2>
         <p className="vsa-progress__subtitle">{subtitle}</p>
@@ -126,13 +126,6 @@ export function VsaProgress({
 
                     <div className={`vsa-progress__label-wrap ${isIdle || isLocked ? 'vsa-progress__label-wrap--idle' : ''}`}>
                       <span className="vsa-progress__label">{step.label}</span>
-                      <span className={`vsa-progress__status ${
-                        isIdle ? '' :
-                        isActive ? 'vsa-progress__status--active' :
-                        isCompleted ? 'vsa-progress__status--completed' : ''
-                      }`}>
-                        {status}
-                      </span>
                     </div>
                   </button>
 
