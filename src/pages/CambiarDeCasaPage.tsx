@@ -86,7 +86,7 @@ export function CambiarDeCasaPage() {
             description="La solución: No compramos directamente, pero con nuestro servicio de broker inmobiliario, hacemos el trabajo pesado por ti."
             ctas={[
               { label: 'Quiero el servicio inmobiliario', variant: 'primary', onClick: () => setInmoFormOpen(true) },
-              { label: '¿Como funciona?', variant: 'outline' },
+              { label: '¿Como funciona?', variant: 'outline', href: '#como-funciona' },
             ]}
             benefits={[
               { text: 'Asesoría profesional en precios y estrategias' },

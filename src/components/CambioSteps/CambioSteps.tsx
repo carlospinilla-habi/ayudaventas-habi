@@ -69,7 +69,7 @@ const BENEFITS = [
 
 export function CambioSteps() {
   return (
-    <section className="cambio-steps">
+    <section id="como-funciona" className="cambio-steps">
       <div className="cambio-steps__header">
         <p className="cambio-steps__header-label">Tu inmueble llega a los interesados mas rápido</p>
         <h2 className="cambio-steps__header-title">

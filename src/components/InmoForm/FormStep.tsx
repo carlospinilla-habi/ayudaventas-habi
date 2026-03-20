@@ -255,9 +255,9 @@ export function FormStep({
           <span className="inmo-step__checkbox-box" />
           <span className="inmo-step__checkbox-text">
             Acepto los{' '}
-            <a href="#" onClick={(e) => e.preventDefault()}>términos y condiciones</a>
+            <a href="https://habi.co/terminosycondiciones" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
             {' '}y la{' '}
-            <a href="#" onClick={(e) => e.preventDefault()}>política de tratamientos de datos</a>
+            <a href="https://habi.co/terminosycondiciones-1-0" target="_blank" rel="noopener noreferrer">política de tratamientos de datos</a>
           </span>
         </label>
       )}

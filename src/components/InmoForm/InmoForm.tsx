@@ -120,12 +120,13 @@ export default function InmoForm({ open, onClose }: InmoFormProps) {
         <header className="inmo-form__header">
           <div className="inmo-form__brand">
             <div className="inmo-form__logo">
-              <div className="inmo-form__logo-bg">
-                <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-                  <path d="M18 3C9.716 3 3 9.716 3 18s6.716 15 15 15 15-6.716 15-15S26.284 3 18 3z" fill="white" opacity=".2"/>
-                  <text x="10" y="24" fill="white" fontFamily="Poppins" fontWeight="700" fontSize="16">H</text>
-                </svg>
-              </div>
+              <div className="inmo-form__logo-bg" />
+              <img
+                src="/2bc36bdde701d513cede283c7a15271c0c1b36bf.svg"
+                alt="Habi"
+                width={36}
+                height={36}
+              />
             </div>
             <div className="inmo-form__brand-text">
               <span className="inmo-form__brand-name">

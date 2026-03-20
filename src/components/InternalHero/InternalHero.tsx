@@ -88,6 +88,22 @@ export function InternalHero({
                         <img src={ARROW_ICON} alt="" width={24} height={24} />
                       </span>
                     </button>
+                  ) : cta.href ? (
+                    <a
+                      key={i}
+                      href={cta.href}
+                      className="int-hero__cta-outline"
+                      onClick={(e) => {
+                        if (cta.href?.startsWith('#')) {
+                          e.preventDefault()
+                          const el = document.querySelector(cta.href)
+                          el?.scrollIntoView({ behavior: 'smooth' })
+                        }
+                        cta.onClick?.()
+                      }}
+                    >
+                      {cta.label}
+                    </a>
                   ) : (
                     <button
                       key={i}

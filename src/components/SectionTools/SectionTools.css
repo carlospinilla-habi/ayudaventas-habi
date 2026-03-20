@@ -4,9 +4,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #fff;
+  overflow: hidden;
+}
+
+.tools::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/assets/f2-bg-pattern.svg') center top / cover no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tools::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   background:
-    linear-gradient(179.5deg, rgb(255,255,255) 3%, rgba(255,255,255,0) 16%, rgba(255,255,255,0.5) 89%, rgb(255,255,255) 99%),
-    linear-gradient(90deg, #fff 0%, #fff 100%);
+    linear-gradient(179.5deg, rgb(255,255,255) 3%, rgba(255,255,255,0) 16%, rgba(255,255,255,0.5) 89%, rgb(255,255,255) 99%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.tools > * {
+  position: relative;
+  z-index: 1;
 }
 
 .tools__header {

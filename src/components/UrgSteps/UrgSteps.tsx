@@ -1,22 +1,9 @@
 import './UrgSteps.css'
 
 const ARROW_ICON = '/assets/cd835b98a354fa50c5f884471dfaf5e5ee7b6920.svg'
-
-const TargetIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="10" stroke="#070707" strokeWidth="1.5"/>
-    <circle cx="12" cy="12" r="6" stroke="#070707" strokeWidth="1.5"/>
-    <circle cx="12" cy="12" r="2" fill="#070707"/>
-  </svg>
-)
-
-const RocketIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C12 2 5 7 5 14C5 16 6 18 6 18H18C18 18 19 16 19 14C19 7 12 2 12 2Z" stroke="#070707" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <circle cx="12" cy="12" r="2" fill="#070707"/>
-    <path d="M5 18L3 22H21L19 18" stroke="#070707" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
+const ICON_COIN_DOLLAR = '/assets/icon-coin-dollar.svg'
+const ICON_LOCK_KEYHOLE = '/assets/icon-lock-keyhole.svg'
+const ICON_MEMO_SEARCH = '/assets/icon-memo-search.svg'
 
 const STEPS_DATA = [
   {
@@ -25,7 +12,7 @@ const STEPS_DATA = [
     title: (
       <>
         Llena el formulario con los datos de tu casa –{' '}
-        <span className="urg-steps__link">ver formulario</span>
+        <a href="#habi-oferta" className="urg-steps__link">Llenar formulario</a>
       </>
     ),
     description: 'Cuéntanos lo básico: ubicación, tamaño, estado general y cuánto necesitas. Con eso ya podemos empezar a trabajar para ti.',
@@ -47,7 +34,7 @@ const STEPS_DATA = [
   },
   {
     number: '4',
-    pill: 'CERRAR EL NEGOCIO · ~15 DÍAS DESDE EL INICIO',
+    pill: 'CERRAR EL NEGOCIO · ~10 DÍAS DESDE EL INICIO',
     title: 'Firmamos y recibes tu dinero',
     description: 'Si aceptas la propuesta, gestionamos todos los trámites notariales, los documentos y el pago. Tú solo firmas y el dinero llega a tu cuenta.',
     footnote: 'Trámites incluidos  •  Pago directo a tu cuenta',
@@ -57,17 +44,17 @@ const STEPS_DATA = [
 
 const BENEFITS = [
   {
-    icon: <TargetIcon />,
+    icon: ICON_COIN_DOLLAR,
     title: 'Oferta garantizada',
     desc: 'Si llegamos a una visita, tendrás una oferta',
   },
   {
-    icon: <RocketIcon />,
+    icon: ICON_LOCK_KEYHOLE,
     title: 'Tu información está segura',
     desc: 'Tu información nunca se comparte con terceros',
   },
   {
-    icon: <TargetIcon />,
+    icon: ICON_MEMO_SEARCH,
     title: 'Sin letra pequeña',
     desc: 'Todo claro, todo transparente, siempre',
   },
@@ -75,10 +62,10 @@ const BENEFITS = [
 
 export function UrgSteps() {
   return (
-    <section className="urg-steps">
+    <section id="como-funciona" className="urg-steps">
       {/* Section Header */}
       <div className="urg-steps__header">
-        <p className="urg-steps__header-label">Habi te compra así de rápido</p>
+        <p className="urg-steps__header-label">Así de rápido</p>
         <h2 className="urg-steps__header-title">
           Habi te compra la casa
           <br />
@@ -114,17 +101,36 @@ export function UrgSteps() {
           ))}
         </div>
 
+        {/* Nota informativa */}
+        <div className="urg-steps__note">
+          <p>
+            Ten en cuenta que la oferta Habi es diferente a el precio que ves en el Habimetro.
+            ¿Por qué? porque la oferta{' '}
+            <strong>Habi es una oferta de compra inmediata</strong>{' '}
+            y el precio de venta que te da el Habimetro es un precio de venta ideal para vender
+            en un tiempo entre 6 y 10 meses
+          </p>
+        </div>
+
         {/* Summary card */}
         <div className="urg-steps__summary">
           <div className="urg-steps__summary-inner">
             <div className="urg-steps__summary-header">
               <h4 className="urg-steps__summary-title">
                 <span className="urg-steps__summary-accent">¡Listo! Tu casa vendida</span>{' '}
-                en ~15 días
+                en ~10 días
               </h4>
-              <p className="urg-steps__summary-desc">
-                La manera más rápida de vender la propiedad sin tener que esperar
-              </p>
+              <div className="urg-steps__summary-body">
+                <p className="urg-steps__summary-desc">
+                  La manera más rápida de vender la propiedad sin tener que esperar.
+                </p>
+                <a href="#habi-oferta" className="urg-steps__summary-cta">
+                  <span className="urg-steps__summary-cta-label">Quiero una oferta de Habi</span>
+                  <span className="urg-steps__summary-cta-icon">
+                    <img src={ARROW_ICON} alt="" width={24} height={24} />
+                  </span>
+                </a>
+              </div>
             </div>
             <div className="urg-steps__summary-footer">
               <span className="urg-steps__summary-label">TRANQUILIDAD</span>
@@ -139,7 +145,9 @@ export function UrgSteps() {
         <div className="urg-steps__benefits">
           {BENEFITS.map((b) => (
             <div key={b.title} className="urg-steps__benefit-card">
-              <div className="urg-steps__benefit-icon">{b.icon}</div>
+              <div className="urg-steps__benefit-icon">
+                <img src={b.icon} alt="" width={24} height={24} />
+              </div>
               <div className="urg-steps__benefit-text">
                 <h5 className="urg-steps__benefit-title">{b.title}</h5>
                 <p className="urg-steps__benefit-desc">{b.desc}</p>
@@ -150,12 +158,12 @@ export function UrgSteps() {
 
         {/* CTA */}
         <div className="urg-steps__cta-wrap">
-          <button type="button" className="urg-steps__cta">
-            <span className="urg-steps__cta-label">Quiero vender con Habi</span>
+          <a href="#habi-oferta" className="urg-steps__cta">
+            <span className="urg-steps__cta-label">Quiero una oferta de Habi</span>
             <span className="urg-steps__cta-icon-wrap">
               <img src={ARROW_ICON} alt="" width={24} height={24} />
             </span>
-          </button>
+          </a>
         </div>
       </div>
     </section>

@@ -33,6 +33,20 @@ Thumbs.db
 # Temp files
 github_push_args.json
 
+# Cursor / MCP
+.cursor/
+.playwright-mcp/
+
+# Figma asset exports (temp)
+public/figma-assets-new/
+public/figma-assets/
+public/assets/form-icons-export/
+public/assets/form-icons-figma/
+public/assets/form-icons/
+
+# Scripts
+scripts/
+
 # Secrets (never commit these)
 .env.production
 *.pem

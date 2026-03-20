@@ -2,17 +2,55 @@ import { useState, useCallback, useEffect } from 'react'
 import { FORM_STEPS } from './formSteps'
 
 const STORAGE_KEY = 'inmo-form-data'
+const FICHA_STORAGE_KEY = 'ficha-creator-data'
 
 export interface InmoFormData {
   [key: string]: string | string[] | boolean
 }
 
+function seedFromFicha(): InmoFormData {
+  try {
+    const raw = localStorage.getItem(FICHA_STORAGE_KEY)
+    if (!raw) return {}
+    const ficha = JSON.parse(raw) as Record<string, string | string[]>
+    const seeded: InmoFormData = {}
+
+    const map: [string, string][] = [
+      ['ciudad', 'ciudad'],
+      ['barrio', 'barrio'],
+      ['direccion', 'direccion'],
+      ['numero_vivienda', 'numeroApto'],
+      ['piso', 'piso'],
+      ['area_m2', 'areaM2'],
+      ['habitaciones', 'habitaciones'],
+      ['banos_completos', 'banos'],
+      ['parqueaderos', 'parqueaderos'],
+      ['estrato', 'estrato'],
+      ['valor_administracion', 'adminMes'],
+      ['precio_venta', 'precioVenta'],
+      ['nombre_contacto', 'nombre'],
+      ['email_contacto', 'email'],
+      ['telefono_contacto', 'whatsapp'],
+    ]
+    for (const [inmoKey, fichaKey] of map) {
+      const v = ficha[fichaKey]
+      if (typeof v === 'string' && v.trim()) seeded[inmoKey] = v.trim()
+    }
+    return seeded
+  } catch { return {} }
+}
+
 function loadFromStorage(): { data: InmoFormData; step: number } {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return JSON.parse(raw)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (parsed.data && Object.keys(parsed.data).length > 0) return parsed
+    }
   } catch { /* ignore */ }
-  return { data: {}, step: 0 }
+
+  const fichaSeeded = seedFromFicha()
+  return { data: fichaSeeded, step: 0 }
 }
 
 function saveToStorage(data: InmoFormData, step: number) {

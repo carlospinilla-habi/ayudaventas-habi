@@ -6,8 +6,7 @@ import { InternalHero } from '../components/InternalHero/InternalHero'
 import { Pill } from '../components/Pill/Pill'
 import { VsaProgress } from '../components/VsaProgress'
 import { UrgSteps } from '../components/UrgSteps/UrgSteps'
-import { SectionHabimetro } from '../components/SectionHabimetro'
-import { SectionFicha } from '../components/SectionFicha'
+import { SectionTools } from '../components/SectionTools/SectionTools'
 import { SectionCTAStats } from '../components/SectionCTAStats'
 import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
 import './VenderSinAfanPage.css'
@@ -80,7 +79,7 @@ export function VenderUrgentePage() {
             description="Siendo honestos contigo: si necesitas el dinero ya, la forma más rápida y segura es que Habi te compre directamente"
             ctas={[
               { label: 'Quiero una oferta de Habi', variant: 'primary' as const, onClick: () => { setOfertaOpen(true); trackOfertaRequested() } },
-              { label: '¿Cómo funciona?', variant: 'outline' },
+              { label: '¿Cómo funciona?', variant: 'outline', href: '#como-funciona' },
             ]}
             benefits={[
               { text: 'Oferta en 24 horas hábiles' },
@@ -104,8 +103,7 @@ export function VenderUrgentePage() {
             dispatchEvent={false}
           />
           <UrgSteps />
-          <SectionHabimetro />
-          <SectionFicha />
+          <SectionTools />
           <SectionCTAStats />
         </main>
       </div>

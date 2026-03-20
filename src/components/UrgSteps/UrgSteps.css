@@ -159,6 +159,28 @@
   opacity: 0.8;
 }
 
+/* ── Note card ────────────────── */
+
+.urg-steps__note {
+  border: 1px solid #d4d4d4;
+  border-radius: 16px;
+  padding: 24px 32px;
+  margin-top: 0;
+}
+
+.urg-steps__note p {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #505e71;
+  margin: 0;
+}
+
+.urg-steps__note strong {
+  font-weight: 700;
+}
+
 /* ── Summary card ─────────────── */
 
 .urg-steps__summary {
@@ -199,6 +221,13 @@
   color: #9333ea;
 }
 
+.urg-steps__summary-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
 .urg-steps__summary-desc {
   font-family: var(--font-body);
   font-weight: 400;
@@ -206,7 +235,44 @@
   line-height: 32px;
   letter-spacing: -1px;
   color: #505e71;
-  flex: 1;
+}
+
+.urg-steps__summary-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  background: #7955f9;
+  border-radius: 96px;
+  text-decoration: none;
+  transition: all 0.25s var(--ease-out);
+  overflow: hidden;
+  width: fit-content;
+}
+
+.urg-steps__summary-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(121, 85, 249, 0.35);
+}
+
+.urg-steps__summary-cta-label {
+  padding: 0 16px;
+  font-family: var(--font-tight);
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.urg-steps__summary-cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 72px;
+  flex-shrink: 0;
 }
 
 .urg-steps__summary-footer {
@@ -252,9 +318,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: #f3e8ff;
   border-radius: 8px;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
 }
 
 .urg-steps__benefit-text {
@@ -295,6 +362,7 @@
   border: none;
   border-radius: 96px;
   cursor: pointer;
+  text-decoration: none;
   transition: all 0.25s var(--ease-out);
   overflow: hidden;
 }
@@ -375,6 +443,10 @@
     line-height: 24px;
   }
 
+  .urg-steps__note {
+    padding: 16px 20px;
+  }
+
   .urg-steps__summary-header {
     flex-direction: column;
     gap: 16px;
@@ -389,6 +461,16 @@
   .urg-steps__summary-desc {
     font-size: 16px;
     line-height: 24px;
+  }
+
+  .urg-steps__summary-cta-label {
+    font-size: 14px;
+    padding: 0 12px;
+  }
+
+  .urg-steps__summary-cta-icon {
+    width: 36px;
+    height: 36px;
   }
 
   .urg-steps__benefits {

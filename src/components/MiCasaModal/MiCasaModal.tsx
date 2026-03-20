@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Pill } from '../Pill/Pill'
 import type { PillEstado } from '../Pill/Pill'
 import './MiCasaModal.css'
@@ -26,6 +26,11 @@ interface FichaData {
   whatsapp: string
 }
 
+interface InmoFormStoredData {
+  data: Record<string, string | string[] | boolean>
+  step: number
+}
+
 const STAGE_LABELS = [
   { id: 1, label: 'Precio y Difusión' },
   { id: 2, label: 'Visitas y Negociación' },
@@ -40,9 +45,52 @@ const INTEREST_OPTIONS: { id: string; estado: PillEstado; label: string }[] = [
   { id: 'legal', estado: 'legal', label: 'Asunto legal' },
 ]
 
+const INMO_DETAIL_FIELDS: { key: string; label: string }[] = [
+  { key: 'ciudad', label: 'Ciudad' },
+  { key: 'barrio', label: 'Barrio' },
+  { key: 'direccion', label: 'Dirección' },
+  { key: 'tipo_inmueble', label: 'Tipo de inmueble' },
+  { key: 'torre', label: 'Torre' },
+  { key: 'piso', label: 'Piso' },
+  { key: 'numero_vivienda', label: 'Nº Vivienda' },
+  { key: 'tiene_ascensor', label: 'Ascensor' },
+  { key: 'ultimo_piso', label: 'Último piso' },
+  { key: 'relacion_inmueble', label: 'Relación' },
+  { key: 'nombre_contacto', label: 'Nombre' },
+  { key: 'email_contacto', label: 'Email' },
+  { key: 'telefono_contacto', label: 'Teléfono' },
+  { key: 'antiguedad', label: 'Antigüedad' },
+  { key: 'area_m2', label: 'Área (m²)' },
+  { key: 'habitaciones', label: 'Habitaciones' },
+  { key: 'banos_completos', label: 'Baños completos' },
+  { key: 'banos_medios', label: 'Baños medios' },
+  { key: 'zonas', label: 'Zonas' },
+  { key: 'parqueaderos', label: 'Parqueaderos' },
+  { key: 'tipo_parqueadero', label: 'Tipo parqueadero' },
+  { key: 'organizacion_parqueadero', label: 'Organización parq.' },
+  { key: 'precio_venta', label: 'Precio de venta' },
+  { key: 'valor_administracion', label: 'Administración' },
+  { key: 'obra_gris', label: 'Obra gris' },
+  { key: 'estrato', label: 'Estrato' },
+  { key: 'gravamen', label: 'Gravamen' },
+  { key: 'tipo_gravamen', label: 'Tipo de gravamen' },
+  { key: 'estado_vivienda', label: 'Estado vivienda' },
+  { key: 'zonas_comunes', label: 'Zonas comunes' },
+  { key: 'motivo_venta', label: 'Motivo de venta' },
+  { key: 'tiempo_vendiendo', label: 'Tiempo vendiendo' },
+]
+
 function loadFichaData(): FichaData | null {
   try {
     const s = localStorage.getItem('ficha-creator-data')
+    if (s) return JSON.parse(s)
+  } catch { /* ignore */ }
+  return null
+}
+
+function loadInmoData(): InmoFormStoredData | null {
+  try {
+    const s = localStorage.getItem('inmo-form-data')
     if (s) return JSON.parse(s)
   } catch { /* ignore */ }
   return null
@@ -53,10 +101,24 @@ function hasMeaningfulFichaData(d: FichaData | null): boolean {
   return !!(d.direccion || d.ciudad || d.barrio || d.tipoInmueble)
 }
 
+function hasMeaningfulInmoData(d: InmoFormStoredData | null): boolean {
+  if (!d?.data) return false
+  return !!(d.data.ciudad || d.data.direccion || d.data.tipo_inmueble)
+}
+
 function formatCurrency(value: string): string {
   const nums = value.replace(/\D/g, '')
   if (!nums) return ''
   return `$${Number(nums).toLocaleString('es-CO')}`
+}
+
+function formatInmoValue(key: string, value: string | string[] | boolean): string {
+  if (typeof value === 'boolean') return value ? 'Sí' : 'No'
+  if (Array.isArray(value)) return value.join(', ')
+  if ((key === 'precio_venta' || key === 'valor_administracion') && value) {
+    return formatCurrency(value)
+  }
+  return value
 }
 
 const HouseIcon = () => (
@@ -88,14 +150,34 @@ const ArrowIcon = () => (
   </svg>
 )
 
+const ChevronDown = ({ open }: { open: boolean }) => (
+  <svg
+    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+    style={{ transition: 'transform 0.25s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+  >
+    <polyline points="6 9 12 15 18 9"/>
+  </svg>
+)
+
+const ServiceIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+    <path d="M9 21V12h6v9"/>
+  </svg>
+)
+
 interface Props {
   open: boolean
   onClose: () => void
 }
 
 export default function MiCasaModal({ open, onClose }: Props) {
+  const [inmoDetailOpen, setInmoDetailOpen] = useState(false)
+
   useEffect(() => {
     if (!open) return
+    setInmoDetailOpen(false)
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
@@ -109,6 +191,11 @@ export default function MiCasaModal({ open, onClose }: Props) {
 
   const fichaData = useMemo(() => loadFichaData(), [])
   const hasFicha = hasMeaningfulFichaData(fichaData)
+
+  const inmoStored = useMemo(() => loadInmoData(), [])
+  const hasInmo = hasMeaningfulInmoData(inmoStored)
+  const inmoData = inmoStored?.data
+  const inmoIsCompleted = !!(inmoData?.nombre_contacto && inmoData?.precio_venta)
 
   const activeStage = useMemo(() => {
     const s = localStorage.getItem('vsa-user-stage')
@@ -258,13 +345,93 @@ export default function MiCasaModal({ open, onClose }: Props) {
             )}
           </section>
 
-          {/* Section 4: Interest */}
+          {/* Section 4: InmoForm – Servicio inmobiliario */}
+          <section className="micasa-card">
+            <div className="micasa-card-header">
+              <span className="micasa-card-dot micasa-card-dot--purple" />
+              <h3 className="micasa-card-title">Servicio inmobiliario</h3>
+              {inmoIsCompleted && <span className="micasa-badge">Completado</span>}
+              {hasInmo && !inmoIsCompleted && <span className="micasa-badge micasa-badge--progress">En progreso</span>}
+            </div>
+            {hasInmo && inmoData ? (
+              <>
+                <div className="micasa-inmo-summary">
+                  {inmoData.ciudad && (
+                    <div className="micasa-prop">
+                      <span className="micasa-prop-icon">🏙</span>
+                      <div className="micasa-prop-text">
+                        <span className="micasa-prop-label">Ciudad</span>
+                        <span className="micasa-prop-value">{String(inmoData.ciudad)}</span>
+                      </div>
+                    </div>
+                  )}
+                  {inmoData.tipo_inmueble && (
+                    <div className="micasa-prop">
+                      <span className="micasa-prop-icon">🏠</span>
+                      <div className="micasa-prop-text">
+                        <span className="micasa-prop-label">Tipo</span>
+                        <span className="micasa-prop-value">{String(inmoData.tipo_inmueble)}</span>
+                      </div>
+                    </div>
+                  )}
+                  {inmoData.direccion && (
+                    <div className="micasa-prop">
+                      <span className="micasa-prop-icon">📍</span>
+                      <div className="micasa-prop-text">
+                        <span className="micasa-prop-label">Dirección</span>
+                        <span className="micasa-prop-value">{String(inmoData.direccion)}</span>
+                      </div>
+                    </div>
+                  )}
+                  {inmoData.precio_venta && (
+                    <div className="micasa-price-bar">
+                      <span className="micasa-price-label">Precio de venta</span>
+                      <span className="micasa-price-value">{formatCurrency(String(inmoData.precio_venta))}</span>
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  className="micasa-detail-toggle"
+                  onClick={() => setInmoDetailOpen(!inmoDetailOpen)}
+                >
+                  <span>Ver todos los datos</span>
+                  <ChevronDown open={inmoDetailOpen} />
+                </button>
+
+                {inmoDetailOpen && (
+                  <div className="micasa-inmo-details">
+                    {INMO_DETAIL_FIELDS.map((field) => {
+                      const val = inmoData[field.key]
+                      if (!val || (typeof val === 'string' && !val.trim()) || (Array.isArray(val) && val.length === 0)) return null
+                      return (
+                        <div key={field.key} className="micasa-detail-row">
+                          <span className="micasa-detail-label">{field.label}</span>
+                          <span className="micasa-detail-value">{formatInmoValue(field.key, val)}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </>
+            ) : (
+              <div className="micasa-empty">
+                <p className="micasa-empty-text">No has solicitado el servicio inmobiliario.</p>
+                <a href="#habi-oferta" className="micasa-cta" onClick={onClose}>
+                  Solicitar servicio <ArrowIcon />
+                </a>
+              </div>
+            )}
+          </section>
+
+          {/* Section 5: Interest */}
           <section className="micasa-card micasa-card--last">
             <div className="micasa-card-header">
               <span className="micasa-card-dot micasa-card-dot--pink" />
               <h3 className="micasa-card-title">Tu interés de venta</h3>
             </div>
-            {userInterest ? (
+            {(userInterest || hasInmo) ? (
               <div className="micasa-interests">
                 {INTEREST_OPTIONS.map((opt) => (
                   <div
@@ -274,6 +441,14 @@ export default function MiCasaModal({ open, onClose }: Props) {
                     <Pill estado={opt.estado} mode="light" />
                   </div>
                 ))}
+                {hasInmo && (
+                  <div className={`micasa-interest micasa-interest--active micasa-interest--service`}>
+                    <span className="micasa-service-pill">
+                      <ServiceIcon />
+                      <span>Servicio inmobiliario</span>
+                    </span>
+                  </div>
+                )}
               </div>
             ) : (
               <div className="micasa-empty">

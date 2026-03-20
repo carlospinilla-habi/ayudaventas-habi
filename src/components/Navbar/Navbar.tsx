@@ -7,7 +7,7 @@ export function Navbar() {
       data-node-id="232:30561"
     >
       <div className="navbar__inner">
-        <a href="/" className="navbar__menu" data-node-id="232:30562" aria-label="Ayudaventa inicio">
+        <a href="/" className="navbar__menu" data-node-id="232:30562" aria-label="Ayudaventas inicio">
           <div className="navbar__menu-icon">
             <div className="navbar__logo" data-node-id="232:30564">
               <div className="navbar__logo-bg" data-node-id="232:30565" />

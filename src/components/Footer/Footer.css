@@ -60,6 +60,10 @@
   color: white;
 }
 
+.footer__label-accent {
+  color: #9333ea;
+}
+
 .footer__by {
   font-family: var(--font-body);
   font-weight: 500;

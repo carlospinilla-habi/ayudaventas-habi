@@ -65,12 +65,53 @@ function parseCurrencyRaw(formatted: string): string {
   return formatted.replace(/\D/g, '')
 }
 
+function seedFromInmo(): Partial<FichaData> {
+  try {
+    const raw = localStorage.getItem('inmo-form-data')
+    if (!raw) return {}
+    const { data } = JSON.parse(raw) as { data: Record<string, string | string[] | boolean> }
+    if (!data) return {}
+    const seeded: Partial<FichaData> = {}
+
+    const map: [keyof FichaData, string][] = [
+      ['ciudad', 'ciudad'],
+      ['barrio', 'barrio'],
+      ['direccion', 'direccion'],
+      ['numeroApto', 'numero_vivienda'],
+      ['piso', 'piso'],
+      ['areaM2', 'area_m2'],
+      ['habitaciones', 'habitaciones'],
+      ['banos', 'banos_completos'],
+      ['parqueaderos', 'parqueaderos'],
+      ['estrato', 'estrato'],
+      ['adminMes', 'valor_administracion'],
+      ['precioVenta', 'precio_venta'],
+      ['nombre', 'nombre_contacto'],
+      ['email', 'email_contacto'],
+      ['whatsapp', 'telefono_contacto'],
+    ]
+    for (const [fichaKey, inmoKey] of map) {
+      const v = data[inmoKey]
+      if (typeof v === 'string' && v.trim()) {
+        (seeded as Record<string, string>)[fichaKey] = v.trim()
+      }
+    }
+    return seeded
+  } catch { return {} }
+}
+
 function loadData(): FichaData {
   try {
     const s = localStorage.getItem(STORAGE_KEY)
-    if (s) return { ...EMPTY_DATA, ...JSON.parse(s) }
+    if (s) {
+      const existing = { ...EMPTY_DATA, ...JSON.parse(s) }
+      const hasMeaningful = !!(existing.direccion || existing.ciudad || existing.barrio || existing.tipoInmueble)
+      if (hasMeaningful) return existing
+    }
   } catch { /* ignore */ }
-  return { ...EMPTY_DATA }
+
+  const inmoSeeded = seedFromInmo()
+  return { ...EMPTY_DATA, ...inmoSeeded }
 }
 
 function saveData(d: FichaData) {
