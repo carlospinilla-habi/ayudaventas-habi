@@ -6,8 +6,7 @@ import { InternalHero } from '../components/InternalHero/InternalHero'
 import { Pill } from '../components/Pill/Pill'
 import { VsaProgress } from '../components/VsaProgress'
 import { CambioSteps } from '../components/CambioSteps/CambioSteps'
-import { SectionHabimetro } from '../components/SectionHabimetro'
-import { SectionFicha } from '../components/SectionFicha'
+import { SectionTools } from '../components/SectionTools'
 import { SectionCTAStats } from '../components/SectionCTAStats'
 import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
 import './CambiarDeCasaPage.css'
@@ -15,6 +14,7 @@ import './CambiarDeCasaPage.css'
 const FichaCreator = lazy(() => import('../components/FichaCreator/FichaCreator'))
 const HabiOfertaModal = lazy(() => import('../components/HabiOfertaModal/HabiOfertaModal'))
 const MiCasaModal = lazy(() => import('../components/MiCasaModal/MiCasaModal'))
+const InmoForm = lazy(() => import('../components/InmoForm/InmoForm'))
 const HERO_IMAGE = '/assets/img-categoria-cambio.png'
 const HABIMETRO_URL = 'https://habi.co/habimetro/valor-comercial-en-linea'
 
@@ -23,6 +23,7 @@ export function CambiarDeCasaPage() {
   const [ofertaOpen, setOfertaOpen] = useState(false)
   const [habimetroOpen, setHabimetroOpen] = useState(false)
   const [miCasaOpen, setMiCasaOpen] = useState(false)
+  const [inmoFormOpen, setInmoFormOpen] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -55,6 +56,12 @@ export function CambiarDeCasaPage() {
       if (miCasaAnchor) {
         e.preventDefault()
         setMiCasaOpen(true)
+        return
+      }
+      const inmoFormAnchor = target.closest('a[href="#inmo-form"]')
+      if (inmoFormAnchor) {
+        e.preventDefault()
+        setInmoFormOpen(true)
       }
     }
     document.addEventListener('click', handler)
@@ -75,10 +82,10 @@ export function CambiarDeCasaPage() {
                 <span className="int-hero__title-accent">lo mejor de ambos mundos</span>
               </>
             }
-            subtitle="Si deseas vender de manera efectiva y rápida."
+            subtitle="La red de brokers mas grande del país lo venden por tí."
             description="La solución: No compramos directamente, pero con nuestro servicio de broker inmobiliario, hacemos el trabajo pesado por ti."
             ctas={[
-              { label: 'Quiero el servicio inmobiliario', variant: 'primary' },
+              { label: 'Quiero el servicio inmobiliario', variant: 'primary', onClick: () => setInmoFormOpen(true) },
               { label: '¿Como funciona?', variant: 'outline' },
             ]}
             benefits={[
@@ -104,8 +111,7 @@ export function CambiarDeCasaPage() {
             dispatchEvent={false}
           />
           <CambioSteps />
-          <SectionHabimetro />
-          <SectionFicha />
+          <SectionTools />
           <SectionCTAStats />
         </main>
       </div>
@@ -115,6 +121,7 @@ export function CambiarDeCasaPage() {
         {ofertaOpen && <HabiOfertaModal open={ofertaOpen} onClose={() => setOfertaOpen(false)} />}
         {habimetroOpen && <HabiOfertaModal open={habimetroOpen} onClose={() => setHabimetroOpen(false)} url={HABIMETRO_URL} />}
         {miCasaOpen && <MiCasaModal open={miCasaOpen} onClose={() => setMiCasaOpen(false)} />}
+        {inmoFormOpen && <InmoForm open={inmoFormOpen} onClose={() => setInmoFormOpen(false)} />}
       </Suspense>
     </>
   )

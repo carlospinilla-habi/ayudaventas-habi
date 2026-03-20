@@ -146,6 +146,80 @@ export async function syncSaleStage(activeStage: number): Promise<void> {
     .eq('id', userId)
 }
 
+export async function syncInmoFormSubmission(
+  formData: Record<string, string | string[] | boolean>,
+  isComplete = true
+): Promise<void> {
+  const userId = getOrCreateUserId()
+  await ensureUserRow(userId)
+
+  const now = new Date().toISOString()
+
+  const toStr = (key: string) => {
+    const v = formData[key]
+    return typeof v === 'string' ? v : null
+  }
+
+  const toArr = (key: string) => {
+    const v = formData[key]
+    return Array.isArray(v) ? v : null
+  }
+
+  const row: Record<string, unknown> = {
+    user_id: userId,
+    status: isComplete ? 'completed' : 'in_progress',
+    ciudad: toStr('ciudad'),
+    barrio: toStr('barrio'),
+    direccion: toStr('direccion'),
+    tipo_inmueble: toStr('tipo_inmueble'),
+    torre: toStr('torre'),
+    piso: toStr('piso'),
+    numero_vivienda: toStr('numero_vivienda'),
+    tiene_ascensor: toStr('tiene_ascensor'),
+    ultimo_piso: toStr('ultimo_piso'),
+    relacion_inmueble: toStr('relacion_inmueble'),
+    nombre_contacto: toStr('nombre_contacto'),
+    email_contacto: toStr('email_contacto'),
+    telefono_contacto: toStr('telefono_contacto'),
+    acepta_terminos: !!formData['ciudad_checkbox'],
+    antiguedad: toStr('antiguedad'),
+    area_m2: toStr('area_m2'),
+    habitaciones: toStr('habitaciones'),
+    banos_completos: toStr('banos_completos'),
+    banos_medios: toStr('banos_medios'),
+    zonas: toArr('zonas') ?? (toStr('zonas') ? [toStr('zonas')!] : null),
+    parqueaderos: toStr('parqueaderos'),
+    tipo_parqueadero: toStr('tipo_parqueadero'),
+    organizacion_parqueadero: toStr('organizacion_parqueadero'),
+    precio_venta: toStr('precio_venta'),
+    valor_administracion: toStr('valor_administracion'),
+    obra_gris: toStr('obra_gris'),
+    estrato: toStr('estrato'),
+    gravamen: toStr('gravamen'),
+    tipo_gravamen: toStr('tipo_gravamen'),
+    estado_vivienda: toStr('estado_vivienda'),
+    zonas_comunes: toArr('zonas_comunes'),
+    motivo_venta: toStr('motivo_venta'),
+    tiempo_vendiendo: toStr('tiempo_vendiendo'),
+    updated_at: now,
+    ...(isComplete ? { completed_at: now } : {}),
+  }
+
+  const { error } = await supabase
+    .from('inmo_form_submissions')
+    .upsert(row, { onConflict: 'user_id' })
+  if (error) console.warn('[supabase] syncInmoFormSubmission:', error.message)
+
+  if (isComplete) {
+    await syncActivity('oferta_requested', true)
+  }
+
+  await supabase
+    .from('users')
+    .update({ updated_at: now, updated_field: 'inmo_form' })
+    .eq('id', userId)
+}
+
 export async function syncChecklist(stepNumber: string, checks: boolean[]): Promise<void> {
   const userId = getOrCreateUserId()
   await ensureUserRow(userId)

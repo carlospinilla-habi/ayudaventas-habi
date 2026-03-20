@@ -199,6 +199,14 @@
   color: #9333ea;
 }
 
+.cambio-steps__summary-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  flex: 1;
+}
+
 .cambio-steps__summary-desc {
   font-family: var(--font-body);
   font-weight: 400;
@@ -206,7 +214,6 @@
   line-height: 32px;
   letter-spacing: -1px;
   color: #505e71;
-  flex: 1;
 }
 
 .cambio-steps__summary-footer {
@@ -252,7 +259,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
+  background: #f3e8ff;
   border-radius: 8px;
   box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.08);
 }
@@ -280,12 +287,6 @@
 }
 
 /* ── CTA ──────────────────────── */
-
-.cambio-steps__cta-wrap {
-  display: flex;
-  justify-content: center;
-  padding: 24px 0;
-}
 
 .cambio-steps__cta {
   display: inline-flex;
@@ -384,6 +385,10 @@
   .cambio-steps__summary-title {
     font-size: 20px;
     line-height: 28px;
+  }
+
+  .cambio-steps__summary-right {
+    gap: 12px;
   }
 
   .cambio-steps__summary-desc {
