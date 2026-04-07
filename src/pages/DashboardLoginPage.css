@@ -1,0 +1,122 @@
+.dash-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f3ff;
+  font-family: 'Inter', sans-serif;
+}
+
+.dash-login__card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.dash-login__logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.dash-login__logo-icon {
+  width: 40px;
+  height: 40px;
+  background: #7955f9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-login__logo-icon img {
+  width: 28px;
+  height: 28px;
+}
+
+.dash-login__logo-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.dash-login__logo-text span {
+  color: #9333ea;
+}
+
+.dash-login__title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 8px;
+}
+
+.dash-login__subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0 0 32px;
+}
+
+.dash-login__field {
+  margin-bottom: 20px;
+}
+
+.dash-login__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.dash-login__input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #1a1a2e;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.dash-login__input:focus {
+  border-color: #9333ea;
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+}
+
+.dash-login__error {
+  background: #fef2f2;
+  color: #dc2626;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.dash-login__btn {
+  width: 100%;
+  padding: 14px;
+  background: #7955f9;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dash-login__btn:hover {
+  background: #6b3ff7;
+}
+
+.dash-login__btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
