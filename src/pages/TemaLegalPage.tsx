@@ -71,7 +71,7 @@ export function TemaLegalPage() {
             subtitle="Los temas legales añaden capas de complejidad"
             description="Sabemos que esto puede ser difícil pero con el acompañamiento correcto se resuelven."
             ctas={[
-              { label: 'Hablar con un asesor legal', variant: 'primary' },
+              { label: 'Hablar con un asesor legal', variant: 'primary', onClick: () => window.open('https://wa.link/97x21j', '_blank') },
               { label: 'Ver el proceso general', variant: 'outline' },
             ]}
             benefits={[

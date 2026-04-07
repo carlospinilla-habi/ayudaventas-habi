@@ -27,7 +27,7 @@ const CheckWhite = () => (
 const ACCENT_WORDS = ['Primero', 'lo', 'primero,']
 const ALL_WORDS = 'Primero lo primero, ¿cómo quieres vender tu casa?'.split(' ')
 
-const WHATSAPP_ASESOR = '#whatsapp-asesor'
+const WHATSAPP_ASESOR = 'https://wa.link/97x21j'
 
 interface RightCard {
   id: string
@@ -165,6 +165,8 @@ export function SectionFeatures1() {
                       {card.isLegal && (
                         <a
                           href={WHATSAPP_ASESOR}
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="features1__right-asesor-link"
                           onClick={(e) => e.stopPropagation()}
                         >

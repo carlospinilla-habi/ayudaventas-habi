@@ -156,7 +156,7 @@ export function SectionCTAStats() {
               </p>
             </div>
             <div className="cta-stats__buttons">
-              <a href="#asesor" className="cta-stats__btn cta-stats__btn--secondary">
+              <a href="https://wa.link/97x21j" target="_blank" rel="noopener noreferrer" className="cta-stats__btn cta-stats__btn--secondary">
                 Hablar con un asesor.
               </a>
             </div>
