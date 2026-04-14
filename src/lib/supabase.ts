@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { buildInmoFormDetailFields } from '@/services/leads/inmoFormDetailFields'
 
 const SUPABASE_URL = 'https://mtvrdhponyoegxpiypbs.supabase.co'
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im10dnJkaHBvbnlvZWd4cGl5cGJzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NjA2MDksImV4cCI6MjA4OTMzNjYwOX0.H9lySIM8l2HAK716drQYJCQPUTgUqcbiMewCip4Evzg'
@@ -155,52 +156,12 @@ export async function syncInmoFormSubmission(
 
   const now = new Date().toISOString()
 
-  const toStr = (key: string) => {
-    const v = formData[key]
-    return typeof v === 'string' ? v : null
-  }
-
-  const toArr = (key: string) => {
-    const v = formData[key]
-    return Array.isArray(v) ? v : null
-  }
+  const detail = buildInmoFormDetailFields(formData)
 
   const row: Record<string, unknown> = {
     user_id: userId,
     status: isComplete ? 'completed' : 'in_progress',
-    ciudad: toStr('ciudad'),
-    barrio: toStr('barrio'),
-    direccion: toStr('direccion'),
-    tipo_inmueble: toStr('tipo_inmueble'),
-    torre: toStr('torre'),
-    piso: toStr('piso'),
-    numero_vivienda: toStr('numero_vivienda'),
-    tiene_ascensor: toStr('tiene_ascensor'),
-    ultimo_piso: toStr('ultimo_piso'),
-    relacion_inmueble: toStr('relacion_inmueble'),
-    nombre_contacto: toStr('nombre_contacto'),
-    email_contacto: toStr('email_contacto'),
-    telefono_contacto: toStr('telefono_contacto'),
-    acepta_terminos: !!formData['ciudad_checkbox'],
-    antiguedad: toStr('antiguedad'),
-    area_m2: toStr('area_m2'),
-    habitaciones: toStr('habitaciones'),
-    banos_completos: toStr('banos_completos'),
-    banos_medios: toStr('banos_medios'),
-    zonas: toArr('zonas') ?? (toStr('zonas') ? [toStr('zonas')!] : null),
-    parqueaderos: toStr('parqueaderos'),
-    tipo_parqueadero: toStr('tipo_parqueadero'),
-    organizacion_parqueadero: toStr('organizacion_parqueadero'),
-    precio_venta: toStr('precio_venta'),
-    valor_administracion: toStr('valor_administracion'),
-    obra_gris: toStr('obra_gris'),
-    estrato: toStr('estrato'),
-    gravamen: toStr('gravamen'),
-    tipo_gravamen: toStr('tipo_gravamen'),
-    estado_vivienda: toStr('estado_vivienda'),
-    zonas_comunes: toArr('zonas_comunes'),
-    motivo_venta: toStr('motivo_venta'),
-    tiempo_vendiendo: toStr('tiempo_vendiendo'),
+    ...detail,
     updated_at: now,
     ...(isComplete ? { completed_at: now } : {}),
   }

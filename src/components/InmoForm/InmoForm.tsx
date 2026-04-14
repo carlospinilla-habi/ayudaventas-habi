@@ -1,7 +1,7 @@
 import { useEffect, useCallback, useState } from 'react'
 import { FormStep } from './FormStep'
 import { useInmoForm, clearFormStorage } from './useInmoForm'
-import { syncInmoFormSubmission } from '../../lib/supabase'
+import { runParallelInmoSubmission } from '../../services/leads'
 import './InmoForm.css'
 
 const SUCCESS_IMAGE = '/assets/form-assets/4ddb38c763c8895e78654a7dde5edcc4d1beafd1.png'
@@ -44,7 +44,7 @@ export default function InmoForm({ open, onClose }: InmoFormProps) {
     const isLast = currentStep >= totalSteps - 1
 
     if (isLast) {
-      syncInmoFormSubmission(formData).catch((e) =>
+      runParallelInmoSubmission(formData).catch((e) =>
         console.warn('[InmoForm] submission error:', e)
       )
     }
