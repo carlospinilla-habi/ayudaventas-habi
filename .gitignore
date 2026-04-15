@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 dist-ssr/
+coverage/
 
 # Local env
 .env
@@ -43,6 +44,9 @@ public/figma-assets/
 public/assets/form-icons-export/
 public/assets/form-icons-figma/
 public/assets/form-icons/
+
+# Historias de usuario / specs locales (no subir al remoto)
+/hu/
 
 # Scripts
 scripts/
