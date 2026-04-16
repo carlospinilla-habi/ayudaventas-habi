@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import './HabiOfertaModal.css'
 
-const DEFAULT_URL = ' https://llavero.co/formulario-inmueble/direccion?utm_content=help_to_sell'
+const DEFAULT_URL = ' https://habi.co/formulario-inmueble/direccion?utm_content=help_to_sell'
 
 interface Props {
   open: boolean
