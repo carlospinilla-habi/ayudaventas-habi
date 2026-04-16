@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       'process.env.VITE_SELLERS_MIDDLEWARE_API_KEY': JSON.stringify(env.VITE_SELLERS_MIDDLEWARE_API_KEY ?? ''),
       'process.env.VITE_SELLERS_MIDDLEWARE_URL': JSON.stringify(
         env.VITE_SELLERS_MIDDLEWARE_URL ??
-          'https://t7ln416bll.execute-api.us-east-2.amazonaws.com/dev/post_middleware'
+          'https://8eqyvzr6u9.execute-api.us-east-2.amazonaws.com/prod/post_middleware'
       ),
       'process.env.VITE_ENABLE_SELLERS_MIDDLEWARE_CO': JSON.stringify(env.VITE_ENABLE_SELLERS_MIDDLEWARE_CO ?? ''),
     },

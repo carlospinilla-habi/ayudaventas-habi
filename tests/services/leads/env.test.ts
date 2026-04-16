@@ -12,7 +12,7 @@ describe('readEnv', () => {
   it('should resolve known VITE_* keys via switch when dynamic lookup is empty', () => {
     const prev = process.env.VITE_SELLERS_MIDDLEWARE_API_KEY
     delete process.env.VITE_SELLERS_MIDDLEWARE_API_KEY
-    expect(readEnv('VITE_SELLERS_MIDDLEWARE_API_KEY')).toBe('ZIsF5E6vCD5W3i8fu4cxGHeHUQXgBLT3aI1drg26')
+    expect(readEnv('VITE_SELLERS_MIDDLEWARE_API_KEY')).toBe('TN30vMr7Eg5ks2cbLzBtz3oAOvP7sD0HaYbm5QPS')
     process.env.VITE_SELLERS_MIDDLEWARE_API_KEY = 'k-from-switch'
     expect(readEnv('VITE_SELLERS_MIDDLEWARE_API_KEY')).toBe('k-from-switch')
     if (prev === undefined) {
@@ -39,7 +39,7 @@ describe('readEnv', () => {
     const prev = process.env.VITE_SELLERS_MIDDLEWARE_URL
     delete process.env.VITE_SELLERS_MIDDLEWARE_URL
     expect(readEnv('VITE_SELLERS_MIDDLEWARE_URL')).toBe(
-      'https://t7ln416bll.execute-api.us-east-2.amazonaws.com/dev/post_middleware'
+      'https://8eqyvzr6u9.execute-api.us-east-2.amazonaws.com/prod/post_middleware'
     )
     if (prev !== undefined) process.env.VITE_SELLERS_MIDDLEWARE_URL = prev
   })
