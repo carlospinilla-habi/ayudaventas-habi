@@ -1,10 +1,13 @@
-import { Fragment, useMemo, useState } from 'react'
-import type { LeadRow } from '../../lib/dashboard-queries'
+import { Fragment, useEffect, useMemo, useState } from 'react'
+import type { LeadRow, TableFilters } from '../../lib/dashboard-queries'
 import { INTEREST_LABELS, STAGE_LABELS, computeMaturity } from '../../lib/dashboard-queries'
+import { LeadDetailPanel } from '../LeadDetailPanel/LeadDetailPanel'
 import './DashboardTable.css'
 
 interface Props {
   leads: LeadRow[]
+  initialFilters?: TableFilters
+  filterKey?: number
 }
 
 type SortKey = 'created_at' | 'source' | 'user_interest' | 'active_stage' | 'nombre' | 'ciudad' | 'maturity'
@@ -12,15 +15,84 @@ type SortDir = 'asc' | 'desc'
 
 const PAGE_SIZE = 25
 
-export function DashboardTable({ leads }: Props) {
+const INMO_LABELS: Record<string, string> = {
+  completed: 'Formulario completado',
+  in_progress: 'Formulario en progreso',
+  none: 'Sin formulario',
+}
+
+export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) {
   const [search, setSearch] = useState('')
-  const [interestFilter, setInterestFilter] = useState('all')
-  const [stageFilter, setStageFilter] = useState('all')
-  const [inmoFilter, setInmoFilter] = useState('all')
+  const [interestFilter, setInterestFilter] = useState<string>(initialFilters?.interest ?? 'all')
+  const [stageFilter, setStageFilter] = useState<string>(
+    initialFilters?.stage ? String(initialFilters.stage) : 'all'
+  )
+  const [inmoFilter, setInmoFilter] = useState<string>(initialFilters?.inmo ?? 'all')
+  const [ofertaFilter, setOfertaFilter] = useState<string>(
+    initialFilters?.oferta === true ? 'yes' : 'all'
+  )
+  const [fichaFilter, setFichaFilter] = useState<string>(
+    initialFilters?.ficha === true ? 'yes' : 'all'
+  )
   const [sortKey, setSortKey] = useState<SortKey>('created_at')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [selectedLead, setSelectedLead] = useState<LeadRow | null>(null)
   const [page, setPage] = useState(0)
+
+  // Re-seed filters when parent drills down (filterKey changes)
+  useEffect(() => {
+    if (filterKey === 0) return
+    setSearch('')
+    setInterestFilter(initialFilters?.interest ?? 'all')
+    setStageFilter(initialFilters?.stage ? String(initialFilters.stage) : 'all')
+    setInmoFilter(initialFilters?.inmo ?? 'all')
+    setOfertaFilter(initialFilters?.oferta === true ? 'yes' : 'all')
+    setFichaFilter(initialFilters?.ficha === true ? 'yes' : 'all')
+    setPage(0)
+  }, [filterKey, initialFilters])
+
+  function clearAllFilters() {
+    setSearch('')
+    setInterestFilter('all')
+    setStageFilter('all')
+    setInmoFilter('all')
+    setOfertaFilter('all')
+    setFichaFilter('all')
+    setPage(0)
+  }
+
+  const activeFilterChips: Array<{ label: string; onClear: () => void }> = []
+  if (interestFilter !== 'all') {
+    activeFilterChips.push({
+      label: `Interés: ${INTEREST_LABELS[interestFilter] ?? interestFilter}`,
+      onClear: () => { setInterestFilter('all'); setPage(0) },
+    })
+  }
+  if (stageFilter !== 'all') {
+    activeFilterChips.push({
+      label: `Momento: ${STAGE_LABELS[Number(stageFilter)] ?? stageFilter}`,
+      onClear: () => { setStageFilter('all'); setPage(0) },
+    })
+  }
+  if (inmoFilter !== 'all') {
+    activeFilterChips.push({
+      label: INMO_LABELS[inmoFilter] ?? `Inmo: ${inmoFilter}`,
+      onClear: () => { setInmoFilter('all'); setPage(0) },
+    })
+  }
+  if (ofertaFilter === 'yes') {
+    activeFilterChips.push({
+      label: 'Oferta Habi solicitada',
+      onClear: () => { setOfertaFilter('all'); setPage(0) },
+    })
+  }
+  if (fichaFilter === 'yes') {
+    activeFilterChips.push({
+      label: 'Ficha creada',
+      onClear: () => { setFichaFilter('all'); setPage(0) },
+    })
+  }
 
   const filtered = useMemo(() => {
     let rows = leads
@@ -49,6 +121,12 @@ export function DashboardTable({ leads }: Props) {
         return !r.inmo_status
       })
     }
+    if (ofertaFilter === 'yes') {
+      rows = rows.filter((r) => r.oferta_requested === true)
+    }
+    if (fichaFilter === 'yes') {
+      rows = rows.filter((r) => r.ficha_created === true)
+    }
 
     rows = [...rows].sort((a, b) => {
       let cmp = 0
@@ -63,7 +141,7 @@ export function DashboardTable({ leads }: Props) {
     })
 
     return rows
-  }, [leads, search, interestFilter, stageFilter, inmoFilter, sortKey, sortDir])
+  }, [leads, search, interestFilter, stageFilter, inmoFilter, ofertaFilter, fichaFilter, sortKey, sortDir])
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
   const paged = filtered.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
@@ -93,6 +171,33 @@ export function DashboardTable({ leads }: Props) {
 
   return (
     <div className="dash-table">
+      {activeFilterChips.length > 0 && (
+        <div className="dash-table__applied-filter">
+          <span className="dash-table__applied-filter-label">Filtrado por:</span>
+          <div className="dash-table__applied-filter-chips">
+            {activeFilterChips.map((chip, idx) => (
+              <span key={idx} className="dash-table__applied-chip">
+                {chip.label}
+                <button
+                  type="button"
+                  className="dash-table__applied-chip-x"
+                  onClick={chip.onClear}
+                  aria-label={`Quitar filtro ${chip.label}`}
+                >
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="dash-table__applied-clear"
+            onClick={clearAllFilters}
+          >
+            Limpiar todos
+          </button>
+        </div>
+      )}
       <div className="dash-table__filters">
         <input
           className="dash-table__search"
@@ -117,6 +222,14 @@ export function DashboardTable({ leads }: Props) {
           <option value="completed">Completado</option>
           <option value="in_progress">En progreso</option>
           <option value="none">Sin formulario</option>
+        </select>
+        <select className="dash-table__select" value={ofertaFilter} onChange={(e) => { setOfertaFilter(e.target.value); setPage(0) }}>
+          <option value="all">Oferta: todos</option>
+          <option value="yes">Oferta solicitada</option>
+        </select>
+        <select className="dash-table__select" value={fichaFilter} onChange={(e) => { setFichaFilter(e.target.value); setPage(0) }}>
+          <option value="all">Ficha: todos</option>
+          <option value="yes">Ficha creada</option>
         </select>
         <span className="dash-table__count">{filtered.length} leads</span>
       </div>
@@ -145,7 +258,10 @@ export function DashboardTable({ leads }: Props) {
               const maturity = computeMaturity(lead)
               return (
                 <Fragment key={lead.id}>
-                  <tr className={expanded ? 'dash-table__row--expanded' : ''}>
+                  <tr
+                    className={`dash-table__row--clickable${expanded ? ' dash-table__row--expanded' : ''}`}
+                    onClick={() => setSelectedLead(lead)}
+                  >
                     <td>{formatDate(lead.created_at)}</td>
                     <td><span className="dash-table__id">{lead.id.slice(0, 8)}</span></td>
                     <td><span className="dash-table__badge dash-table__badge--source">{lead.source ?? '—'}</span></td>
@@ -176,7 +292,7 @@ export function DashboardTable({ leads }: Props) {
                         <span style={{ fontSize: 12, fontWeight: 600 }}>{maturity}</span>
                       </div>
                     </td>
-                    <td>
+                    <td onClick={(e) => e.stopPropagation()}>
                       <button className="dash-table__toggle" onClick={() => setExpandedId(expanded ? null : lead.id)}>
                         {expanded ? '▲ Cerrar' : '▼ Ver'}
                       </button>
@@ -231,6 +347,8 @@ export function DashboardTable({ leads }: Props) {
           <button className="dash-table__page-btn" disabled={page >= totalPages - 1} onClick={() => setPage(page + 1)}>Siguiente →</button>
         </div>
       )}
+
+      <LeadDetailPanel lead={selectedLead} onClose={() => setSelectedLead(null)} />
     </div>
   )
 }

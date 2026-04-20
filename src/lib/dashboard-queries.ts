@@ -203,3 +203,96 @@ export const INTEREST_LABELS: Record<string, string> = {
   cambiar: 'Cambiar de casa',
   legal: 'Asesoría legal',
 }
+
+// ─── Drill-down filters (KPIs → Tabla) ─────────────────
+export interface TableFilters {
+  interest?: string
+  stage?: number
+  inmo?: 'completed' | 'in_progress' | 'none'
+  oferta?: boolean
+  ficha?: boolean
+}
+
+// ─── Lead detail (panel lateral) ───────────────────────
+export interface LeadDetail {
+  contact: {
+    nombre: string | null
+    email: string | null
+    whatsapp: string | null
+  }
+  property: {
+    ciudad: string | null
+    barrio: string | null
+    direccion: string | null
+    tipo_inmueble: string | null
+    area_m2: string | null
+    habitaciones: string | null
+    banos_completos: string | null
+    banos_medios: string | null
+    estrato: string | null
+    precio_venta: string | null
+    valor_administracion: string | null
+    estado_vivienda: string | null
+    parqueaderos: string | null
+    antiguedad: string | null
+    motivo_venta: string | null
+  }
+  source: 'inmo_form_submissions' | 'properties' | 'none'
+}
+
+/**
+ * Fetch detailed info for a single lead. Called on-demand when the user
+ * opens the side panel. Runs 3 small queries in parallel.
+ */
+export async function fetchLeadDetail(userId: string): Promise<LeadDetail> {
+  const [inmoRes, propsRes, contactRes] = await Promise.all([
+    supabase.from('inmo_form_submissions').select('*').eq('user_id', userId).maybeSingle(),
+    supabase.from('properties').select('*').eq('user_id', userId).maybeSingle(),
+    supabase.from('contact_info').select('*').eq('user_id', userId).maybeSingle(),
+  ])
+
+  const inmo = inmoRes.data ?? null
+  const props = propsRes.data ?? null
+  const contact = contactRes.data ?? null
+
+  const pickInmo = (key: string): string | null => {
+    const v = inmo?.[key]
+    return typeof v === 'string' && v.trim() ? v : null
+  }
+  const pickProp = (key: string): string | null => {
+    const v = props?.[key]
+    if (typeof v === 'string' && v.trim()) return v
+    if (typeof v === 'number') return String(v)
+    return null
+  }
+
+  const property: LeadDetail['property'] = {
+    ciudad: pickInmo('ciudad') ?? pickProp('ciudad'),
+    barrio: pickInmo('barrio') ?? pickProp('barrio'),
+    direccion: pickInmo('direccion') ?? pickProp('direccion'),
+    tipo_inmueble: pickInmo('tipo_inmueble') ?? pickProp('tipo_inmueble'),
+    area_m2: pickInmo('area_m2') ?? pickProp('area_m2'),
+    habitaciones: pickInmo('habitaciones') ?? pickProp('habitaciones'),
+    banos_completos: pickInmo('banos_completos') ?? pickProp('banos'),
+    banos_medios: pickInmo('banos_medios'),
+    estrato: pickInmo('estrato') ?? pickProp('estrato'),
+    precio_venta: pickInmo('precio_venta') ?? pickProp('precio_venta'),
+    valor_administracion: pickInmo('valor_administracion') ?? pickProp('admin_mes'),
+    estado_vivienda: pickInmo('estado_vivienda'),
+    parqueaderos: pickInmo('parqueaderos') ?? pickProp('parqueaderos'),
+    antiguedad: pickInmo('antiguedad') ?? pickProp('antiguedad'),
+    motivo_venta: pickInmo('motivo_venta'),
+  }
+
+  const source: LeadDetail['source'] = inmo ? 'inmo_form_submissions' : props ? 'properties' : 'none'
+
+  return {
+    contact: {
+      nombre: contact?.nombre ?? null,
+      email: contact?.email ?? null,
+      whatsapp: contact?.whatsapp ?? null,
+    },
+    property,
+    source,
+  }
+}

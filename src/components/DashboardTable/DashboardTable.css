@@ -4,6 +4,86 @@
   gap: 16px;
 }
 
+/* ── Applied filter badge (from drill-down) ── */
+.dash-table__applied-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%);
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+}
+
+.dash-table__applied-filter-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6d28d9;
+}
+
+.dash-table__applied-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dash-table__applied-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #c4b5fd;
+  color: #5b21b6;
+  padding: 4px 6px 4px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dash-table__applied-chip-x {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background: #ede9fe;
+  color: #5b21b6;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 120ms;
+}
+
+.dash-table__applied-chip-x:hover {
+  background: #c4b5fd;
+}
+
+.dash-table__applied-clear {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #c4b5fd;
+  color: #5b21b6;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms, color 120ms;
+}
+
+.dash-table__applied-clear:hover {
+  background: #7955f9;
+  border-color: #7955f9;
+  color: #fff;
+}
+
 /* ── Filters bar ── */
 .dash-table__filters {
   display: flex;
@@ -100,6 +180,10 @@
 
 .dash-table__table tr.dash-table__row--expanded td {
   background: #f5f3ff;
+}
+
+.dash-table__table tr.dash-table__row--clickable {
+  cursor: pointer;
 }
 
 .dash-table__id {

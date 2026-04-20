@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
-import { fetchLeads, computeKPIs, type LeadRow, type KPIs, type SourceFilter } from '../lib/dashboard-queries'
+import { fetchLeads, computeKPIs, type LeadRow, type KPIs, type SourceFilter, type TableFilters } from '../lib/dashboard-queries'
 import { DashboardKPIs } from '../components/DashboardKPIs/DashboardKPIs'
 import { DashboardTable } from '../components/DashboardTable/DashboardTable'
 import { DashboardProfile } from '../components/DashboardProfile/DashboardProfile'
@@ -17,6 +17,21 @@ export function DashboardPage() {
   const [kpis, setKpis] = useState<KPIs | null>(null)
   const [loading, setLoading] = useState(true)
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
+  const [tableFilters, setTableFilters] = useState<TableFilters>({})
+  const [filterKey, setFilterKey] = useState(0)
+
+  const handleDrillDown = useCallback((filter: TableFilters) => {
+    setTableFilters(filter)
+    setFilterKey((k) => k + 1)
+    setTab('table')
+  }, [])
+
+  const handleSourceClick = useCallback((src: SourceFilter) => {
+    setSource(src)
+    setTableFilters({})
+    setFilterKey((k) => k + 1)
+    setTab('table')
+  }, [])
 
   const loadData = useCallback(async () => {
     setLoading(true)
@@ -95,8 +110,14 @@ export function DashboardPage() {
           </div>
         ) : (
           <>
-            {tab === 'kpis' && kpis && <DashboardKPIs kpis={kpis} />}
-            {tab === 'table' && <DashboardTable leads={leads} />}
+            {tab === 'kpis' && kpis && (
+              <DashboardKPIs
+                kpis={kpis}
+                onDrillDown={handleDrillDown}
+                onSourceClick={handleSourceClick}
+              />
+            )}
+            {tab === 'table' && <DashboardTable leads={leads} initialFilters={tableFilters} filterKey={filterKey} />}
             {tab === 'profile' && <DashboardProfile leads={leads} />}
           </>
         )}
