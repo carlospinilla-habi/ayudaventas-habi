@@ -60,7 +60,7 @@ export async function fetchLeads(source: SourceFilter): Promise<LeadRow[]> {
       supabase.from('sale_stage').select('*').in('user_id', userIds),
       supabase.from('contact_info').select('*').in('user_id', userIds),
       supabase.from('properties').select('user_id, ciudad, tipo_inmueble, precio_venta').in('user_id', userIds),
-      supabase.from('inmo_form_submissions').select('user_id, status, completed_at, ciudad, tipo_inmueble, precio_venta').in('user_id', userIds),
+      supabase.from('inmo_form_submissions').select('user_id, status, completed_at, ciudad, tipo_inmueble, precio_venta, nombre_contacto, email_contacto, telefono_contacto').in('user_id', userIds),
       supabase.from('checklist_progress').select('user_id, checks').in('user_id', userIds),
     ])
 
@@ -106,9 +106,9 @@ export async function fetchLeads(source: SourceFilter): Promise<LeadRow[]> {
       ficha_created: act?.ficha_created ?? null,
       oferta_requested: act?.oferta_requested ?? null,
       active_stage: stage?.active_stage ?? null,
-      nombre: contact?.nombre ?? null,
-      email: contact?.email ?? null,
-      whatsapp: contact?.whatsapp ?? null,
+      nombre: contact?.nombre ?? inmo?.nombre_contacto ?? null,
+      email: contact?.email ?? inmo?.email_contacto ?? null,
+      whatsapp: contact?.whatsapp ?? inmo?.telefono_contacto ?? null,
       ciudad: props?.ciudad ?? inmo?.ciudad ?? null,
       tipo_inmueble: props?.tipo_inmueble ?? inmo?.tipo_inmueble ?? null,
       precio_venta: props?.precio_venta ?? inmo?.precio_venta ?? null,
@@ -288,9 +288,9 @@ export async function fetchLeadDetail(userId: string): Promise<LeadDetail> {
 
   return {
     contact: {
-      nombre: contact?.nombre ?? null,
-      email: contact?.email ?? null,
-      whatsapp: contact?.whatsapp ?? null,
+      nombre: contact?.nombre ?? pickInmo('nombre_contacto'),
+      email: contact?.email ?? pickInmo('email_contacto'),
+      whatsapp: contact?.whatsapp ?? pickInmo('telefono_contacto'),
     },
     property,
     source,
