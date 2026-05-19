@@ -1,6 +1,11 @@
 import { Fragment, useEffect, useMemo, useState } from 'react'
 import type { LeadRow, TableFilters } from '../../lib/dashboard-queries'
-import { INTEREST_LABELS, STAGE_LABELS, computeMaturity } from '../../lib/dashboard-queries'
+import {
+  INTEREST_LABELS,
+  STAGE_LABELS,
+  computeMaturity,
+  formatCiudadDisplay,
+} from '../../lib/dashboard-queries'
 import { LeadDetailPanel } from '../LeadDetailPanel/LeadDetailPanel'
 import './DashboardTable.css'
 
@@ -246,6 +251,7 @@ export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) 
               <th>Ficha</th>
               <th>Inmo form</th>
               <th>Oferta</th>
+              <th>Habímetro</th>
               <th onClick={() => handleSort('nombre')}>Contacto <SortIcon col="nombre" /></th>
               <th onClick={() => handleSort('ciudad')}>Ciudad <SortIcon col="ciudad" /></th>
               <th onClick={() => handleSort('maturity')}>Score <SortIcon col="maturity" /></th>
@@ -275,6 +281,13 @@ export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) 
                     </td>
                     <td>{lead.oferta_requested ? <span className="dash-table__badge dash-table__badge--yes">Sí</span> : '—'}</td>
                     <td>
+                      {lead.habimetro_requested ? (
+                        <span className="dash-table__badge dash-table__badge--habimetro">Sí</span>
+                      ) : (
+                        '—'
+                      )}
+                    </td>
+                    <td>
                       {lead.nombre || lead.email || lead.whatsapp ? (
                         <div style={{ lineHeight: 1.4 }}>
                           {lead.nombre && <div>{lead.nombre}</div>}
@@ -283,7 +296,9 @@ export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) 
                         </div>
                       ) : '—'}
                     </td>
-                    <td>{lead.ciudad ?? '—'}</td>
+                    <td>
+                      <CiudadCell lead={lead} />
+                    </td>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <div style={{ width: 40, height: 6, background: '#e5e7eb', borderRadius: 3, overflow: 'hidden' }}>
@@ -300,7 +315,7 @@ export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) 
                   </tr>
                   {expanded && (
                     <tr className="dash-table__detail">
-                      <td colSpan={12}>
+                      <td colSpan={13}>
                         <div className="dash-table__detail-grid">
                           <DetailItem label="ID completo" value={lead.id} />
                           <DetailItem label="Fecha registro" value={formatDate(lead.created_at)} />
@@ -308,7 +323,21 @@ export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) 
                           <DetailItem label="Interés" value={lead.user_interest ? (INTEREST_LABELS[lead.user_interest] ?? lead.user_interest) : '—'} />
                           <DetailItem label="Momento venta" value={lead.active_stage ? STAGE_LABELS[lead.active_stage] : '—'} />
                           <DetailItem label="Tipo inmueble" value={lead.tipo_inmueble ?? '—'} />
-                          <DetailItem label="Ciudad" value={lead.ciudad ?? '—'} />
+                          <DetailItem
+                            label="Ciudad"
+                            value={formatCiudadDisplay(lead.ciudad, lead.barrio) ?? '—'}
+                          />
+                          <DetailItem label="Barrio" value={lead.barrio ?? '—'} />
+                          <DetailItem label="Dirección" value={lead.direccion ?? '—'} />
+                          <DetailItem label="Relación" value={lead.relacion_inmueble ?? '—'} />
+                          <DetailItem
+                            label="Tiempo vendiendo"
+                            value={lead.tiempo_vendiendo ?? '—'}
+                          />
+                          <DetailItem
+                            label="Habímetro"
+                            value={lead.habimetro_requested ? 'Sí' : 'No'}
+                          />
                           <DetailItem label="Precio venta" value={lead.precio_venta ? `$${Number(lead.precio_venta).toLocaleString('es-CO')}` : '—'} />
                           <DetailItem label="Nombre" value={lead.nombre ?? '—'} />
                           <DetailItem label="Email" value={lead.email ?? '—'} />
@@ -327,7 +356,7 @@ export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) 
               )
             })}
             {paged.length === 0 && (
-              <tr><td colSpan={12} style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>No se encontraron leads</td></tr>
+              <tr><td colSpan={13} style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>No se encontraron leads</td></tr>
             )}
           </tbody>
         </table>
@@ -349,6 +378,27 @@ export function DashboardTable({ leads, initialFilters, filterKey = 0 }: Props) 
       )}
 
       <LeadDetailPanel lead={selectedLead} onClose={() => setSelectedLead(null)} />
+    </div>
+  )
+}
+
+function CiudadCell({ lead }: { lead: LeadRow }) {
+  const display = formatCiudadDisplay(lead.ciudad, lead.barrio)
+  if (!display) return <>—</>
+  const isOtraWithBarrio = lead.ciudad?.trim() === 'Otra' && Boolean(lead.barrio?.trim())
+  if (isOtraWithBarrio) {
+    return (
+      <div className="dash-table__ciudad-cell">
+        <span>{display}</span>
+      </div>
+    )
+  }
+  return (
+    <div className="dash-table__ciudad-cell">
+      <span>{lead.ciudad}</span>
+      {lead.barrio?.trim() && (
+        <span className="dash-table__ciudad-sub">{lead.barrio}</span>
+      )}
     </div>
   )
 }

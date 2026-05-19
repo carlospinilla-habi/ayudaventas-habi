@@ -289,6 +289,73 @@
   font-weight: 600;
 }
 
+.lead-panel__timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lead-panel__timeline-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.lead-panel__timeline-item--active {
+  border-color: #c4b5fd;
+  background: #faf5ff;
+}
+
+.lead-panel__timeline-label {
+  font-weight: 600;
+  color: #334155;
+}
+
+.lead-panel__timeline-date {
+  color: #64748b;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.lead-panel__checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lead-panel__checklist-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.lead-panel__checklist-step {
+  font-weight: 600;
+  color: #334155;
+}
+
+.lead-panel__checklist-progress {
+  color: #64748b;
+  font-size: 12px;
+}
+
 @media (max-width: 520px) {
   .lead-panel__grid {
     grid-template-columns: 1fr;

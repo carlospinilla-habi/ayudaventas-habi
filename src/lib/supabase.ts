@@ -171,10 +171,6 @@ export async function syncInmoFormSubmission(
     .upsert(row, { onConflict: 'user_id' })
   if (error) console.warn('[supabase] syncInmoFormSubmission:', error.message)
 
-  if (isComplete) {
-    await syncActivity('oferta_requested', true)
-  }
-
   await supabase
     .from('users')
     .update({ updated_at: now, updated_field: 'inmo_form' })

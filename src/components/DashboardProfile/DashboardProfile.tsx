@@ -1,6 +1,12 @@
 import { useMemo } from 'react'
 import type { LeadRow, Segment } from '../../lib/dashboard-queries'
-import { computeMaturity, getSegment, SEGMENT_LABELS, STAGE_LABELS } from '../../lib/dashboard-queries'
+import {
+  computeMaturity,
+  formatCiudadDisplay,
+  getSegment,
+  SEGMENT_LABELS,
+  STAGE_LABELS,
+} from '../../lib/dashboard-queries'
 import './DashboardProfile.css'
 
 interface Props {
@@ -71,6 +77,7 @@ export function DashboardProfile({ leads }: Props) {
               {segLeads.slice(0, 20).map((lead) => {
                 const maturity = computeMaturity(lead)
                 const matClass = maturity >= 60 ? 'high' : maturity >= 30 ? 'mid' : 'low'
+                const ciudadLabel = formatCiudadDisplay(lead.ciudad, lead.barrio)
                 return (
                   <div key={lead.id} className="dash-profile__lead">
                     <div className="dash-profile__lead-info">
@@ -78,7 +85,7 @@ export function DashboardProfile({ leads }: Props) {
                         {lead.nombre ?? lead.email ?? lead.id.slice(0, 12)}
                       </div>
                       <div className="dash-profile__lead-meta">
-                        {lead.ciudad && <span>{lead.ciudad}</span>}
+                        {ciudadLabel && <span>{ciudadLabel}</span>}
                         {lead.precio_venta && <span>${Number(lead.precio_venta).toLocaleString('es-CO')}</span>}
                         {lead.checklist_total > 0 && (
                           <span>Checklist: {lead.checklist_done}/{lead.checklist_total}</span>

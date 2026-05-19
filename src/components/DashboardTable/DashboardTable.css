@@ -216,6 +216,22 @@
   color: #1e40af;
 }
 
+.dash-table__badge--habimetro {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.dash-table__ciudad-cell {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.dash-table__ciudad-sub {
+  font-size: 11px;
+  color: #6b7280;
+}
+
 .dash-table__badge--source {
   background: #f3f4f6;
   color: #374151;
