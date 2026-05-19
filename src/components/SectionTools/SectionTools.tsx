@@ -71,7 +71,7 @@ export function SectionTools() {
     <section className="tools">
       <div ref={mergeRefs(headerRevealRef, headerParallaxRef)} className="tools__header reveal">
         <DecoIcon />
-        <p className="tools__sub">Vender por tu cuenta no significa que estés solo.</p>
+        <p className="tools__sub">Recursos gratuitos para tu venta.</p>
         <h2 className="tools__title">
           <span>Herramientas</span> que te ayudan a{' '}
           <em>vender mejor.</em>

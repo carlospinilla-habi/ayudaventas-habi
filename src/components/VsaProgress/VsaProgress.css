@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
   max-width: 1200px;
   width: 100%;
 }
@@ -18,264 +18,233 @@
 .vsa-progress__title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 56px;
-  line-height: 64px;
-  letter-spacing: -3px;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.15;
+  letter-spacing: -0.04em;
   color: #070707;
   text-align: center;
+  margin: 0;
 }
 
 .vsa-progress__subtitle {
   font-family: var(--font-body);
   font-weight: 400;
-  font-size: 22px;
-  line-height: 32px;
-  letter-spacing: -1px;
+  font-size: clamp(16px, 2.2vw, 22px);
+  line-height: 1.45;
+  letter-spacing: -0.02em;
   color: #505e71;
   text-align: center;
+  max-width: 640px;
+  margin: 0;
 }
 
-/* ── Track & steps ── */
+/* ── Selectable cards ── */
 
-.vsa-progress__track {
-  width: 1000px;
-  max-width: 100%;
-  padding: 16px 0;
-}
-
-.vsa-progress__steps {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
+.vsa-progress__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
   width: 100%;
+  max-width: 960px;
 }
 
-.vsa-progress__step-group {
+.vsa-progress__card {
   display: flex;
   align-items: flex-start;
-  flex: 1;
+  gap: 14px;
+  width: 100%;
+  padding: 20px 18px;
+  text-align: left;
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  border: 2px solid #e5e5e5;
+  border-radius: 14px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
-.vsa-progress__step-group:last-child {
-  flex: 0 0 auto;
+.vsa-progress__card:hover {
+  border-color: #c4b5fd;
+  box-shadow: 0 8px 24px rgba(121, 85, 249, 0.1);
+  transform: translateY(-1px);
 }
 
-/* ── Individual step button ── */
+.vsa-progress__card:focus-visible {
+  outline: 2px solid #9333ea;
+  outline-offset: 2px;
+}
 
-.vsa-progress__step {
+.vsa-progress__card--selected {
+  border-color: #9333ea;
+  background: linear-gradient(180deg, #faf5ff 0%, #f5f3ff 100%);
+  box-shadow: 0 8px 28px rgba(147, 51, 234, 0.14);
+}
+
+.vsa-progress__card-radio {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  border-radius: 50%;
+  border: 2px solid #d4d4d4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.vsa-progress__card-radio-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+  transform: scale(0);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.vsa-progress__card--selected .vsa-progress__card-radio {
+  border-color: #9333ea;
+  background: #fff;
+}
+
+.vsa-progress__card--selected .vsa-progress__card-radio-dot {
+  background: #9333ea;
+  transform: scale(1);
+}
+
+.vsa-progress__card-body {
   display: flex;
   flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.vsa-progress__card-meta {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  min-width: 0;
-  transition: transform 0.2s var(--ease-out);
 }
 
-.vsa-progress__step:hover {
-  transform: translateY(-2px);
+.vsa-progress__card-num {
+  font-family: var(--font-tight);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #737373;
 }
 
-/* ── Circle ── */
-
-.vsa-progress__circle {
-  width: 64px;
-  height: 64px;
-  border-radius: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.3s var(--ease-out);
-}
-
-.vsa-progress__circle--idle {
-  background: #e5e5e5;
-  border: 4px solid #d4d4d4;
-}
-
-.vsa-progress__circle--active {
-  background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
-  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
-}
-
-.vsa-progress__circle--completed {
-  background: linear-gradient(180deg, #a855f7 0%, #7e22ce 100%);
-}
-
-.vsa-progress__circle--locked {
-  background: #e5e5e5;
-  border: 4px solid #d4d4d4;
-}
-
-.vsa-progress__circle-num {
-  font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 32px;
-  letter-spacing: -0.48px;
-  color: white;
-  text-align: center;
-}
-
-.vsa-progress__circle-num--idle {
-  color: #a3a3a3;
-}
-
-.vsa-progress__circle-check-dim {
-  opacity: 0.2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ── Labels ── */
-
-.vsa-progress__label-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 30px;
-}
-
-.vsa-progress__label-wrap--idle .vsa-progress__label,
-.vsa-progress__label-wrap--idle .vsa-progress__status {
-  color: #a3a3a3;
-}
-
-.vsa-progress__label {
-  font-family: 'Archivo', sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  color: #0a0a0a;
-  text-align: center;
-  max-width: 200px;
-}
-
-.vsa-progress__status {
-  font-family: 'Archivo', sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: var(--color-text-tertiary);
-  text-align: center;
-}
-
-.vsa-progress__status--active {
+.vsa-progress__card--selected .vsa-progress__card-num {
   color: #7e22ce;
+}
+
+.vsa-progress__card-badge {
+  font-family: var(--font-tight);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #9333ea;
+  color: #fff;
+}
+
+.vsa-progress__card-title {
+  font-family: var(--font-tight);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #0a0a0a;
+}
+
+.vsa-progress__card--selected .vsa-progress__card-title {
+  color: #5b21b6;
+}
+
+.vsa-progress__card-desc {
+  font-family: 'Archivo', var(--font-tight);
+  font-size: 14px;
+  line-height: 1.45;
+  color: #737373;
+}
+
+.vsa-progress__hint {
+  font-family: var(--font-tight);
+  font-size: 15px;
   font-weight: 500;
+  color: #6d28d9;
+  text-align: center;
+  margin: -8px 0 0;
 }
 
-.vsa-progress__status--completed {
-  color: #16a34a;
-  font-weight: 500;
+.vsa-progress__feedback {
+  font-family: var(--font-tight);
+  font-size: 15px;
+  font-weight: 600;
+  color: #5b21b6;
+  text-align: center;
+  margin: -8px 0 0;
+  padding: 12px 20px;
+  background: #f5f3ff;
+  border-radius: 999px;
+  border: 1px solid #e9d5ff;
 }
 
-/* ── Separator ── */
+@media (min-width: 1024px) {
+  .vsa-progress__cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
 
-.vsa-progress__separator {
-  display: flex;
-  align-items: center;
-  height: 64px;
-  flex: 1;
-  padding: 0 12px;
-  color: #d4d4d4;
+  .vsa-progress__card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 18px 16px;
+    min-height: 168px;
+  }
+
+  .vsa-progress__card-radio {
+    margin-top: 0;
+  }
+
+  .vsa-progress__card-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }
-
-.vsa-progress__separator--done {
-  color: #a855f7;
-}
-
-.vsa-progress__separator-line {
-  width: 100%;
-  height: 2px;
-}
-
-/* ── Mobile ── */
 
 @media (max-width: 768px) {
   .vsa-progress {
-    padding: 80px 24px 40px;
+    padding: 80px 20px 48px;
   }
 
   .vsa-progress__inner {
     gap: 24px;
   }
 
-  .vsa-progress__title {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.5px;
+  .vsa-progress__cards {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
-  .vsa-progress__subtitle {
-    font-size: 18px;
-    line-height: 24px;
-    letter-spacing: -1px;
+  .vsa-progress__card {
+    padding: 16px;
   }
 
-  .vsa-progress__track {
-    width: 100%;
-    padding: 16px 0;
+  .vsa-progress__card-title {
+    font-size: 17px;
   }
 
-  .vsa-progress__steps {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-  }
-
-  .vsa-progress__step-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    flex: none;
-  }
-
-  .vsa-progress__step-group:last-child {
-    flex: none;
-  }
-
-  .vsa-progress__step {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .vsa-progress__step:hover {
-    transform: none;
-  }
-
-  .vsa-progress__label-wrap {
-    align-items: flex-start;
-    line-height: 24px;
-  }
-
-  .vsa-progress__label {
-    text-align: left;
-    max-width: none;
-  }
-
-  .vsa-progress__status {
-    text-align: left;
-  }
-
-  .vsa-progress__separator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 24px;
-    flex: none;
-    padding: 0;
-  }
-
-  .vsa-progress__separator-line {
-    width: 2px;
-    height: 100%;
+  .vsa-progress__card-desc {
+    -webkit-line-clamp: unset;
+    display: block;
   }
 }

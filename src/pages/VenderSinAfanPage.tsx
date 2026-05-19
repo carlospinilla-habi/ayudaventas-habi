@@ -3,8 +3,7 @@ import { Navbar } from '../components/Navbar'
 import { Footer } from '../components/Footer'
 import { VsaSidebar } from '../components/VsaSidebar'
 import { VsaHero } from '../components/VsaHero'
-import { VsaProgress } from '../components/VsaProgress'
-import { VsaGuide } from '../components/VsaGuide'
+import { VsaSaleGuide } from '../components/VsaGuide'
 import { SectionTools } from '../components/SectionTools'
 import { SectionCTAStats } from '../components/SectionCTAStats'
 import { trackOfertaRequested, trackHabimetroRequested } from '../lib/storage-sync'
@@ -57,8 +56,7 @@ export function VenderSinAfanPage() {
         <VsaSidebar activePage="sin-afan" />
         <main className="vsa-content" data-node-id="309:51584">
           <VsaHero />
-          <VsaProgress />
-          <VsaGuide />
+          <VsaSaleGuide storageKey="vsa-user-stage" />
           <SectionTools />
           <SectionCTAStats />
         </main>

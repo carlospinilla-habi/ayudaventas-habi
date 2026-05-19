@@ -1,33 +1,42 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useId } from 'react'
 import { saveSaleStage } from '../../lib/storage-sync'
 import './VsaProgress.css'
 
 export interface ProgressStep {
   id: number
   label: string
+  shortTitle?: string
 }
 
 const DEFAULT_STEPS: ProgressStep[] = [
-  { id: 1, label: 'Estoy definiendo un precio y promocionando la casa' },
-  { id: 2, label: 'Estoy recibiendo visitas y negociando' },
-  { id: 3, label: 'Estoy alistando documentos para el pago' },
-  { id: 4, label: 'Estoy alistando el inmueble para entrega' },
+  {
+    id: 1,
+    shortTitle: 'Precio y difusión',
+    label: 'Estoy definiendo un precio y promocionando la casa',
+  },
+  {
+    id: 2,
+    shortTitle: 'Visitas y negociación',
+    label: 'Estoy recibiendo visitas y negociando',
+  },
+  {
+    id: 3,
+    shortTitle: 'Documentos y pago',
+    label: 'Estoy alistando documentos para el pago',
+  },
+  {
+    id: 4,
+    shortTitle: 'Entrega',
+    label: 'Estoy alistando el inmueble para entrega',
+  },
 ]
 
-function getStatusText(stepId: number, activeStep: number) {
-  if (activeStep === 0) {
-    return stepId === 1 ? 'En progreso' : 'Bloqueado'
-  }
-  if (stepId < activeStep) return 'Completado'
-  if (stepId === activeStep) return 'En progreso'
-  return 'Bloqueado'
+function readSavedStage(storageKey: string, validIds: number[]): number {
+  const saved = localStorage.getItem(storageKey)
+  if (saved === null) return 0
+  const n = parseInt(saved, 10)
+  return validIds.includes(n) ? n : 0
 }
-
-const CheckIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 6L9 17L4 12" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-)
 
 interface VsaProgressProps {
   steps?: ProgressStep[]
@@ -41,31 +50,61 @@ interface VsaProgressProps {
 export function VsaProgress({
   steps = DEFAULT_STEPS,
   storageKey = 'vsa-user-stage',
-  title = '¿Cómo vas con tu venta?',
-  subtitle = 'Cuéntanos en cuál de estos momentos de venta te encuentras.',
+  title = '¿En qué momento de tu venta estás?',
+  subtitle = 'Elige la opción que mejor describe tu situación hoy. No hay un orden obligatorio: puedes cambiarla cuando quieras.',
   scrollTarget = 'guia-etapas',
   dispatchEvent = true,
 }: VsaProgressProps) {
-  const [activeStep, setActiveStep] = useState(() => {
-    const saved = localStorage.getItem(storageKey)
-    return saved !== null ? parseInt(saved, 10) : 0
-  })
+  const groupId = useId()
+  const stepIds = steps.map((s) => s.id)
+
+  const [activeStep, setActiveStep] = useState(() => readSavedStage(storageKey, stepIds))
+  const [feedback, setFeedback] = useState<string | null>(null)
 
   useEffect(() => {
+    if (activeStep < 1) return
+
     saveSaleStage(storageKey, activeStep)
     if (dispatchEvent) {
-      window.dispatchEvent(new CustomEvent('vsa-stage-change', { detail: { stage: activeStep } }))
+      window.dispatchEvent(
+        new CustomEvent('vsa-stage-change', { detail: { stage: activeStep, storageKey } })
+      )
     }
   }, [activeStep, storageKey, dispatchEvent])
 
-  function handleStepClick(stepId: number) {
-    setActiveStep(stepId)
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ stage?: number; storageKey?: string }>).detail ?? {}
+      const eventKey = detail.storageKey ?? 'vsa-user-stage'
+      if (eventKey !== storageKey) return
+      const stage = detail.stage
+      if (typeof stage === 'number' && stepIds.includes(stage)) {
+        setActiveStep(stage)
+      }
+    }
+    window.addEventListener('vsa-stage-change', handler)
+    return () => window.removeEventListener('vsa-stage-change', handler)
+  }, [storageKey, stepIds])
+
+  useEffect(() => {
+    if (!feedback) return
+    const t = window.setTimeout(() => setFeedback(null), 4500)
+    return () => window.clearTimeout(t)
+  }, [feedback])
+
+  function handleSelect(step: ProgressStep) {
+    setActiveStep(step.id)
+    setFeedback(`Te mostramos contenido para: ${step.shortTitle ?? step.label}`)
 
     if (scrollTarget) {
       requestAnimationFrame(() => {
         const el = document.getElementById(scrollTarget)
         if (el) {
-          const navHeight = 78
+          const navHeight =
+            parseInt(
+              getComputedStyle(document.documentElement).getPropertyValue('--nav-height'),
+              10
+            ) || 78
           const top = el.getBoundingClientRect().top + window.scrollY - navHeight - 20
           window.scrollTo({ top, behavior: 'smooth' })
         }
@@ -76,73 +115,59 @@ export function VsaProgress({
   return (
     <section className="vsa-progress" id="como-vas-venta">
       <div className="vsa-progress__inner">
-        <h2 className="vsa-progress__title">{title}</h2>
-        <p className="vsa-progress__subtitle">{subtitle}</p>
+        <h2 id={`${groupId}-title`} className="vsa-progress__title">
+          {title}
+        </h2>
+        <p id={`${groupId}-subtitle`} className="vsa-progress__subtitle">
+          {subtitle}
+        </p>
 
-        <div className="vsa-progress__track">
-          <div className="vsa-progress__steps">
-            {steps.map((step, i) => {
-              const isIdle = activeStep === 0
-              const isActive = !isIdle && step.id === activeStep
-              const isCompleted = !isIdle && step.id < activeStep
-              const isLocked = !isIdle && step.id > activeStep
-              const isLast = step.id === steps[steps.length - 1].id
-              const status = getStatusText(step.id, activeStep)
+        <div
+          className="vsa-progress__cards"
+          role="radiogroup"
+          aria-labelledby={`${groupId}-title`}
+          aria-describedby={`${groupId}-subtitle`}
+        >
+          {steps.map((step) => {
+            const isSelected = activeStep === step.id
+            const displayTitle = step.shortTitle ?? step.label
 
-              return (
-                <div key={step.id} className="vsa-progress__step-group">
-                  <button
-                    type="button"
-                    className="vsa-progress__step"
-                    onClick={() => handleStepClick(step.id)}
-                    aria-label={`${step.label} — ${status}`}
-                  >
-                    <div
-                      className={`vsa-progress__circle ${
-                        isIdle ? 'vsa-progress__circle--idle' :
-                        isActive ? 'vsa-progress__circle--active' :
-                        isCompleted ? 'vsa-progress__circle--completed' :
-                        'vsa-progress__circle--locked'
-                      }`}
-                    >
-                      {isIdle && !isLast && (
-                        <span className="vsa-progress__circle-num vsa-progress__circle-num--idle">{step.id}</span>
-                      )}
-                      {isIdle && isLast && (
-                        <span className="vsa-progress__circle-check-dim"><CheckIcon /></span>
-                      )}
-                      {isCompleted && <CheckIcon />}
-                      {isActive && !isLast && (
-                        <span className="vsa-progress__circle-num">{step.id}</span>
-                      )}
-                      {isActive && isLast && <CheckIcon />}
-                      {isLocked && !isLast && (
-                        <span className="vsa-progress__circle-num vsa-progress__circle-num--idle">{step.id}</span>
-                      )}
-                      {isLocked && isLast && (
-                        <span className="vsa-progress__circle-check-dim"><CheckIcon /></span>
-                      )}
-                    </div>
-
-                    <div className={`vsa-progress__label-wrap ${isIdle || isLocked ? 'vsa-progress__label-wrap--idle' : ''}`}>
-                      <span className="vsa-progress__label">{step.label}</span>
-                    </div>
-                  </button>
-
-                  {i < steps.length - 1 && (
-                    <div className={`vsa-progress__separator ${
-                      !isIdle && step.id < activeStep ? 'vsa-progress__separator--done' : ''
-                    }`}>
-                      <svg className="vsa-progress__separator-line" viewBox="0 0 104 2" fill="none" preserveAspectRatio="none">
-                        <line x1="0" y1="1" x2="104" y2="1" stroke="currentColor" strokeWidth="2" strokeDasharray="6 6"/>
-                      </svg>
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
+            return (
+              <button
+                key={step.id}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                className={`vsa-progress__card${isSelected ? ' vsa-progress__card--selected' : ''}`}
+                onClick={() => handleSelect(step)}
+              >
+                <span className="vsa-progress__card-radio" aria-hidden="true">
+                  <span className="vsa-progress__card-radio-dot" />
+                </span>
+                <span className="vsa-progress__card-body">
+                  <span className="vsa-progress__card-meta">
+                    <span className="vsa-progress__card-num">Etapa {step.id}</span>
+                    {isSelected && (
+                      <span className="vsa-progress__card-badge">Tu etapa actual</span>
+                    )}
+                  </span>
+                  <span className="vsa-progress__card-title">{displayTitle}</span>
+                  <span className="vsa-progress__card-desc">{step.label}</span>
+                </span>
+              </button>
+            )
+          })}
         </div>
+
+        {activeStep === 0 && (
+          <p className="vsa-progress__hint">Selecciona una opción para personalizar la guía ↓</p>
+        )}
+
+        {feedback && (
+          <p className="vsa-progress__feedback" role="status" aria-live="polite">
+            {feedback}
+          </p>
+        )}
       </div>
     </section>
   )

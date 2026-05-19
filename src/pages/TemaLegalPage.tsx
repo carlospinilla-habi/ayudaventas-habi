@@ -5,8 +5,7 @@ import { VsaSidebar } from '../components/VsaSidebar'
 import { InternalHero } from '../components/InternalHero/InternalHero'
 import { Pill } from '../components/Pill/Pill'
 import { LegalCaseCards } from '../components/LegalCaseCards/LegalCaseCards'
-import { VsaProgress } from '../components/VsaProgress'
-import { VsaGuide } from '../components/VsaGuide'
+import { VsaSaleGuide } from '../components/VsaGuide'
 import { SectionHabimetro } from '../components/SectionHabimetro'
 import { SectionFicha } from '../components/SectionFicha'
 import { SectionCTAStats } from '../components/SectionCTAStats'
@@ -84,12 +83,7 @@ export function TemaLegalPage() {
             heroSection="04"
           />
           <LegalCaseCards />
-          <VsaProgress
-            storageKey="legal-user-stage"
-            scrollTarget=""
-            dispatchEvent={false}
-          />
-          <VsaGuide />
+          <VsaSaleGuide storageKey="legal-user-stage" />
           <SectionHabimetro />
           <SectionFicha />
           <SectionCTAStats />
